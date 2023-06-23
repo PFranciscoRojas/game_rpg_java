@@ -1,44 +1,45 @@
 package src.inventory;
 
-import database.ConnectionStoreDB;
-import enums.Elements;
-import src.Character;
+import src.model.Character;
+import src.model.Element;
+import src.repository.Repository;
+import src.repository.StoreRepository;
 
 import java.util.Comparator;
 import java.util.List;
 
 public class Store {
-    ConnectionStoreDB connectionStoreDB;
+    Repository<Element> repository;
     String alert = null;
-    public List<Elements> arms;
-    public List<Elements> armors;
-    public List<Elements> potions;
+    public List<Element> arms;
+    public List<Element> armors;
+    public List<Element> potions;
     private static Store instance;
 
-    private Store() {
-        connectionStoreDB = new ConnectionStoreDB();
-        arms = connectionStoreDB.listElements(1);
-        armors = connectionStoreDB.listElements(2);
-        potions = connectionStoreDB.listElements(3);
-        armors.sort(Comparator.comparingInt(Elements::getGold));
-        arms.sort(Comparator.comparingInt(Elements::getGold));
-        potions.sort(Comparator.comparingInt(Elements::getGold));
-        connectionStoreDB.closeConnection();
+    private Store() throws Exception {
+        repository = new StoreRepository();
+        arms = repository.findAllModel(1);
+        armors = repository.findAllModel(2);
+        potions = repository.findAllModel(3);
+        armors.sort(Comparator.comparingInt(Element::getGold));
+        arms.sort(Comparator.comparingInt(Element::getGold));
+        potions.sort(Comparator.comparingInt(Element::getGold));
+
     }
 
-    public static Store getInstance() {
+    public static Store getInstance() throws Exception {
         if (instance == null) {
             instance = new Store();
         }
         return instance;
     }
 
-    public String showCatalog(List<Elements> list) {
+    public String showCatalog(List<Element> list) {
         StringBuilder listado = new StringBuilder();
         int posicion = 1; // Inicializa el contador de posición
         String attribute = null;
         String attributeTwo = null;
-        for (Elements element : list) {
+        for (Element element : list) {
             attribute = "";
             switch (element.getCategory()) {
                 case 1:
@@ -62,11 +63,11 @@ public class Store {
         return "                CATALOGO DE " + attributeTwo + "\n----------------------------------------------------\n|   | Precio | Nombre                     |" + attribute + " |\n|---|--------|----------------------------|---------|\n" + listado.toString();
     }
 
-    public String buyProduct(int position, Inventory inventory, Character character, List<Elements> list) {
+    public String buyProduct(int position, Inventory inventory, Character character, List<Element> list) throws Exception {
         int posicionAjustada = position - 1;
         if (posicionAjustada >= 0 && posicionAjustada < list.size()) {
-            Elements object = list.get(posicionAjustada);
-            if (character.getGold() >= object.getGold()) {
+            Element object = list.get(posicionAjustada);
+            if (100 >= object.getGold()) {
                 character.payArticle(object.getGold());
                 alert = "Compraste " + inventory.AddItemInventory(object, 1);
             } else {

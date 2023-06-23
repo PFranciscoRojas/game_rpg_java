@@ -1,7 +1,9 @@
-package src;
+package src.model;
 
-import database.ConnectionCharacterDB;
+
 import enums.Armor;
+import src.model.MainSkills;
+import src.model.Monster;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Character implements MainSkills {
-    ConnectionCharacterDB connectionCharacterDB = new ConnectionCharacterDB();
+    //ConnectionCharacterDB connectionCharacterDB = new ConnectionCharacterDB();
     int id;
     private String name;
     private String breed;

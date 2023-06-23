@@ -1,5 +1,4 @@
 package enums;
-import src.Character;
 
 public enum Armor {
     Armor(1);

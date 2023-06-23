@@ -1,28 +1,29 @@
 package src.inventory;
 
-import database.ConnectionEquipmentDB;
-import enums.Elements;
 import enums.Potions;
-import src.Character;
+import src.model.Character;
+import src.model.Element;
+import src.repository.EquipmentRepository;
+import src.repository.Repository;
 
 import java.util.Iterator;
 import java.util.List;
 
-import static enums.Armor.Armor;
+import enums.Armor;
 
 public class Equipment {
-    ConnectionEquipmentDB connectionEquipmentDB;
-    private static Equipment instance;
-    Elements item;
-    List<Elements> MyEquipament;
 
-    private Equipment() {
-        connectionEquipmentDB = new ConnectionEquipmentDB();
-        MyEquipament = connectionEquipmentDB.listElements();
-        connectionEquipmentDB.closeConnection();
+    private static Equipment instance;
+    Element item;
+    Repository<Element> repository;
+    List<Element> MyEquipament;
+
+    private Equipment() throws Exception {
+        repository = new EquipmentRepository();
+        MyEquipament = repository.findAllModel(0);
     }
 
-    public static Equipment getInstance() {
+    public static Equipment getInstance() throws Exception {
         if (instance == null) {
             instance = new Equipment();
         }
@@ -33,7 +34,7 @@ public class Equipment {
         StringBuilder table = new StringBuilder();
         int posicion = 1;
         table.append("               EQUIPAMENTO\n---------------------------------------------\n|    | Nombre                     | Atributo    |\n|----|----------------------------|-------------|\n");
-        for (Elements object : MyEquipament) {
+        for (Element object : MyEquipament) {
             String attribute = "";
             switch (object.getCategory()) {
                 case 1:
@@ -53,42 +54,41 @@ public class Equipment {
         return table.toString();
     }
 
-    public String returnItemToInventory(int select, Inventory inventory, Character character) {
-        connectionEquipmentDB = new ConnectionEquipmentDB();
+    public String returnItemToInventory(int select, Inventory inventory, Character character) throws Exception {
+        repository = new EquipmentRepository();
         item = MyEquipament.get(select - 1);
         character.removeArm(item.getScore());
         MyEquipament.remove(item);
-        connectionEquipmentDB.deleteElement(item.getId());
-        connectionEquipmentDB.closeConnection();
+        repository.deleteModel(select);
         inventory.AddItemInventory(item, 1);
         return item.getName() + " Fue devuelto al inventario";
 
     }
 
-    public String AddItemToEquipment(Elements item) {
-        connectionEquipmentDB = new ConnectionEquipmentDB();
+    public String AddItemToEquipment(Element item) throws Exception {
+        repository = new EquipmentRepository();
         if ((long) MyEquipament.size() < 7) {
-            if (!connectionEquipmentDB.doesItemExist(item.getType().charAt(0))) {
-                connectionEquipmentDB.insertElement(item.getId());
+            if (!repository.doesItemExist(item.getType().charAt(0))) {
+                Integer[] id = new Integer[1];
+                id[0] = item.getId();
+                repository.saveModel(id);
                 MyEquipament.add(item);
-                connectionEquipmentDB.closeConnection();
                 return "Equipaste " + item.getName();
             }
             return "Ya tienes este tipo de equipacion";
         }
-        connectionEquipmentDB.closeConnection();
         return "Upss! El equipamento esta lleno";
 
     }
 
     public int usePotion(Character character, int vidaArmadura) {//JAVA OTERATOR REMOVE
         int lifeArmadura = vidaArmadura;
-        Iterator<Elements> iterador = MyEquipament.iterator();
+        Iterator<Element> iterador = MyEquipament.iterator();
         while (iterador.hasNext()) {
-            Elements i = iterador.next();
-            if (i.getCategoryId() == Potions.REGENERE.getId()) {
+            Element i = iterador.next();
+            if (i.getCategory() == Potions.REGENERE.getId()) {
                 iterador.remove();
-                return Potions.REGENERE.aplyPotion(character, (Elements) i, lifeArmadura);
+                return Potions.REGENERE.aplyPotion(character, (Element) i, lifeArmadura);
 
             }
         }
@@ -98,8 +98,8 @@ public class Equipment {
 
     public int restablecerVidaConItem() {
         int contadorVidaArmor = 0;
-        for (Elements element : MyEquipament) {
-            if (element.getCategoryId() == Armor.getId()) {
+        for (Element element : MyEquipament) {
+            if (element.getCategory() == Armor.Armor.getId()) {
                 contadorVidaArmor = contadorVidaArmor + element.getScore();
             }
         }
@@ -108,8 +108,8 @@ public class Equipment {
 
     public String devolverNombre() {
         String descripcion = "";
-        for (Elements element : MyEquipament) {
-            if (element.getCategoryId() == Potions.REGENERE.getId()) {
+        for (Element element : MyEquipament) {
+            if (element.getCategory() == Potions.REGENERE.getId()) {
                 descripcion = "Usted tiene una pocima de: " + element.getName() + "\nDescripcion: " + element.getDescription();
             }
         }
@@ -119,8 +119,8 @@ public class Equipment {
     //
     public boolean existePocima() {
         boolean pocima = false;
-        for (Elements element : MyEquipament) {
-            if (element.getCategoryId() == Potions.REGENERE.getId()) {
+        for (Element element : MyEquipament) {
+            if (element.getCategory() == Potions.REGENERE.getId()) {
                 pocima = true;
             }
         }
@@ -128,10 +128,10 @@ public class Equipment {
     }
 
     public int getIdPotion() {
-        Iterator<Elements> iterador = MyEquipament.iterator();
+        Iterator<Element> iterador = MyEquipament.iterator();
         while (iterador.hasNext()) {
-            Elements i = iterador.next();
-            if (i.getCategoryId() == Potions.REGENERE.getId()) {
+            Element i = iterador.next();
+            if (i.getCategory() == Potions.REGENERE.getId()) {
 
                 return i.getId();
 

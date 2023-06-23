@@ -1,39 +1,55 @@
 package src;
 
-import database.ConnectionCharacterDB;
-import database.ConnectionMissionDB;
-import database.ConnectionMonsterDB;
+
+
+
+import enums.MonstersFeatures;
 import src.inventory.Equipment;
 import src.inventory.Inventory;
 import src.inventory.Store;
+import src.model.Character;
+import src.model.Mission;
+import src.model.Monster;
+import src.repository.CharacterRepository;
+import src.repository.MissionRepository;
+import src.repository.MonsterRepository;
+import src.repository.Repository;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         Inventory inventory = Inventory.getInstance();
         Store tienda = Store.getInstance();
-        System.out.println("Bienvenido al juego RPG");
-        Scanner sc = new Scanner(System.in);
         int opcion, mision, levelNew, vidaItem, vidaArmaduraTotal, goldNew, opcionTienda, opcionArma, opcionArmadura, opcionPocima, opcionEquipo, itemSeleccionado, regenerar = 0;
         double experienciaNueva = 0;
-        ConnectionCharacterDB connectionCharacterBD = new ConnectionCharacterDB();
-        ConnectionMissionDB connectionMissionDB = new ConnectionMissionDB();
-        ConnectionMonsterDB connectionMonsterDB = new ConnectionMonsterDB();
+        String [] nombre  = new String[1];
+        Integer [] opciones;
+        Repository<Character>repository = new CharacterRepository();
+        Repository<Mission>repositoryM = new MissionRepository();
+        Repository<Monster>repositoryMs = new MonsterRepository();
+
         Equipment equipment = Equipment.getInstance();
-        int count = connectionCharacterBD.verifyCharacter();
-        if (count == 0) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Bienvenido al juego RPG");
+
+
+
+
+
+        if (!repository.doesItemExist('n')) {
             System.out.println("No hay personaje creado");
             System.out.println("Digite un nombre para su personaje: ");
-            String nombre = sc.nextLine();
-            connectionCharacterBD.createPersonage(nombre);
+            nombre[0] = sc.nextLine();
+            repository.saveModel(nombre);
             System.out.println(".....Creando Personaje.....");
 
         }
         System.out.println("Cargando personaje");
-        Character character = connectionCharacterBD.getPersonage();
+        Character character = repository.getModel(1);//Poner ID que se dese si hay mas usuarios
         System.out.println("CARACTERISTICAS DEL PERSONAJE");
         System.out.println("Nombre: " + character.getName() + " - Raza: " + character.getBreed() + " - Vida: " + character.getLife() + " - Fuerza: " + character.getForce() +
                 " - Nivel: " + character.getLevel() + " - Experiencia: " + character.getExperience() + " - Oro: " + character.getGold());
@@ -57,9 +73,9 @@ public class Main {
                     do {
                         if (character.getExperience() >= 5) {
                             experienciaNueva = character.restarExperiencia(character.getExperience());
-                            connectionCharacterBD.subtractExperienceCharacter(experienciaNueva,1 );
+                          //  connectionCharacterBD.subtractExperienceCharacter(experienciaNueva,1 );
                             levelNew = character.aumentarLevel(character.getLevel());
-                            connectionCharacterBD.levelUpCharacter(levelNew, character.getId());
+                           // connectionCharacterBD.levelUpCharacter(levelNew, character.getId());
                         }
                         character.setLife(100);
                         vidaItem = equipment.restablecerVidaConItem() + character.getLife();
@@ -74,10 +90,12 @@ public class Main {
                         switch (mision) {
 
                             case 1:
-
-                                connectionMissionDB.chooseMission(character.getId(), mision);
-                                Mission mission = connectionMissionDB.getMission(mision);
-                                List<Monster> monsters = connectionMonsterDB.listMonsters(mision);
+                                opciones = new Integer[2];
+                                opciones[0]=character.getId();
+                                opciones[1]=mision;
+                                repositoryM.saveModel(opciones);
+                                Mission mission = repositoryM.getModel(mision);
+                                List<Monster> monsters = repositoryMs.findAllModel(mision);
                                 System.out.println("VIDA DEL PERSONAJE: " + vidaItem);
                                 System.out.println("....Load mision I....");
                                 System.out.println("Recomendaciones");
@@ -95,7 +113,7 @@ public class Main {
                                     if (characterAlive) {
                                         goldNew = character.aumentarOro();
                                         System.out.println("ORO NUEVO: " + goldNew);
-                                        connectionCharacterBD.increaseGoldCharacter(goldNew, character.getId());
+                                        //connectionCharacterBD.increaseGoldCharacter(goldNew, character.getId());
                                         if (i == 0) {
                                             if (equipment.existePocima()) {
                                                 System.out.println(equipment.devolverNombre());
@@ -105,7 +123,7 @@ public class Main {
                                                 System.out.println("Valor ingresado en usarPocima: " + usarPocima);
                                                 if (usarPocima.equalsIgnoreCase("si")) {
                                                     regenerar = equipment.usePotion(character, vidaArmaduraTotal);
-                                                    connectionCharacterBD.usePotionCharacter(equipment.getIdPotion());
+                                                   // connectionCharacterBD.usePotionCharacter(equipment.getIdPotion());
                                                 } else {
                                                     regenerar = character.getLife();
                                                 }
@@ -120,15 +138,15 @@ public class Main {
                                                 break;
                                             } else {
                                                 System.out.println("NUEVO ORO FINALIZAR: " + goldNew);
-                                                connectionCharacterBD.increaseGoldCharacter(goldNew, character.getId());
+                                                //connectionCharacterBD.increaseGoldCharacter(goldNew, character.getId());
                                                 System.out.println("COMPLETASTE 100% LA MISION");
                                                 System.out.println("Obtuvistes oro: " + mission.getGoldReward() + " y Obtuvistes experiencia: " + mission.getExperienceReward());
                                                 int recompensaOro = character.getGold() + mission.getGoldReward();
-                                                connectionCharacterBD.increaseGoldCharacter(recompensaOro, character.getId());
+                                                //connectionCharacterBD.increaseGoldCharacter(recompensaOro, character.getId());
                                                 experienciaNueva = character.aumentarExperience(mission.getExperienceReward());
-                                                connectionCharacterBD.addExperienceCharacter(experienciaNueva, character.getId());
+                                                //connectionCharacterBD.addExperienceCharacter(experienciaNueva, character.getId());
                                                 character.setGold(recompensaOro);
-                                                connectionMissionDB.setMission(mision);
+                                                repositoryM.deleteModel(mision);
                                             }
                                         }
                                     } else {
@@ -141,7 +159,7 @@ public class Main {
                         }
                     } while (mision != 2);
                     System.out.println("Salio del menu de misiones");
-                    connectionMissionDB.closeConnection();
+
                     break;
                 case 2:
                     System.out.println("MENU GENERAL DEL INVENTARIO");
@@ -243,7 +261,7 @@ public class Main {
                     break;
             }
         } while (opcion != 0);
-        connectionCharacterBD.closeConnection();
+
         System.out.println("Salio del juego RPG");
         System.out.println("...Closed...");
     }
