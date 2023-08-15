@@ -1,3 +1,5 @@
+package src;
+
 public class Character {
     String name;
     String breed;
@@ -8,6 +10,12 @@ public class Character {
     int force;
     int intelligence;
     int agility;
+
+    public Character(String name, String breed, String typeClass) {
+        this.name = name;
+        this.breed = breed;
+        this.typeClass = typeClass;
+    }
 
     public String getName() {
         return this.name;
@@ -81,11 +89,7 @@ public class Character {
         this.agility = agility;
     }
 
-    public Character(String name, String breed, String typeClass) {
-        this.name = name;
-        this.breed = breed;
-        this.typeClass = typeClass;
-    }
+
 
     public int recibirAtaqueMonstruo(int force) {
         int lifeDefinitive = this.life - force;

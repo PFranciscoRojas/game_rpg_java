@@ -1,9 +1,9 @@
 package enums;
 
-enum NameMonster {
-    DRAGON("Dragón"),
-    ORCO("Orco"),
-    ESQUELETO("Esqueleto");
+public enum NameMonster {
+    DRAGON("Dragon"),
+    ORC("Orc"),
+    ESKELETON("Eskeleton");
 
     private final String name;
 

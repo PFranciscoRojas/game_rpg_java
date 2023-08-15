@@ -1,13 +1,19 @@
-public class Monstruo {
-    String name = "Asaltante";
+package src;
+
+import enums.NameMonster;
+
+public class Monster {
+    NameMonster name;
     int level = 5;
     int life = 10;
     double experience = 5.0;
     int force = 5;
 
-    public String getName() {
-        return this.name;
+
+    public Monster(NameMonster name) {
+       this.name = name;
     }
+
 
     public int getLevel() {
         return this.level;
@@ -25,9 +31,6 @@ public class Monstruo {
         return this.force;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public void setLevel(int level) {
         this.level = level;
@@ -45,8 +48,6 @@ public class Monstruo {
         this.force = force;
     }
 
-    public Monstruo() {
-    }
 
     public int recibirAtaqueCharacter(int force) {
 

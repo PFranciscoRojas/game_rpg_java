@@ -1,3 +1,7 @@
+package src;
+
+import enums.NameMonster;
+
 import java.util.Scanner;
 
 public class Main {
@@ -10,8 +14,8 @@ public class Main {
         int forceCharacter = character.force = 10;
         int lifeCharacter = character.life = 20;
         double experience = character.experience = 0.0;
-        Monstruo monstruoUno = new Monstruo();
-
+        Monster monstruoUno = new Monster(NameMonster.DRAGON);
+       monstruoUno.setLife(15);
         System.out.println("Seccion de Ataque");
 
         while(lifeCharacter > 0 && monstruoUno.life>0) {
