@@ -1,4 +1,4 @@
-package src.Missions;
+package src;
 
 public class Mission {
     private String name;

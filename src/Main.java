@@ -15,7 +15,7 @@ public class Main {
         int lifeCharacter = character.life = 20;
         double experience = character.experience = 0.0;
         Monster monstruoUno = new Monster(NameMonster.DRAGON);
-       monstruoUno.setLife(15);
+        monstruoUno.setLife(15);
         System.out.println("Seccion de Ataque");
 
         while(lifeCharacter > 0 && monstruoUno.life>0) {
