@@ -1,20 +1,26 @@
 package src;
 
-public class Character {
-    String name;
-    String breed;
-    String typeClass;
-    int level;
-    double experience;
-    int life;
-    int force;
-    int intelligence;
-    int agility;
+public class Character implements MainSkills<Monster> {
+    private String name;
+    private String breed;
+    private String typeClass;
+    private int level;
+    private double experience;
+    private int life;
+    private int force;
+    private int intelligence;
+    private int agility;
 
-    public Character(String name, String breed, String typeClass) {
+    public Character(String name) {
         this.name = name;
-        this.breed = breed;
-        this.typeClass = typeClass;
+        this.breed = "humano";
+        this.typeClass = "Guerrero";
+        this.level=1;
+        this.experience=0;
+        this.agility=10;
+        this.force=100;
+        this.life=500;
+        this.intelligence=500;
     }
 
     public String getName() {
@@ -89,11 +95,13 @@ public class Character {
         this.agility = agility;
     }
 
-
-
-    public int recibirAtaqueMonstruo(int force) {
-        int lifeDefinitive = this.life - force;
-        return lifeDefinitive;
+    @Override
+    public void takeDamage(int damage) {
+        life-=damage;
     }
 
+    @Override
+    public void attack(Monster victim) {
+        victim.takeDamage(force);
+    }
 }

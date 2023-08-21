@@ -2,16 +2,20 @@ package src;
 
 import enums.NameMonster;
 
-public class Monster {
-    NameMonster name;
-    int level = 5;
-    int life = 10;
-    double experience = 5.0;
-    int force = 5;
+public class Monster implements MainSkills<Character> {
+    private NameMonster name;
+    private int level;
+    private int life;
+    private double experience;
+    private int force;
 
 
     public Monster(NameMonster name) {
-       this.name = name;
+        this.name = name;
+        this.level=1;
+        this.life=400;
+        this.force=100;
+        this.experience=0;
     }
 
 
@@ -48,10 +52,13 @@ public class Monster {
         this.force = force;
     }
 
+    @Override
+    public void takeDamage(int damage) {
+        life-=damage;
+    }
 
-    public int recibirAtaqueCharacter(int force) {
-
-        int lifeDefinitive = this.life - force;
-        return lifeDefinitive;
+    @Override
+    public void attack(Character victim) {
+        victim.takeDamage(force);
     }
 }
