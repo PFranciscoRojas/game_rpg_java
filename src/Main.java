@@ -17,6 +17,12 @@ public class Main {
         Monster monstruoUno = new Monster(NameMonster.DRAGON);
         monstruoUno.setLife(15);
         System.out.println("Seccion de Ataque");
+        /// modificar el main
+                /// modificar el main
+        /// modificar el main
+        /// modificar el main
+        /// modificar el main
+        /// modificar el main
 
         while(lifeCharacter > 0 && monstruoUno.life>0) {
             int lifenewmonstruo=monstruoUno.recibirAtaqueCharacter(forceCharacter);
