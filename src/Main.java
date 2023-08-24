@@ -8,32 +8,62 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Bienvenido al juego RPG");
         Scanner sc = new Scanner(System.in);
-        System.out.println("Digite el nombre de su personaje: ");
+        System.out.println("Digite un nombre para su cuenta: ");
         String nombre = sc.nextLine();
-        Character character = new Character(nombre, "humano", "guerrero");
-        int forceCharacter = character.force = 10;
-        int lifeCharacter = character.life = 20;
-        double experience = character.experience = 0.0;
+        Character character = new Character(nombre,"humano","guerrero");
+        int opcion;
+        int mision;
+        System.out.println("El nombre del personaje es: "+nombre);
         Monster monstruoUno = new Monster(NameMonster.DRAGON);
-        monstruoUno.setLife(15);
-        System.out.println("Seccion de Ataque");
-
-        while(lifeCharacter > 0 && monstruoUno.life>0) {
-            int lifenewmonstruo=monstruoUno.recibirAtaqueCharacter(forceCharacter);
-            if (lifenewmonstruo <= 0) {
-                System.out.println("Winner");
-                ++experience;
-                System.out.println("Ganastes puntos de experiencia");
-                monstruoUno.life=lifenewmonstruo;
-            } else {
-                int lifenewcharacter=character.recibirAtaqueMonstruo(monstruoUno.force);
-                if (lifenewcharacter <= 0) {
-                    System.out.println("Game over");
-                    lifeCharacter=lifenewcharacter;
-                }
+        do {
+            System.out.println("Escoja su personaje");
+            System.out.println("1. Guerrero");
+            System.out.println("0. Salir");
+            System.out.println(" ¡ Digita el numero !");
+            opcion = sc.nextInt();
+            switch (opcion){
+                case 1:
+                    do {
+                        System.out.println("MENU DE MISIONES");
+                        System.out.println("1. para empezar una mision");
+                        System.out.println("2. Para salir del menu de misiones");
+                        mision=sc.nextInt();
+                        switch (mision){
+                            case 1:
+                                Mission mission=new Mission("misión 1","bosque perdido","1",5,2);
+                                System.out.println("....Load....");
+                                System.out.println("Batalla encontrada");
+                                System.out.println("VIDA NORMAL DEL PERSONAJE ES: "+character.getLife());
+                                System.out.println("VIDA NORMAL DEL MONSTRUO ES: "+monstruoUno.getLife());
+                                System.out.println("BATALLA INICIADA");
+                                while (character.getLife()>0 && monstruoUno.getLife()>0){
+                                    monstruoUno.recibirAtaque(character.getForce());
+                                    System.out.println("VIDA ACTUAL PERSONAJE: "+character.getLife());
+                                    System.out.println("VIDA ACTUAL MONSTRUO: "+monstruoUno.getLife());
+                                    if (monstruoUno.getLife()<=0){
+                                        System.out.println("Winner");
+                                        double experiencia=character.getExperience()+2.0;
+                                        int oro=mission.getGoldReward();
+                                        System.out.println("Su personaje obtuvo "+oro+" de Oro");
+                                        System.out.println("Su personaje obtuvo "+experiencia+" de experiencia");
+                                    }else {
+                                        character.recibirAtaque(monstruoUno.getForce());
+                                        if (character.getLife()<=0){
+                                            System.out.println("Game over mision");
+                                        }
+                                    }
+                                }
+                                break;
+                            case 2:
+                                break;
+                        }
+                    }while (mision!=2);
+                    System.out.println("Salio del menu de misiones");
+                    break;
             }
-        }
+        }while (opcion!=0);
+        System.out.println("Salio del juego RPG");
+        System.out.println("...Closed...");
 
-        System.out.println("Continua");
     }
 }
