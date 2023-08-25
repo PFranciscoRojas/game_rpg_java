@@ -9,7 +9,6 @@ public class Character{
     int force;
     int intelligence;
     int agility;
-
     public Character(String name, String breed, String typeClass) {
         this.name = name;
         this.breed = breed;

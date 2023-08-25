@@ -1,9 +1,7 @@
 package src;
-
 import enums.NameMonster;
 
 public class Monster {
-
     private NameMonster name;
     private int level;
     private int life;

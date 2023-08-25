@@ -1,12 +1,10 @@
 package src;
 
 import enums.NameMonster;
-
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
         System.out.println("Bienvenido al juego RPG");
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite el nombre de su personaje: ");
@@ -19,12 +17,9 @@ public class Main {
         monstruoUno.setLife(15);
         System.out.println("Seccion de Ataque");
 
-        while(character.getLife() > 0 && monstruoUno.getLife()>0) {
-
-
-
+        while (character.getLife() > 0 && monstruoUno.getLife() > 0) {
             String Atacar = sc.next();
-            if (Atacar.equals("t")){
+            if (Atacar.equals("t")) {
                 monstruoUno.takeDamage(forceCharacter);
                 System.out.println("-5xp");
             }
@@ -32,14 +27,9 @@ public class Main {
             if (monstruoUno.getLife() <= 0) {
                 System.out.println("Winner");
                 System.out.println(character.getLife());
-                System.out.println("Ganastes puntos de experiencia");
-
+                System.out.println("Ganaste puntos de experiencia");
             }
-
-
-            }
-            System.out.println(character.getLife());
         }
-
-
+        System.out.println(character.getLife());
     }
+}
