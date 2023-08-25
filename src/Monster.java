@@ -1,21 +1,25 @@
 package src;
-import enums.NameMonster;
+import enums.MostersFeactures;
 
 public class Monster {
-    private NameMonster name;
+    private String name;
     private int level;
     private int life;
     private double experience;
     private int force;
 
-    public Monster(NameMonster name) {
-        this.name = name;
+    public Monster(MostersFeactures type) {
+        this.life = type.getlife();
+        this.name = type.getName();
+        this.force = type.getForce();
     }
 
     public int getLevel() {
         return level;
     }
-
+    public String getName() {
+        return name;
+    }
     public int getLife() {
         return life;
     }

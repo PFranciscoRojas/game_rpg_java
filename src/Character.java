@@ -86,17 +86,10 @@ public class Character{
     public void setAgility(int agility) {
         this.agility = agility;
     }
-
-
-
     public void takeDamage(int force) {
         this.life -= force;
     }
-
     public void attack (Monster monster){
        monster.takeDamage(force);
     }
-
-
-
 }
