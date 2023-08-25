@@ -1,7 +1,5 @@
 package src;
-
-
-public class Character {
+public class Character{
     String name;
     String breed;
     String typeClass;
@@ -92,9 +90,14 @@ public class Character {
 
 
 
-    public int recibirAtaqueMonstruo(int force) {
-        int lifeDefinitive = this.life - force;
-        return lifeDefinitive;
+    public void takeDamage(int force) {
+        this.life -= force;
     }
+
+    public void attack (Monster monster){
+       monster.takeDamage(force);
+    }
+
+
 
 }

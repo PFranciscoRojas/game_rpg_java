@@ -7,6 +7,7 @@ public enum NameMonster {
 
     private final String name;
 
+
     NameMonster(String name) {
         this.name = name;
     }

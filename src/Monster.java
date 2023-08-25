@@ -3,34 +3,32 @@ package src;
 import enums.NameMonster;
 
 public class Monster {
-    NameMonster name;
-    int level = 5;
-    int life = 10;
-    double experience = 5.0;
-    int force = 5;
 
+    private NameMonster name;
+    private int level;
+    private int life;
+    private double experience;
+    private int force;
 
     public Monster(NameMonster name) {
-       this.name = name;
+        this.name = name;
     }
 
-
     public int getLevel() {
-        return this.level;
+        return level;
     }
 
     public int getLife() {
-        return this.life;
+        return life;
     }
 
     public double getExperience() {
-        return this.experience;
+        return experience;
     }
 
     public int getForce() {
-        return this.force;
+        return force;
     }
-
 
     public void setLevel(int level) {
         this.level = level;
@@ -48,10 +46,11 @@ public class Monster {
         this.force = force;
     }
 
+    public void takeDamage(int force) {
+        life -= force;
+    }
 
-    public int recibirAtaqueCharacter(int force) {
-
-        int lifeDefinitive = this.life - force;
-        return lifeDefinitive;
+    public void attack(Character character) {
+        character.takeDamage(force);
     }
 }
