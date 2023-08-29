@@ -1,5 +1,5 @@
 package src;
-import enums.MostersFeactures;
+import enums.MostersFeatures;
 
 public class Monster {
     private String name;
@@ -8,7 +8,7 @@ public class Monster {
     private double experience;
     private int force;
 
-    public Monster(MostersFeactures type) {
+    public Monster(MostersFeatures type) {
         this.life = type.getlife();
         this.name = type.getName();
         this.force = type.getForce();

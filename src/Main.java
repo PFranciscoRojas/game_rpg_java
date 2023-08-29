@@ -1,6 +1,6 @@
 package src;
 
-import enums.MostersFeactures;
+import enums.MostersFeatures;
 import java.util.Scanner;
 
 public class Main {
@@ -9,18 +9,19 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         Character character = new Character("nombre", "humano", "guerrero");
-        int forceCharacter = character.force = 5;
-        character.life = 20;
-        double experience = character.experience = 0.0;
+        character.setLife(200);
+        character.setForce(10);
+
+
 
         //----------------------Enum test---------------------
-        Monster monstruoUno = new Monster(MostersFeactures.ORC);
+        Monster monstruoUno = new Monster(MostersFeatures.ORC);
         System.out.println(monstruoUno.getName()+monstruoUno.getLife());
 
-        Monster monstruoDos = new Monster(MostersFeactures.DRAGON);
+        Monster monstruoDos = new Monster(MostersFeatures.DRAGON);
         System.out.println(monstruoDos.getName()+monstruoDos.getLife());
 
-        Monster monstruoTres = new Monster(MostersFeactures.ESKELETON);
+        Monster monstruoTres = new Monster(MostersFeatures.ESKELETON);
         System.out.println(monstruoTres.getName()+monstruoTres.getLife());
         //----------------------END---------------------
 
@@ -28,7 +29,8 @@ public class Main {
         while (character.getLife() > 0 && monstruoUno.getLife() > 0) {
             String Atacar = sc.next();
             if (Atacar.equals("t")) {
-                monstruoUno.takeDamage(forceCharacter);
+                monstruoUno.takeDamage(character.getForce());
+                System.out.println(monstruoUno.getLife());
                 System.out.println("-5xp");
             }
 
