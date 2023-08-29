@@ -99,9 +99,6 @@ public class Character implements MainSkills {
 
     @Override
     public int recibirAtaque(int force) {
-        int forceMonstruo=force;
-        int lifeCharacter=this.life;
-        int lifeDefinitive=lifeCharacter-forceMonstruo;
-        return lifeDefinitive;
+     return this.life-=force;
     }
 }

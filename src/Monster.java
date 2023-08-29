@@ -55,7 +55,6 @@ public class Monster implements MainSkills {
 
     @Override
     public int recibirAtaque(int force) {
-        int lifeDefinitive = this.life - force;
-        return lifeDefinitive;
+       return this.life -= force;
     }
 }
