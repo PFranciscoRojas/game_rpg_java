@@ -1,14 +1,15 @@
 package src;
 public class Character{
-    String name;
-    String breed;
-    String typeClass;
-    int level;
-    double experience;
-    int life;
-    int force;
-    int intelligence;
-    int agility;
+    private String name;
+    private String breed;
+    private String typeClass;
+    private int level;
+    private double experience;
+    private int life;
+    private int force;
+    private int intelligence;
+    private int agility;
+
     public Character(String name, String breed, String typeClass) {
         this.name = name;
         this.breed = breed;
