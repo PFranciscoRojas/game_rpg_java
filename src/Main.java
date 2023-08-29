@@ -14,6 +14,7 @@ public class Main {
         int opcion;
         int mision;
         System.out.println("El nombre del personaje es: "+nombre);
+
         Monster monstruoUno = new Monster(NameMonster.DRAGON);
         do {
             System.out.println("Escoja su personaje");
