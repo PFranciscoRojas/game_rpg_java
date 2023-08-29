@@ -13,15 +13,19 @@ public class Main {
         character.life = 20;
         double experience = character.experience = 0.0;
 
+        System.out.println("El jugador inicial es "+character.getName()+
+                " con vida "+ character.getLife() + " y fuerza "+ character.getForce());
+
         //----------------------Enum test---------------------
         Monster monstruoUno = new Monster(MostersFeactures.ORC);
-        System.out.println(monstruoUno.getName()+monstruoUno.getLife());
-
+        System.out.println("El primer monstruo a enfrentarse es un "+monstruoUno.getName()+
+                            " con vida "+ monstruoUno.getLife());
         Monster monstruoDos = new Monster(MostersFeactures.DRAGON);
-        System.out.println(monstruoDos.getName()+monstruoDos.getLife());
-
+        System.out.println("El primer monstruo a enfrentarse es un "+monstruoUno.getName()+
+                " con vida "+ monstruoUno.getLife());
         Monster monstruoTres = new Monster(MostersFeactures.ESKELETON);
-        System.out.println(monstruoTres.getName()+monstruoTres.getLife());
+        System.out.println("El primer monstruo a enfrentarse es un "+monstruoUno.getName()+
+                " con vida "+ monstruoUno.getLife());
         //----------------------END---------------------
 
 
