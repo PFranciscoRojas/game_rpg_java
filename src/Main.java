@@ -8,7 +8,7 @@ public class Main {
         System.out.println("Bienvenido al juego RPG");
         Scanner sc = new Scanner(System.in);
 
-        Character character = new Character("nombre", "humano", "guerrero");
+        Character character = new Character("nombrssse", "humano", "guerrero");
         character.setLife(200);
         character.setForce(10);
         character.setExperience(0.0);
@@ -44,5 +44,6 @@ public class Main {
             }
         }
         System.out.println(character.getLife());
+        System.out.println(character.getExperience());
     }
 }
