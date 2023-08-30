@@ -1,40 +1,36 @@
 package src;
-
-import enums.NameMonster;
+import enums.MostersFeatures;
 
 public class Monster implements MainSkills {
-    private NameMonster name;
-    private int level = 5;
-    private int life = 10;
-    private double experience = 5.0;
-    private int force = 5;
+    private String name;
+    private int level;
+    private int life;
+    private double experience;
+    private int force;
 
-
-    public Monster(NameMonster name) {
-       this.name = name;
-        this.level=1;
-        this.life=400;
-        this.force=100;
-        this.experience=0;
+    public Monster(MostersFeatures type) {
+        this.life = type.getlife();
+        this.name = type.getName();
+        this.force = type.getForce();
     }
-
 
     public int getLevel() {
-        return this.level;
+        return level;
     }
-
+    public String getName() {
+        return name;
+    }
     public int getLife() {
-        return this.life;
+        return life;
     }
 
     public double getExperience() {
-        return this.experience;
+        return experience;
     }
 
     public int getForce() {
-        return this.force;
+        return force;
     }
-
 
     public void setLevel(int level) {
         this.level = level;
@@ -53,7 +49,6 @@ public class Monster implements MainSkills {
     }
 
 
-    @Override
     public int recibirAtaque(int force) {
        return this.life -= force;
     }

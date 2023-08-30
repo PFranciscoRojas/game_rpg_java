@@ -1,7 +1,7 @@
 package src.inventory;
 
 import enums.Arms;
-import enums.NameMonster;
+import enums.MostersFeatures;
 
 import java.util.ArrayList;
 import java.util.List;
