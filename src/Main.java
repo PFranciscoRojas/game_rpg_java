@@ -1,6 +1,6 @@
 package src;
 
-import enums.MostersFeatures;
+import enums.MonstersFeatures;
 
 import java.util.Scanner;
 
@@ -15,7 +15,7 @@ public class Main {
         int mision;
         System.out.println("El nombre del personaje es: "+nombre);
 
-        Monster monstruoUno = new Monster(MostersFeatures.DRAGON);
+        Monster monstruoUno = new Monster(MonstersFeatures.DRAGON);
         do {
             System.out.println("Escoja su personaje");
             System.out.println("1. Guerrero");

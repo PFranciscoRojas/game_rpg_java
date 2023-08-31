@@ -1,6 +1,6 @@
 package enums;
 
-public enum MostersFeatures {
+public enum MonstersFeatures {
     DRAGON("Dragon",500,40),
     ORC("Orc",80,25),
     ESKELETON("Eskeleton",50,15);
@@ -8,7 +8,7 @@ public enum MostersFeatures {
     private final int life;
     private final int force;
 
-    MostersFeatures(String name, int life, int force) {
+    MonstersFeatures(String name, int life, int force) {
         this.name = name;
         this.life = life;
         this.force = force;
