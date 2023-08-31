@@ -1,6 +1,6 @@
 package src;
 
-import enums.NameMonster;
+import enums.MonstersFeatures;
 
 import java.util.Scanner;
 
@@ -15,7 +15,7 @@ public class Main {
         int mision;
         System.out.println("El nombre del personaje es: "+nombre);
 
-        Monster monstruoUno = new Monster(NameMonster.DRAGON);
+        Monster monstruoUno = new Monster(MonstersFeatures.DRAGON);
         do {
             System.out.println("Escoja su personaje");
             System.out.println("1. Guerrero");
@@ -37,21 +37,29 @@ public class Main {
                                 System.out.println("VIDA NORMAL DEL PERSONAJE ES: "+character.getLife());
                                 System.out.println("VIDA NORMAL DEL MONSTRUO ES: "+monstruoUno.getLife());
                                 System.out.println("BATALLA INICIADA");
-                                while (character.getLife()>0 && monstruoUno.getLife()>0){
-                                    monstruoUno.recibirAtaque(character.getForce());
-                                    System.out.println("VIDA ACTUAL PERSONAJE: "+character.getLife());
-                                    System.out.println("VIDA ACTUAL MONSTRUO: "+monstruoUno.getLife());
-                                    if (monstruoUno.getLife()<=0){
+                                while (character.getLife() > 0 && monstruoUno.getLife() > 0) {
+                                    System.out.println("Presiona T para atacar al " + monstruoUno.getName());
+                                    String Atacar = sc.next();
+                                    if (Atacar.equals("t")) {
+                                        monstruoUno.recibirAtaque(character.getForce());
+                                        System.out.println("-" + character.getForce() + "xp");
+                                    }
+
+                                    if (monstruoUno.getLife() <= 0) {
                                         System.out.println("Winner");
-                                        double experiencia=character.getExperience()+2.0;
-                                        int oro=mission.getGoldReward();
-                                        System.out.println("Su personaje obtuvo "+oro+" de Oro");
-                                        System.out.println("Su personaje obtuvo "+experiencia+" de experiencia");
-                                    }else {
-                                        character.recibirAtaque(monstruoUno.getForce());
-                                        if (character.getLife()<=0){
-                                            System.out.println("Game over mision");
-                                        }
+                                        System.out.println(character.getLife());
+                                        character.setExperience(2.0);
+                                        System.out.println("Ganaste puntos de experiencia");
+                                        int oro = mission.getGoldReward();
+                                        System.out.println(" Su personaje obtuvo " + oro + " de Oro");
+                                        System.out.println(" Su personaje obtuvo " + character.getExperience() + " de experiencia");
+                                    } else {
+                                character.recibirAtaque(monstruoUno.getForce());
+                                if (character.getLife()<=0){
+                                    System.out.println("Game over mision");
+                                }
+                                System.out.println(character.getLife());
+
                                     }
                                 }
                                 break;
