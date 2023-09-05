@@ -1,7 +1,16 @@
 package src;
 
 
+import enums.EnumElement;
+import src.inventory.Inventory;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Character implements MainSkills {
+
+
+    List<EnumElement> MyEquipment = new ArrayList<>();
     private String name;
     private String breed;
     private String typeClass;
@@ -91,14 +100,46 @@ public class Character implements MainSkills {
     public void setIntelligence(int intelligence) {
         this.intelligence = intelligence;
     }
-
     public void setAgility(int agility) {
         this.agility = agility;
     }
-
 
     @Override
     public int recibirAtaque(int force) {
      return this.life-=force;
     }
+
+    public int AddArm(int force) {
+        return this.force+=force;
+    }
+    public int AddArmous(int life) {
+        return this.life+=life;
+    }
+
+    public void setElementEquipment (EnumElement object ){
+        MyEquipment.add(object);
+    }
+
+    public String showEquipment() {
+
+        StringBuilder Equipament = new StringBuilder();
+
+        for (EnumElement element : MyEquipment) {
+
+            String nombre = element.getName();
+            String tipo = element.getType();
+            String atributo = tipo.equals("A") ? "Daño" : "Protección";
+            int valor = tipo.equals("A") ? element.getForce() : element.getlife();
+
+            String ElementEquipament = String.format("| %-15s | %-15s |%n", nombre, atributo + ": " + valor);
+
+
+            Equipament.append(ElementEquipament);
+            }
+        String tabla = Equipament.toString();
+
+        return "TU EQUIPAMIENTO\n" + tabla;
+        }
+
+
 }

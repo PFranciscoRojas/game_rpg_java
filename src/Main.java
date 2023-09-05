@@ -1,11 +1,29 @@
 package src;
 
 import enums.MonstersFeatures;
+import src.inventory.Inventory;
+import src.inventory.Store;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+        Character characterOne = new Character("nombre","humano","guerrero");
+        Inventory inventory = Inventory.getInstance();
+        Store tienda = Store.getInstance();///Se crea una unica instancia de la tienda
+        System.out.println(tienda.showCatalogArms());// es un metodo String donde se muestra todo el catalogo de armas  de la tienda
+        System.out.println(tienda.buyArm(0,inventory));//sirve para comprar un arma qeu como parametro recive  numero en el array y el otro parametro es el inventario
+        System.out.println(tienda.showCatalogArmous());// es un metodo String donde se muestra todo el catalogo de armaduras  de la tienda
+        System.out.println(tienda.buyArmous(0,inventory));//sirve para comprar un armadura seleccionando el numero en el arreglo y el otro parametro es el inventario
+        System.out.println(inventory.showInventory());//Este metodo muestra el contenido del invetario en tablas segun armas y armadura para escoger
+        System.out.println(inventory.AddEquipament(0,characterOne));//Inventario tiene funcion que agrega cosas al equipo que es una lista del personaje
+        System.out.println(inventory.AddEquipament(1,characterOne));
+        System.out.println(characterOne.showEquipment());//Muestra lo que el personaje tieen equipado en su equipo
+        System.out.println(characterOne.getLife());// Muestro que la vida si se agrego
+        //---------------------------------------Este codigo es de prueba no se afecto nada de la logica del personaje se puede borrar cuanod sea implementado en el menu
+
+
         System.out.println("Bienvenido al juego RPG");
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite un nombre para su cuenta: ");
