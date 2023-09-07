@@ -1,16 +1,31 @@
 package src;
 
 import enums.MonstersFeatures;
+import src.inventory.Inventory;
+import src.inventory.Store;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+        Character characterOne = new Character("nombre","humano","guerrero",100);
+        Inventory inventory = Inventory.getInstance();
+        Store tienda = Store.getInstance();///Se crea una unica instancia de la tienda
+        System.out.println(tienda.showCatalogArms());
+        System.out.println(tienda.showCatalogArmors());
+        System.out.println(tienda.buyArm(0, characterOne.getGold() , inventory));
+        System.out.println(tienda.buyArmor(0,0,inventory));
+        System.out.println(inventory.showArmsInventory());
+        System.out.println(inventory.showArmorsInventory());
+        System.out.println(characterOne.getGold());
+//--------------------------------------------------------------Codigo de Prueba----------------------------
+
         System.out.println("Bienvenido al juego RPG");
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite un nombre para su cuenta: ");
         String nombre = sc.nextLine();
-        Character character = new Character(nombre,"humano","guerrero");
+        Character character = new Character(nombre,"humano","guerrero",100);
         int opcion;
         int mision;
         System.out.println(".....Creando Personaje.....");
