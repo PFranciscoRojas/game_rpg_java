@@ -1,16 +1,12 @@
 package src;
-
-
-import enums.EnumElement;
-import src.inventory.Inventory;
-
+import enums.Armor;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Character implements MainSkills {
 
 
-    List<EnumElement> MyEquipment = new ArrayList<>();
+    List<Armor> MyEquipment = new ArrayList<>();
     private String name;
     private String breed;
     private String typeClass;
@@ -21,7 +17,9 @@ public class Character implements MainSkills {
     private int intelligence;
     private int agility;
 
-    public Character(String name, String breed, String typeClass) {
+    private int gold;
+
+    public Character(String name, String breed, String typeClass,int gold) {
         this.name = name;
         this.breed = breed;
         this.typeClass = typeClass;
@@ -31,6 +29,7 @@ public class Character implements MainSkills {
         this.force=100;
         this.life=500;
         this.intelligence=500;
+        this.gold = gold;
     }
 
     public String getName() {
@@ -68,7 +67,7 @@ public class Character implements MainSkills {
     public int getIntelligence() {
         return this.intelligence;
     }
-
+    public int getGold() {return this.gold;}
     public void setName(String name) {
         this.name = name;
     }
@@ -103,20 +102,24 @@ public class Character implements MainSkills {
     public void setAgility(int agility) {
         this.agility = agility;
     }
-
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
     @Override
     public int recibirAtaque(int force) {
      return this.life-=force;
     }
 
+    public int payArticle(int gold){return this.gold+=gold;}
+
     public int AddArm(int force) {
         return this.force+=force;
     }
-    public int AddArmous(int life) {
+    public int AddArmor(int life) {
         return this.life+=life;
     }
 
-    public void setElementEquipment (EnumElement object ){
+    public void setElementEquipment (Armor object ){
         MyEquipment.add(object);
     }
 
@@ -124,14 +127,14 @@ public class Character implements MainSkills {
 
         StringBuilder Equipament = new StringBuilder();
 
-        for (EnumElement element : MyEquipment) {
+        for (Armor element : MyEquipment) {
 
             String nombre = element.getName();
-            String tipo = element.getType();
-            String atributo = tipo.equals("A") ? "Daño" : "Protección";
-            int valor = tipo.equals("A") ? element.getForce() : element.getlife();
 
-            String ElementEquipament = String.format("| %-15s | %-15s |%n", nombre, atributo + ": " + valor);
+            String atributo =  "Daño";
+
+
+            String ElementEquipament = String.format("| %-15s | %-15s |%n", nombre, atributo + ": " );
 
 
             Equipament.append(ElementEquipament);

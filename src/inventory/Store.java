@@ -1,96 +1,80 @@
 package src.inventory;
-import enums.EnumElement;
+import enums.Armor;
+import enums.Arms;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Store {
 
-    List<EnumElement> Arms = new ArrayList<>();
-    List<EnumElement> Armous = new ArrayList<>();
 
+    String alert = null;
+    List<Arms> arms = new ArrayList<>();
+    List<Armor> armors = new ArrayList<>();
     private static Store instance;
-
     private Store() {
-
-        for (EnumElement element : EnumElement.values()) {
-            switch (element.getType()){
-                 case "A": Arms.add(element);
-                 break;
-                 case "B": Armous.add(element);
-                 break;
-            }
+        for (Arms element : Arms.values()){
+         arms.add(element);
         }
+        for(Armor element : Armor.values()){
+            armors.add(element);
+        }
+        armors.sort(Comparator.comparingInt(armorsElement -> armorsElement.getGold()));
+        arms.sort(Comparator.comparingInt(armsElement -> armsElement.getGold()));
     }
-
     public static Store getInstance() {
         if (instance == null) {
             instance = new Store();
         }
         return instance;
     }
-
      public String showCatalogArms () {
-
          StringBuilder listado = new StringBuilder();
          int posicion = 0; // Inicializa el contador de posición
-
-         for (EnumElement element : Arms) {
-             String nombre = element.getName();
-             String tipo = element.getType();
-             String atributo = tipo.equals("A") ? "Daño" : "Protección";
-             int valor = tipo.equals("A") ? element.getForce() : element.getlife();
-
-             String fila = String.format("| %-8d | %-25s | %-15s |%n", posicion, nombre, atributo + ": " + valor);
-
-
+         for (Arms element : arms) {
+             String fila = String.format("| %-1d | %-6s | %-25s  | %-6s  |%n", posicion,element.getGold(),element.getName(),element.getForce());
              listado.append(fila);
-
-
              posicion++; // Incrementa la posición para el próximo elemento
          }
-
-
-         String table = "ARMAS\n---------------------------------------------------------\n|          | Nombre                    | Atributo        |\n|----------|---------------------------|-----------------|\n" + listado.toString();
-
-         return "TU INVENTARIO\n" + table;
+         String table = "                CATALOGO DE ARMAS\n----------------------------------------------------\n|   | Precio | Nombre                     | Daño    |\n|---|--------|----------------------------|---------|\n" + listado.toString();
+         return table;
      }
-
-    public String showCatalogArmous () {
+    public String showCatalogArmors () {
 
         StringBuilder listado = new StringBuilder();
         int posicion = 0; // Inicializa el contador de posición
-
-        for (EnumElement element : Armous) {
-            String nombre = element.getName();
-            String tipo = element.getType();
-            String atributo = tipo.equals("A") ? "Daño" : "Protección";
-            int valor = tipo.equals("A") ? element.getForce() : element.getlife();
-
-            String fila = String.format("| %-8d | %-25s | %-15s |%n", posicion, nombre, atributo + ": " + valor);
-
-
+        for (Armor element : armors) {
+            String fila = String.format("| %-2d | %-6s | %-25s  | %-7s  |%n", posicion,element.getGold(),element.getName(),element.getlife());
             listado.append(fila);
-
-
             posicion++; // Incrementa la posición para el próximo elemento
         }
-
-
-        String table = "ARMADURAS\n---------------------------------------------------------\n|          | Nombre                    | Atributo        |\n|----------|---------------------------|-----------------|\n" + listado.toString();
-
-        return "TU INVENTARIO\n" + table;
+        String table = "               CATALOGO DE ARMADURAS\n-------------------------------------------------------\n|    | Precio | Nombre                     |Proteccion|\n|----|--------|----------------------------|----------|\n" + listado.toString();
+        return table;
     }
+    public String buyArm (int position, int value ,Inventory inventory){
 
-    public String buyArm (int value,Inventory inventory){
-        EnumElement object = Arms.get(value);
-        inventory.setElement(object);
-        return object.getName() + " Fue Agregada a Tu inventario";
+        Arms object = arms.get(position);
+        if(value>= object.getGold()){
+        inventory.setArm(object);
+            alert =  " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
+        }
+        else{
+            alert =  " No tienes suficiente oro";
+        }
+        return alert;
     }
-
-    public String buyArmous (int value,Inventory inventory){
-        EnumElement object = Armous.get(value);
-        inventory.setElement(object);
-        return object.getName() + " Fue Agregado a Tu inventario" ;
+    public String buyArmor (int position, int value ,Inventory inventory){
+        Armor object = armors.get(position);
+        if (value>= object.getGold()) {
+            inventory.setArmor(object);
+          alert = " Compraste " + object.getName() + " Fue Agregado a Tu inventario";
+        }else{
+            alert =  " No tienes suficiente oro";
+        }
+     return  alert;
     }
 
 }
+
+
