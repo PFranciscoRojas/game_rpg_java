@@ -27,7 +27,7 @@ public class Character implements MainSkills {
         this.experience=0;
         this.agility=10;
         this.force=100;
-        this.life=500;
+        this.life=10;
         this.intelligence=500;
         this.gold = gold;
     }

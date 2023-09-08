@@ -1,6 +1,7 @@
 package src;
 
 import enums.MonstersFeatures;
+import src.inventory.Equipment;
 import src.inventory.Inventory;
 import src.inventory.Store;
 
@@ -11,14 +12,24 @@ public class Main {
 
         Character characterOne = new Character("nombre","humano","guerrero",100);
         Inventory inventory = Inventory.getInstance();
+        Equipment equipment = Equipment.getInstance();
         Store tienda = Store.getInstance();///Se crea una unica instancia de la tienda
         System.out.println(tienda.showCatalogArms());
         System.out.println(tienda.showCatalogArmors());
-        System.out.println(tienda.buyArm(0, characterOne.getGold() , inventory));
-        System.out.println(tienda.buyArmor(0,0,inventory));
-        System.out.println(inventory.showArmsInventory());
-        System.out.println(inventory.showArmorsInventory());
+        System.out.println(tienda.buyArm(0, inventory,characterOne));
+        System.out.println(tienda.buyArm(0, inventory,characterOne));
+        System.out.println(tienda.buyArm(0, inventory,characterOne));
+        System.out.println(tienda.buyArm(0, inventory,characterOne));
+        System.out.println(tienda.buyArm(0, inventory,characterOne));
+        System.out.println(tienda.buyArmor(0,inventory,characterOne));
+        System.out.println(tienda.buyArmor(0,inventory,characterOne));
+        System.out.println(tienda.buyArmor(0,inventory,characterOne));
+        System.out.println(tienda.buyArmor(5,inventory,characterOne));
+        System.out.println(tienda.buyArmor(5,inventory,characterOne));
+        System.out.println(inventory.showInventory());
+        System.out.println(equipment.AddItemToEquipment(4,inventory,characterOne));
         System.out.println(characterOne.getGold());
+
 //--------------------------------------------------------------Codigo de Prueba----------------------------
 
         System.out.println("Bienvenido al juego RPG");

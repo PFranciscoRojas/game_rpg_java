@@ -1,6 +1,7 @@
 package src.inventory;
 import enums.Armor;
 import enums.Arms;
+import src.Character;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -52,11 +53,12 @@ public class Store {
         String table = "               CATALOGO DE ARMADURAS\n-------------------------------------------------------\n|    | Precio | Nombre                     |Proteccion|\n|----|--------|----------------------------|----------|\n" + listado.toString();
         return table;
     }
-    public String buyArm (int position, int value ,Inventory inventory){
+    public String buyArm (int position, Inventory inventory , Character character){
 
         Arms object = arms.get(position);
-        if(value>= object.getGold()){
-        inventory.setArm(object);
+        if(character.getGold()>= object.getGold()){
+            character.payArticle(object.getGold());
+            inventory.addItem(object);
             alert =  " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
         }
         else{
@@ -64,16 +66,20 @@ public class Store {
         }
         return alert;
     }
-    public String buyArmor (int position, int value ,Inventory inventory){
+    public String buyArmor (int position, Inventory inventory , Character character){
         Armor object = armors.get(position);
-        if (value>= object.getGold()) {
-            inventory.setArmor(object);
+        if(character.getGold()>= object.getGold()){
+            character.payArticle(object.getGold());
+            inventory.addItem(object);
           alert = " Compraste " + object.getName() + " Fue Agregado a Tu inventario";
         }else{
             alert =  " No tienes suficiente oro";
         }
      return  alert;
     }
+
+
+
 
 }
 
