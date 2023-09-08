@@ -77,10 +77,6 @@ public class Store {
         }
      return  alert;
     }
-
-
-
-
 }
 
 

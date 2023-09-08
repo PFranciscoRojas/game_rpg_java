@@ -7,13 +7,11 @@ public class Monster implements MainSkills {
     private int life;
     private double experience;
     private int force;
-
     public Monster(MonstersFeatures type) {
         this.life = type.getlife();
         this.name = type.getName();
         this.force = type.getForce();
     }
-
     public int getLevel() {
         return level;
     }
@@ -23,32 +21,24 @@ public class Monster implements MainSkills {
     public int getLife() {
         return life;
     }
-
     public double getExperience() {
         return experience;
     }
-
     public int getForce() {
         return force;
     }
-
     public void setLevel(int level) {
         this.level = level;
     }
-
     public void setLife(int life) {
         this.life = life;
     }
-
     public void setExperience(double experience) {
         this.experience = experience;
     }
-
     public void setForce(int force) {
         this.force = force;
     }
-
-
     public int recibirAtaque(int force) {
        return this.life -= force;
     }

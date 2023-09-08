@@ -14,9 +14,9 @@ public class Main {
         Inventory inventory = Inventory.getInstance();
         Equipment equipment = Equipment.getInstance();
         Store tienda = Store.getInstance();///Se crea una unica instancia de la tienda
-        System.out.println(tienda.showCatalogArms());
-        System.out.println(tienda.showCatalogArmors());
-        System.out.println(tienda.buyArm(0, inventory,characterOne));
+        System.out.println(tienda.showCatalogArms());///Mostrar Catalogo Armas
+        System.out.println(tienda.showCatalogArmors());///Mostrar Catalogo Armaduras
+        System.out.println(tienda.buyArm(0, inventory,characterOne));//metodo para comprar armas
         System.out.println(tienda.buyArm(0, inventory,characterOne));
         System.out.println(tienda.buyArm(0, inventory,characterOne));
         System.out.println(tienda.buyArm(0, inventory,characterOne));
@@ -26,8 +26,8 @@ public class Main {
         System.out.println(tienda.buyArmor(0,inventory,characterOne));
         System.out.println(tienda.buyArmor(5,inventory,characterOne));
         System.out.println(tienda.buyArmor(5,inventory,characterOne));
-        System.out.println(inventory.showInventory());
-        System.out.println(equipment.AddItemToEquipment(4,inventory,characterOne));
+        System.out.println(inventory.showInventory());//Mostre el Inventario
+        System.out.println(equipment.AddItemToEquipment(4,inventory,characterOne));//Agrega equipacion al inventario
         System.out.println(characterOne.getGold());
 
 //--------------------------------------------------------------Codigo de Prueba----------------------------
