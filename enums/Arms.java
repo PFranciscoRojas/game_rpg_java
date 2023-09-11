@@ -1,6 +1,6 @@
 package enums;
 
-public enum Arms {
+public enum Arms implements Elements {
 
     SWORD("Espada Platinum",0,5),
     ARC("Arco Domiante",0,10),

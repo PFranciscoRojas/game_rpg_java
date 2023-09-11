@@ -1,23 +1,24 @@
 package enums;
-public enum Armor {
-    HELMETONE("Casco Coraza",5,0),
-    HELMETWO("Casco Porton",6,0),
-    HELMETHREE("Casco Kraken",7,8),
-    CHESTONE("Pecho Coraza",15,0),
-    CHESTWO("Pecho Porton",16,0),
-    CHESTHREE("Pecho Kraken",17,0),
+public enum Armor implements Elements {
+    HELMETONE("Casco Coraza",10,20),
+    HELMETWO("Casco Porton",6,15),
+    HELMETHREE("Casco Kraken",4,8),
 
-    PANTSONE("Pantalones Coraza",10,0),
-    PANTSTWO("Pantalones Porton",11,0),
-    PANTSTHREE("Pantalones Kraken",12,0),
+    CHESTONE("Pecho Coraza",15,30),
+    CHESTWO("Pecho Porton",10,15),
+    CHESTHREE("Pecho Kraken",5,10),
 
-    BOOTSTONE("Botas Coraza",6,0),
-    BOOTSTWO("Botas Porton",7,0),
-    BOOTSTHRE("Botas Kraken",8,0),
+    PANTSONE("Pantalones Coraza",15,30),
+    PANTSTWO("Pantalones Porton",10,15),
+    PANTSTHREE("Pantalones Kraken",5,10),
 
-    HANDSONE("Brazoletas Coraza",5,0),
-    HANDSTWO("Brazoletas Porton",6,0),
-    HANDSTHREE("Brazoletas Kraken",7,0);
+    BOOTSTONE("Botas Coraza",5,10),
+    BOOTSTWO("Botas Porton",3,6),
+    BOOTSTHRE("Botas Kraken",1,3),
+
+    HANDSONE("Brazoletas Coraza",10,20),
+    HANDSTWO("Brazoletas Porton",6,15),
+    HANDSTHREE("Brazoletas Kraken",3,10);
     private final String name;
     private final int life;
     private final int gold;
