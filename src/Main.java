@@ -17,16 +17,7 @@ public class Main {
         ///Mostrar Catalogo Armas
         ///Mostrar Catalogo Armaduras
         /*
-        System.out.println(tienda.buyArm(0, inventory,characterOne));
-        System.out.println(tienda.buyArm(0, inventory,characterOne));
-        System.out.println(tienda.buyArm(0, inventory,characterOne));
-        System.out.println(tienda.buyArm(0, inventory,characterOne));
-
-        System.out.println(tienda.buyArmor(0,inventory,characterOne));
-        System.out.println(tienda.buyArmor(0,inventory,characterOne));
-        System.out.println(tienda.buyArmor(5,inventory,characterOne));
-        System.out.println(tienda.buyArmor(5,inventory,characterOne));
-        System.out.println(inventory.showInventory());//Mostre el Inventario
+        Mostre el Inventario
         System.out.println(equipment.AddItemToEquipment(4,inventory,characterOne));//Agrega equipacion al inventario
         System.out.println(characterOne.getGold());*/
 
@@ -146,6 +137,9 @@ public class Main {
                     System.out.println("Salio del menu de misiones");
                     break;
                 case 2:
+                    System.out.println("MENU GENERAL DEL INVENTARIO");
+                    System.out.println("¡ En esta seccion observaras todos los items que posee tu personaje !");
+                    System.out.println(inventory.showInventory());
                     break;
                 case 3:
                     System.out.println("CATALOGO GENERAL DE LA TIENDA");
