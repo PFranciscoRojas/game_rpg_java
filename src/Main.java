@@ -16,12 +16,12 @@ public class Main {
         Store tienda = Store.getInstance();///Se crea una unica instancia de la tienda
         ///Mostrar Catalogo Armas
         ///Mostrar Catalogo Armaduras
-        /*System.out.println(tienda.buyArm(0, inventory,characterOne));//metodo para comprar armas
+        /*
         System.out.println(tienda.buyArm(0, inventory,characterOne));
         System.out.println(tienda.buyArm(0, inventory,characterOne));
         System.out.println(tienda.buyArm(0, inventory,characterOne));
         System.out.println(tienda.buyArm(0, inventory,characterOne));
-        System.out.println(tienda.buyArmor(0,inventory,characterOne));
+
         System.out.println(tienda.buyArmor(0,inventory,characterOne));
         System.out.println(tienda.buyArmor(0,inventory,characterOne));
         System.out.println(tienda.buyArmor(5,inventory,characterOne));
@@ -40,6 +40,9 @@ public class Main {
         int opcion;
         int mision;
         int opcionTienda;
+        String opcionCompra;
+        int opcionArma;
+        int opcionArmadura;
         System.out.println(".....Creando Personaje.....");
         System.out.println("Se ha creado tu personaje");
 
@@ -157,9 +160,38 @@ public class Main {
                         switch (opcionTienda){
                             case 1:
                                 System.out.println(tienda.showCatalogArms());
+                                System.out.println("OPCIONES DE COMPRA");
+                                System.out.println("Si desea comprar Digite la palabra SI");
+                                System.out.println("Si no desea comprar Digite la palabra NO");
+                                opcionCompra=sc.nextLine();
+                                if (opcionCompra.equalsIgnoreCase("SI")){
+                                    System.out.println("¡ ADVERTENCIA !");
+                                    System.out.println("Si de sea comprar ingrese el numero del id corespondiente a la arma" +
+                                            " para comprarla");
+                                    opcionArma=sc.nextInt();
+                                    System.out.println(tienda.buyArm(opcionArma, inventory,character));
+                                }else {
+                                    System.out.println("Usted no realizo ninguna compra");
+                                    break;
+                                }
                                 break;
                             case  2:
                                 System.out.println(tienda.showCatalogArmors());
+                                System.out.println(tienda.showCatalogArms());
+                                System.out.println("OPCIONES DE COMPRA");
+                                System.out.println("Si desea comprar Digite la palabra SI");
+                                System.out.println("Si no desea comprar Digite la palabra NO");
+                                opcionCompra=sc.nextLine();
+                                if (opcionCompra.equalsIgnoreCase("SI")){
+                                    System.out.println("¡ ADVERTENCIA !");
+                                    System.out.println("Si de sea comprar ingrese el numero del id corespondiente a la armadura" +
+                                            " para comprarla");
+                                    opcionArmadura=sc.nextInt();
+                                    System.out.println(tienda.buyArmor(opcionArmadura,inventory,character));
+                                }else {
+                                    System.out.println("Usted no realizo ninguna compra");
+                                    break;
+                                }
                                 break;
                         }
                     }while (opcionTienda!=3);
