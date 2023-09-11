@@ -25,7 +25,6 @@ public class Equipment {
         } else if (item instanceof Armor) {
             character.AddArmor(((Armor)item).getlife());
         }
-        inventory.sendToInventory(item);
-        return item.getName() + "Fue Agregado a tu Inventario";
+        return item.getName() + " Fue Agregado a tu Equipo";
     }
 }

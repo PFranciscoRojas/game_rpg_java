@@ -19,9 +19,10 @@ public class Inventory {
     }
     public Elements selectItem(int select) {
         Elements item = inventory.get(select);
+        inventory.remove(item);
         return  item;
     }
-    public void sendToInventory(Elements i) {
+    public void remove(Elements i) {
         inventory.remove(i.getName());
     }
     public void addItem(Elements element) {

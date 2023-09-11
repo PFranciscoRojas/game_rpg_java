@@ -14,21 +14,25 @@ public class Main {
         Inventory inventory = Inventory.getInstance();
         Equipment equipment = Equipment.getInstance();
         Store tienda = Store.getInstance();///Se crea una unica instancia de la tienda
+
+System.out.println(characterOne.getForce());
         System.out.println(tienda.showCatalogArms());///Mostrar Catalogo Armas
         System.out.println(tienda.showCatalogArmors());///Mostrar Catalogo Armaduras
         System.out.println(tienda.buyArm(0, inventory,characterOne));//metodo para comprar armas
-        System.out.println(tienda.buyArm(0, inventory,characterOne));
-        System.out.println(tienda.buyArm(0, inventory,characterOne));
-        System.out.println(tienda.buyArm(0, inventory,characterOne));
-        System.out.println(tienda.buyArm(0, inventory,characterOne));
-        System.out.println(tienda.buyArmor(0,inventory,characterOne));
-        System.out.println(tienda.buyArmor(0,inventory,characterOne));
-        System.out.println(tienda.buyArmor(0,inventory,characterOne));
-        System.out.println(tienda.buyArmor(5,inventory,characterOne));
-        System.out.println(tienda.buyArmor(5,inventory,characterOne));
+        System.out.println(tienda.buyArm(1, inventory,characterOne));
+       System.out.println(tienda.buyArm(2, inventory,characterOne));
+        System.out.println(tienda.buyArm(5, inventory,characterOne));
+        System.out.println(tienda.buyArmor(7,inventory,characterOne));
+        System.out.println(tienda.buyArmor(2,inventory,characterOne));
+        System.out.println(tienda.buyArmor(4,inventory,characterOne));
+        System.out.println(tienda.buyArmor(8,inventory,characterOne));
+        System.out.println(tienda.buyArmor(3,inventory,characterOne));
+        System.out.println(tienda.buyArmor(10,inventory,characterOne));
         System.out.println(inventory.showInventory());//Mostre el Inventario
-        System.out.println(equipment.AddItemToEquipment(4,inventory,characterOne));//Agrega equipacion al inventario
-        System.out.println(characterOne.getGold());
+        System.out.println(equipment.AddItemToEquipment(0,inventory,characterOne));//Agrega equipacion al inventario
+        System.out.println(inventory.showInventory());//Mostre el Inventario
+        System.out.println(characterOne.getForce());
+//System.out.println(characterOne.getGold());
 
 //--------------------------------------------------------------Codigo de Prueba----------------------------
 
