@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Inventory {
     private static Inventory instance;
-    private final int capacidadInicial = 10;
+    private final int capacidadInicial = 7;
     ArrayList<Elements> inventory = new ArrayList<>(capacidadInicial);
 
     private Inventory() {
@@ -48,6 +48,10 @@ public class Inventory {
         }
             return table.toString();
         }
+
+    public boolean hasItemsInInventory() {
+        return !inventory.isEmpty();
+    }
     }
 
 

@@ -10,19 +10,9 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        //Character characterOne = new Character("nombre","humano","guerrero",100);
         Inventory inventory = Inventory.getInstance();
         Equipment equipment = Equipment.getInstance();
-        Store tienda = Store.getInstance();///Se crea una unica instancia de la tienda
-        ///Mostrar Catalogo Armas
-        ///Mostrar Catalogo Armaduras
-        /*
-        Mostre el Inventario
-        System.out.println(equipment.AddItemToEquipment(4,inventory,characterOne));//Agrega equipacion al inventario
-        System.out.println(characterOne.getGold());*/
-
-//--------------------------------------------------------------Codigo de Prueba----------------------------
-
+        Store tienda = Store.getInstance();
         System.out.println("Bienvenido al juego RPG");
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite un nombre para su cuenta: ");
@@ -31,9 +21,11 @@ public class Main {
         int opcion;
         int mision;
         int opcionTienda;
-        String opcionCompra;
+        int opcionCompra;
         int opcionArma;
         int opcionArmadura;
+        int opcionEquipo;
+        int itemSeleccionado;
         System.out.println(".....Creando Personaje.....");
         System.out.println("Se ha creado tu personaje");
 
@@ -155,12 +147,12 @@ public class Main {
                             case 1:
                                 System.out.println(tienda.showCatalogArms());
                                 System.out.println("OPCIONES DE COMPRA");
-                                System.out.println("Si desea comprar Digite la palabra SI");
-                                System.out.println("Si no desea comprar Digite la palabra NO");
-                                opcionCompra=sc.nextLine();
-                                if (opcionCompra.equalsIgnoreCase("SI")){
+                                System.out.println("Si desea comprar Digite el numero 1");
+                                System.out.println("Si no desea comprar Digite el numero 2");
+                                opcionCompra=sc.nextInt();
+                                if (opcionCompra==1){
                                     System.out.println("¡ ADVERTENCIA !");
-                                    System.out.println("Si de sea comprar ingrese el numero del id corespondiente a la arma" +
+                                    System.out.println("Si desea comprar ingrese el numero del id corespondiente a la arma" +
                                             " para comprarla");
                                     opcionArma=sc.nextInt();
                                     System.out.println(tienda.buyArm(opcionArma, inventory,character));
@@ -171,36 +163,50 @@ public class Main {
                                 break;
                             case  2:
                                 System.out.println(tienda.showCatalogArmors());
-                                System.out.println(tienda.showCatalogArms());
                                 System.out.println("OPCIONES DE COMPRA");
-                                System.out.println("Si desea comprar Digite la palabra SI");
-                                System.out.println("Si no desea comprar Digite la palabra NO");
-                                opcionCompra=sc.nextLine();
-                                if (opcionCompra.equalsIgnoreCase("SI")){
-                                    System.out.println("¡ ADVERTENCIA !");
-                                    System.out.println("Si de sea comprar ingrese el numero del id corespondiente a la armadura" +
-                                            " para comprarla");
-                                    opcionArmadura=sc.nextInt();
-                                    System.out.println(tienda.buyArmor(opcionArmadura,inventory,character));
-                                }else {
-                                    System.out.println("Usted no realizo ninguna compra");
-                                    break;
+                                System.out.println("Si desea comprar Digite el numero 1");
+                                System.out.println("Si no desea comprar Digite el numero 2");
+                                opcionCompra=sc.nextInt();
+                                switch (opcionCompra){
+                                    case 1:
+                                        System.out.println("¡ ADVERTENCIA !");
+                                        System.out.println("Si desea comprar ingrese el numero del id corespondiente a la armadura" +
+                                                " para comprarla");
+                                        opcionArmadura=sc.nextInt();
+                                        System.out.println(tienda.buyArmor(opcionArmadura,inventory,character));
+                                        break;
+                                    case 2:
+                                        System.out.println("Usted no realizo ninguna compra");
+                                        break;
                                 }
                                 break;
                         }
                     }while (opcionTienda!=3);
                     break;
                 case 4:
-                    System.out.println("EQUIPO PARA TU PERSONAJE");
+                    System.out.println("EQUIPAMIENTO PARA TU PERSONAJE");
                     System.out.println("¡ En esta seccion podras equipar a tu personaje objetos los cuales te" +
                             " fortaleceran para futuras batallas !");
-                    System.out.println("1. Casco");
-                    System.out.println("2. Chaleco");
-                    System.out.println("3. Botas");
-                    System.out.println("4. Piernas");
-                    System.out.println("5. Brazos");
-                    System.out.println("6. Regresar al menu principal");
-                    System.out.println("Digita un numero y elige un articulo para equipar ?");
+                    System.out.println("OPCIONES");
+                    System.out.println("1. Ver inventario");
+                    System.out.println("2. Salir al menu principal");
+                    System.out.println("Digita un numero para entrar al inventario: ");
+                    opcionEquipo=sc.nextInt();
+                    if (opcionEquipo==1){
+                        if (inventory.hasItemsInInventory()){
+                            System.out.println(inventory.showInventory());
+                            System.out.println("Digite el numero del id correspondiente al item para equipar a su personaje: ");
+                            itemSeleccionado=sc.nextInt();
+                            System.out.println(equipment.AddItemToEquipment(itemSeleccionado,inventory,character));
+                        }else {
+                            System.out.println("Usted no posee ningun item en su inventario");
+                            System.out.println("¡ Dirijace a la tienda y compre un item !");
+                            System.out.println(inventory.showInventory());
+                        }
+                    } else{
+                        System.out.println("Salio del menu de Equipamiento");
+                        break;
+                    }
                     break;
             }
         }while (opcion!=0);
