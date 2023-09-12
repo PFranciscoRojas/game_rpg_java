@@ -9,30 +9,45 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
+        int daño;
         Character characterOne = new Character("nombre","humano","guerrero",100);
         Inventory inventory = Inventory.getInstance();
         Equipment equipment = Equipment.getInstance();
         Store tienda = Store.getInstance();///Se crea una unica instancia de la tienda
 
+
+
 System.out.println(characterOne.getForce());
         System.out.println(tienda.showCatalogArms());///Mostrar Catalogo Armas
         System.out.println(tienda.showCatalogArmors());///Mostrar Catalogo Armaduras
         System.out.println(tienda.buyArm(0, inventory,characterOne));//metodo para comprar armas
-        System.out.println(tienda.buyArm(1, inventory,characterOne));
-       System.out.println(tienda.buyArm(2, inventory,characterOne));
-        System.out.println(tienda.buyArm(5, inventory,characterOne));
-        System.out.println(tienda.buyArmor(7,inventory,characterOne));
-        System.out.println(tienda.buyArmor(2,inventory,characterOne));
-        System.out.println(tienda.buyArmor(4,inventory,characterOne));
-        System.out.println(tienda.buyArmor(8,inventory,characterOne));
-        System.out.println(tienda.buyArmor(3,inventory,characterOne));
-        System.out.println(tienda.buyArmor(10,inventory,characterOne));
-        System.out.println(inventory.showInventory());//Mostre el Inventario
-        System.out.println(equipment.AddItemToEquipment(0,inventory,characterOne));//Agrega equipacion al inventario
-        System.out.println(inventory.showInventory());//Mostre el Inventario
-        System.out.println(characterOne.getForce());
-//System.out.println(characterOne.getGold());
+        System.out.println(tienda.buyArm(1, inventory,characterOne));//metodo para comprar armas
+        System.out.println(tienda.buyArm(3, inventory,characterOne));//metodo para comprar armas
+        System.out.println(tienda.buyArmor(1, inventory,characterOne));//metodo para comprar armas
+        System.out.println(tienda.buyArmor(2, inventory,characterOne));//metodo para comprar armas
+        System.out.println(tienda.buyArmor(3, inventory,characterOne));//metodo para comprar armas
+        System.out.println(tienda.buyArmor(4, inventory,characterOne));//metodo para comprar armas
+
+        System.out.println(tienda.buyArmor(5, inventory,characterOne));//metodo para comprar armas
+        System.out.println(tienda.buyArmor(6, inventory,characterOne));//metodo para comprar armas
+        System.out.println(tienda.buyArmor(7, inventory,characterOne));//metodo para comprar armas
+        System.out.println(tienda.buyArmor(8, inventory,characterOne));//metodo para comprar armas
+        System.out.println(tienda.buyArmor(9, inventory,characterOne));//metodo para comprar armas
+        System.out.println(tienda.buyArmor(10, inventory,characterOne));//metodo para comprar armas
+        System.out.println(tienda.buyArmor(5, inventory,characterOne));//metodo para comprar armas
+        System.out.println(inventory.showInventory());//
+        System.out.println(inventory.selectEquipment(2,equipment,characterOne));//
+        System.out.println(inventory.selectEquipment(2,equipment,characterOne));//
+        System.out.println(inventory.selectEquipment(2,equipment,characterOne));//
+        System.out.println(inventory.selectEquipment(2,equipment,characterOne));//
+        System.out.println(inventory.selectEquipment(2,equipment,characterOne));//
+        System.out.println(inventory.selectEquipment(2,equipment,characterOne));//
+        System.out.println(inventory.selectEquipment(2,equipment,characterOne));//
+        System.out.println(inventory.selectEquipment(2,equipment,characterOne));//
+        System.out.println(equipment.showEquipament());
+        System.out.println(inventory.showInventory());//
+
+System.out.println(characterOne.getLife());
 
 //--------------------------------------------------------------Codigo de Prueba----------------------------
 
@@ -98,7 +113,7 @@ System.out.println(characterOne.getForce());
 
                                     System.out.println("Tipo: "+monstruoUno.getName());
                                     System.out.println("Vida: "+monstruoUno.getLife());
-                                    System.out.println("Fuerza: "+monstruoUno.getForce());
+                                    System.out.println("Fuerza: "+monstruoUno.getforce());
                                     System.out.println("....CARGANDO BATTALA....");
 
                                     System.out.println("Batalla iniciada");
@@ -126,9 +141,9 @@ System.out.println(characterOne.getForce());
 
                                             System.out.println("¡ Turno del monstruo para atacar !");
                                             System.out.println("Vida actual monstruo es: "+monstruoUno.getLife());
-                                            System.out.println("El mosntruo tipo "+monstruoUno.getName()+" ataca con fuerza de "+monstruoUno.getForce());
-                                            character.recibirAtaque(monstruoUno.getForce());
-                                            System.out.println("Se redujo -"+ monstruoUno.getForce() +"xp a la vida de tu personaje");
+                                            System.out.println("El mosntruo tipo "+monstruoUno.getName()+" ataca con fuerza de "+monstruoUno.getforce());
+                                            character.recibirAtaque(monstruoUno.getforce());
+                                            System.out.println("Se redujo -"+ monstruoUno.getforce() +"xp a la vida de tu personaje");
                                             if (character.getLife()<=0){
                                                 System.out.println("Tu personaje a muerto");
                                                 System.out.println("Has fracasado la mision");

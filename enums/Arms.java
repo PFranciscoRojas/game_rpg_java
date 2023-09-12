@@ -11,6 +11,7 @@ public enum Arms implements Elements {
     private final String name;
     private final int gold;
     private final int force;
+
     Arms (String name,int gold,int force){
         this.name = name;
         this.force = force;
