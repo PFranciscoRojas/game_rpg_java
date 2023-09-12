@@ -1,7 +1,11 @@
 package src;
 import enums.MonstersFeatures;
 
+import java.util.Random;
+
 public class Monster implements MainSkills {
+    Random random = new Random();
+
     private String name;
     private int level;
     private int life;
@@ -24,9 +28,7 @@ public class Monster implements MainSkills {
     public double getExperience() {
         return experience;
     }
-    public int getForce() {
-        return force;
-    }
+
     public void setLevel(int level) {
         this.level = level;
     }
@@ -42,4 +44,20 @@ public class Monster implements MainSkills {
     public int recibirAtaque(int force) {
        return this.life -= force;
     }
+
+    public int getforce (){
+        return this.force;
+    }
+
+    public int calculateAttack(){
+        int minDamge = 1;
+        int maxDamage = 5;
+        int randomStrength = this.force + random.nextInt(maxDamage - minDamge + 1) + minDamge;
+        return randomStrength;
+
+    }
+    public int rewardGold(){
+        return 5;
+    }
+
 }

@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        int daño;
+        Character characterOne = new Character("nombre","humano","guerrero",100);
 
         Inventory inventory = Inventory.getInstance();
         Equipment equipment = Equipment.getInstance();
@@ -81,7 +83,7 @@ public class Main {
 
                                     System.out.println("Tipo: "+monstruoUno.getName());
                                     System.out.println("Vida: "+monstruoUno.getLife());
-                                    System.out.println("Fuerza: "+monstruoUno.getForce());
+                                    System.out.println("La fuerza base es de : "+monstruoUno.getforce());
                                     System.out.println("....CARGANDO BATTALA....");
 
                                     System.out.println("Batalla iniciada");
@@ -106,12 +108,12 @@ public class Main {
                                             System.out.println(" Su personaje obtuvo " + oro + " de Oro");
                                             System.out.println(" Su personaje obtuvo " + character.getExperience() + " de experiencia");
                                         } else {
-
+                                            var attackMonster = monstruoUno.calculateAttack();
                                             System.out.println("¡ Turno del monstruo para atacar !");
                                             System.out.println("Vida actual monstruo es: "+monstruoUno.getLife());
-                                            System.out.println("El mosntruo tipo "+monstruoUno.getName()+" ataca con fuerza de "+monstruoUno.getForce());
-                                            character.recibirAtaque(monstruoUno.getForce());
-                                            System.out.println("Se redujo -"+ monstruoUno.getForce() +"xp a la vida de tu personaje");
+                                            System.out.println("El mosntruo tipo "+monstruoUno.getName()+" ataca con fuerza de "+attackMonster);
+                                            character.recibirAtaque(attackMonster);
+                                            System.out.println("Se redujo -"+ attackMonster +"xp a la vida de tu personaje");
                                             if (character.getLife()<=0){
                                                 System.out.println("Tu personaje a muerto");
                                                 System.out.println("Has fracasado la mision");
@@ -197,7 +199,7 @@ public class Main {
                             System.out.println(inventory.showInventory());
                             System.out.println("Digite el numero del id correspondiente al item para equipar a su personaje: ");
                             itemSeleccionado=sc.nextInt();
-                            System.out.println(equipment.AddItemToEquipment(itemSeleccionado,inventory,character));
+                            System.out.println(inventory.selectEquipment(itemSeleccionado,equipment,character));
                         }else {
                             System.out.println("Usted no posee ningun item en su inventario");
                             System.out.println("¡ Dirijace a la tienda y compre un item !");

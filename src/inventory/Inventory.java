@@ -2,9 +2,12 @@ package src.inventory;
 import enums.Armor;
 import enums.Arms;
 import enums.Elements;
+import src.Character;
+
 import java.util.ArrayList;
 
 public class Inventory {
+    String alert = null;
     private static Inventory instance;
     private final int capacidadInicial = 7;
     ArrayList<Elements> inventory = new ArrayList<>(capacidadInicial);
@@ -17,16 +20,25 @@ public class Inventory {
         }
         return instance;
     }
-    public Elements selectItem(int select) {
-        Elements item = inventory.get(select);
-        return  item;
+
+    public void AddItemInventory(Elements element) {
+        inventory.add(element);
     }
-    public void sendToInventory(Elements i) {
-        inventory.remove(i.getName());
+
+    public boolean CheckFullInventory() {
+        return (long) inventory.size() < 10;
     }
-    public void addItem(Elements element) {
+
+    public boolean CheckRepeat(Elements element) {
+        // El elemento ya está en el inventario, se devuelve false.
+        return !inventory.contains(element); // El elemento no está en el inventario, se agrega y se devuelve true.
+    }
+
+
+    public void addItemEquipment(int select,Equipment equipment) {
+        Elements item =  equipment.selectItem(select);
         if (inventory.stream().count() < 10) {
-            inventory.add(element);
+            inventory.add(item);
         }
     }
     public String showInventory() {
@@ -52,7 +64,31 @@ public class Inventory {
     public boolean hasItemsInInventory() {
         return !inventory.isEmpty();
     }
+
+    public String selectEquipment (int position, Equipment equipment , Character character){
+        Elements object = inventory.get(position);
+
+        if (equipment.CheckFullEquipment()){
+            if (object instanceof Armor && equipment.CheckRepeatArmadure((Armor) object)){
+                alert = equipment.AddItemToEquipment(object,character);
+                inventory.remove(position);
+            }else {
+                alert = "Ya tienes Implementada esta prenda de armadura";
+            }
+
+            if (object instanceof Arms) {
+                alert = equipment.AddItemToEquipment(object,character);
+                inventory.remove(position);
+            }
+
+        }else {
+            alert ="Ya tienes muchas cosas en tu equipo de batalla";
+        }
+
+            return alert;
     }
+
+}
 
 
 
