@@ -1,9 +1,9 @@
 package enums;
 
 public enum MonstersFeatures {
-    DRAGON("Dragon",500,40),
-    ORC("Orc",80,25),
-    ESKELETON("Eskeleton",50,15);
+    DRAGON("Dragon",500,3),
+    ORC("Orc",80,2),
+    ESKELETON("Eskeleton",50,1);
     private final String name;
     private final int life;
     private final int force;

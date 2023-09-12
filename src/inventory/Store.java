@@ -54,28 +54,45 @@ public class Store {
         return table;
     }
     public String buyArm (int position, Inventory inventory , Character character){
-
         Arms object = arms.get(position);
         if(character.getGold()>= object.getGold()){
-            character.payArticle(object.getGold());
-            inventory.addItem(object);
-            alert =  " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
+            if (inventory.CheckFullInventory()){
+                ///Verifica si no hay 10 articulos
+                if (inventory.CheckRepeat(object)){
+                    character.payArticle(object.getGold());
+                   inventory.AddItemInventory(object);
+                    alert =  " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
+                } else{
+                    alert =  " Ya tienes este articulo en tu inventario";
+                }
+            }else {
+                alert =  " Tienes Lleno el Inventario";
+            }
         }
         else{
             alert =  " No tienes suficiente oro";
         }
         return alert;
     }
-    public String buyArmor (int position, Inventory inventory , Character character){
+    public String buyArmor (int position, Inventory inventory , Character character) {
         Armor object = armors.get(position);
-        if(character.getGold()>= object.getGold()){
-            character.payArticle(object.getGold());
-            inventory.addItem(object);
-          alert = " Compraste " + object.getName() + " Fue Agregado a Tu inventario";
-        }else{
-            alert =  " No tienes suficiente oro";
+        if (character.getGold() >= object.getGold()) {
+            if (inventory.CheckFullInventory()) {
+                ///Verifica si no hay 10 articulos
+                if (inventory.CheckRepeat(object)) {
+                    character.payArticle(object.getGold());
+                    inventory.AddItemInventory(object);
+                    alert = " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
+                } else {
+                    alert = " Ya tienes este articulo en tu inventario";
+                }
+            } else {
+                alert = " Tienes Lleno el Inventario";
+            }
+        } else {
+            alert = " No tienes suficiente oro";
         }
-     return  alert;
+        return alert;
     }
 }
 
