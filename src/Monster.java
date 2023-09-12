@@ -46,9 +46,13 @@ public class Monster implements MainSkills {
     }
 
     public int getforce (){
+        return this.force;
+    }
+
+    public int calculateAttack(){
         int minDamge = 1;
         int maxDamage = 5;
-        int randomStrength = force + random.nextInt(maxDamage - minDamge + 1) + minDamge;
+        int randomStrength = this.force + random.nextInt(maxDamage - minDamge + 1) + minDamge;
         return randomStrength;
 
     }
