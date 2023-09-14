@@ -12,31 +12,25 @@ public class Inventory {
     private static Inventory instance;
     private final int capacidadInicial = 7;
     ArrayList<Elements> inventory = new ArrayList<>(capacidadInicial);
-
-    private Inventory() {
-    }
+    private Inventory() {}
     public static Inventory getInstance() {
         if (instance == null) {
             instance = new Inventory();
         }
         return instance;
     }
-
     public void AddItemInventory(Elements element) {
         inventory.add(element);
     }
-
     public boolean CheckFullInventory() {
         return (long) inventory.size() < 10;
     }
-
     public boolean CheckRepeat(Elements element) {
         // El elemento ya está en el inventario, se devuelve false.
         return !inventory.contains(element); // El elemento no está en el inventario, se agrega y se devuelve true.
     }
-
-    public void addItemInventaryToEquipmnt(Elements item) {
-        if (inventory.stream().count() < 10) {
+    public void addItemInventaryToEquipment(Elements item) {
+        if ((long) inventory.size() < 10) {
             inventory.add(item);
         }
     }
@@ -63,14 +57,11 @@ public class Inventory {
         }
             return table.toString();
         }
-
     public boolean hasItemsInInventory() {
         return !inventory.isEmpty();
     }
-
     public String selectEquipment (int position, Equipment equipment , Character character){
         Elements object = inventory.get(position);
-
         if (equipment.CheckFullEquipment()){
             if (object instanceof Armor && equipment.CheckRepeatArmadure((Armor) object)){
                 alert = equipment.AddItemToEquipment(object,character);
@@ -78,14 +69,12 @@ public class Inventory {
             }else {
                 alert = "Ya tienes Implementada esta prenda de armadura";
             }
-
             if (object instanceof Arms && equipment.CheckRepeatArm()) {
                 alert = equipment.AddItemToEquipment(object,character);
                 inventory.remove(position);
             }else {
                 alert = "Ya tienes Implementada un Arma";
             }
-
             if (object instanceof Potions && equipment.CheckRepeatPotion()) {
                 alert = equipment.AddItemToEquipment(object,character);
                 inventory.remove(position);
@@ -95,17 +84,13 @@ public class Inventory {
         }else {
             alert ="Ya tienes muchas cosas en tu equipo de batalla";
         }
-
             return alert;
     }
-
     public String removeItemInventory(int select,Character character){
         Elements delete = inventory.get(select);
         inventory.remove(select);
         return delete.getName() + " Fue devuelto a la tienda recibiste " +  character.removeInventory(delete.getGold()) + " de oro por su devolucion";
     }
-
 }
-
 
 

@@ -5,32 +5,22 @@ import enums.Potions;
 import src.Character;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 public class Store {
-
-
     String alert = null;
     List<Arms> arms = new ArrayList<>();
     List<Armor> armors = new ArrayList<>();
     List<Potions> potions = new ArrayList<>();
-
-
     private static Store instance;
     private Store() {
-        for (Arms element : Arms.values()){
-         arms.add(element);
-        }
-        for(Armor element : Armor.values()){
-            armors.add(element);
-        }
-        for(Potions element : Potions.values()){
-            potions.add(element);
-        }
-        armors.sort(Comparator.comparingInt(armorsElement -> armorsElement.getGold()));
-        arms.sort(Comparator.comparingInt(armsElement -> armsElement.getGold()));
-        potions.sort(Comparator.comparingInt(armsElement -> armsElement.getGold()));
+        Collections.addAll(arms, Arms.values());
+        Collections.addAll(armors, Armor.values());
+        Collections.addAll(potions, Potions.values());
+        armors.sort(Comparator.comparingInt(Armor::getGold));
+        arms.sort(Comparator.comparingInt(Arms::getGold));
+        potions.sort(Comparator.comparingInt(Potions::getGold));
     }
     public static Store getInstance() {
         if (instance == null) {
@@ -50,7 +40,6 @@ public class Store {
          return table;
      }
     public String showCatalogArmors () {
-
         StringBuilder listado = new StringBuilder();
         int posicion = 0; // Inicializa el contador de posición
         for (Armor element : armors) {
@@ -61,9 +50,7 @@ public class Store {
         String table = "               CATALOGO DE ARMADURAS\n-------------------------------------------------------\n|    | Precio | Nombre                     |Proteccion|\n|----|--------|----------------------------|----------|\n" + listado.toString();
         return table;
     }
-
     public String showCatalogPotions () {
-
         StringBuilder listado = new StringBuilder();
         int posicion = 0; // Inicializa el contador de posición
         for (Potions element : potions) {
@@ -71,10 +58,8 @@ public class Store {
             listado.append(fila);
             posicion++;
         }
-        String table = "               CATALOGO DE POSCIONES\n--------------------------------------------------------------------------------------------------\n|    | Precio | Nombre                     | Power                                               |\n|----|--------|----------------------------|-----------------------------------------------------|\n" + listado.toString();
-        return table;
+        return "               CATALOGO DE POSCIONES\n--------------------------------------------------------------------------------------------------\n|    | Precio | Nombre                     | Power                                               |\n|----|--------|----------------------------|-----------------------------------------------------|\n" + listado.toString();
     }
-
     public String buyArm (int position, Inventory inventory , Character character){
         Arms object = arms.get(position);
         if(character.getGold()>= object.getGold()){
@@ -100,7 +85,6 @@ public class Store {
         Armor object = armors.get(position);
         if (character.getGold() >= object.getGold()) {
             if (inventory.CheckFullInventory()) {
-                ///Verifica si no hay 10 articulos
                 if (inventory.CheckRepeat(object)) {
                     character.payArticle(object.getGold());
                     inventory.AddItemInventory(object);
@@ -116,7 +100,6 @@ public class Store {
         }
         return alert;
     }
-
     public String buyPotion (int position, Inventory inventory , Character character){
         Potions object = potions.get(position);
         if(character.getGold()>= object.getGold()){

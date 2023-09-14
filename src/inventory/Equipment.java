@@ -11,19 +11,16 @@ public class Equipment {
     private final int capacidadInicial = 7;
     ArrayList<Elements> MyEquipament = new ArrayList<>(capacidadInicial);
     ArrayList<Armor> amorsType = new ArrayList<>(capacidadInicial);
-
-    private Equipment() {
-
-    }
-
+    private Equipment() {}
     public static Equipment getInstance() {
         if (instance == null) {
             instance = new Equipment();
         }
         return instance;
     }
-
-    //Metodo que se llama de inventory
+    public boolean CheckFullEquipment() {
+        return (long) MyEquipament.size() < 7;
+    }
     public String AddItemToEquipment(Elements item, Character character) {
         String mss = "";
         String mssAdd = " Fue Agregado a tu Equipo";
@@ -44,7 +41,6 @@ public class Equipment {
         }
         return mss;
     }
-
     public String showEquipament() {
         StringBuilder table = new StringBuilder();
         int posicion = 0;
@@ -68,7 +64,6 @@ public class Equipment {
         }
         return table.toString();
     }
-
     public String returnItemToInventory(int select, Inventory inventory, Character character) {
         Elements item = MyEquipament.get(select);
         if (item instanceof Arms) {
@@ -77,14 +72,9 @@ public class Equipment {
             character.removeArmor(((Armor) item).getlife());
         }
         MyEquipament.remove(item);
-        inventory.addItemInventaryToEquipmnt(item);
+        inventory.addItemInventaryToEquipment(item);
         return item.getName() + " Fue devuelto al inventario";
     }
-
-    public boolean CheckFullEquipment() {
-        return (long) MyEquipament.size() < 7;
-    }
-
     public boolean CheckRepeatArmadure(Armor armor) {
         for (Armor existingArmor : amorsType) {
             if (existingArmor.compare(armor)) {
@@ -93,7 +83,6 @@ public class Equipment {
         }
         return true;
     }
-
     public boolean CheckRepeatArm() {
         for (Elements element : MyEquipament) {
             if (element.getClass().getSimpleName().equals("Arms")) {
@@ -102,7 +91,6 @@ public class Equipment {
         }
         return true;
     }
-
     public boolean CheckRepeatPotion() {
         for (Elements element : MyEquipament) {
             if (element.getClass().getSimpleName().equals("Potions")) {

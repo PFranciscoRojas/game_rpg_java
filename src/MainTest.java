@@ -3,7 +3,6 @@ package src;
 import src.inventory.Equipment;
 import src.inventory.Inventory;
 import src.inventory.Store;
-
 public class MainTest {
     public static void main(String[] args) {
         Character characterOne = new Character("nombre","humano","guerrero",100);
