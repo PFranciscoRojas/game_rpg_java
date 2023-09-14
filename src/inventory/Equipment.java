@@ -5,7 +5,6 @@ import enums.Elements;
 import enums.Potions;
 import src.Character;
 import java.util.ArrayList;
-
 public class Equipment {
     private static Equipment instance;
     private final int capacidadInicial = 7;
@@ -18,29 +17,8 @@ public class Equipment {
         }
         return instance;
     }
-    public boolean CheckFullEquipment() {
-        return (long) MyEquipament.size() < 7;
-    }
-    public String AddItemToEquipment(Elements item, Character character) {
-        String mss = "";
-        String mssAdd = " Fue Agregado a tu Equipo";
-        MyEquipament.add(item);
-        switch (item.getClass().getSimpleName()) {
-            case "Arms":
-                character.AddArm(((Arms) item).getForce());
-                mss = item.getName() + mssAdd;
-                break;
-            case "Armor":
-                character.AddArmor(((Armor) item).getlife());
-                mss = item.getName() + mssAdd;
-                amorsType.add((Armor) item);
-                break;
-            case "Potions":
-                mss = item.getName() + mssAdd;
-                break;
-        }
-        return mss;
-    }
+
+    //Mostrar Equipment
     public String showEquipament() {
         StringBuilder table = new StringBuilder();
         int posicion = 0;
@@ -64,6 +42,8 @@ public class Equipment {
         }
         return table.toString();
     }
+
+    //Metodos que interactuan con el Inventory
     public String returnItemToInventory(int select, Inventory inventory, Character character) {
         Elements item = MyEquipament.get(select);
         if (item instanceof Arms) {
@@ -74,6 +54,53 @@ public class Equipment {
         MyEquipament.remove(item);
         inventory.addItemInventaryToEquipment(item);
         return item.getName() + " Fue devuelto al inventario";
+    }
+
+    //Metodos que interactuan con Personaje
+    public String AddItemToEquipment(Elements item, Character character) {
+        String mss = "";
+        String mssAdd = " Fue Agregado a tu Equipo";
+        MyEquipament.add(item);
+        switch (item.getClass().getSimpleName()) {
+            case "Arms":
+                character.AddArm(((Arms) item).getForce());
+                mss = item.getName() + mssAdd;
+                break;
+            case "Armor":
+                character.AddArmor(((Armor) item).getlife());
+                mss = item.getName() + mssAdd;
+                amorsType.add((Armor) item);
+                break;
+            case "Potions":
+                mss = item.getName() + mssAdd;
+                break;
+        }
+        return mss;
+    }
+    public String usePotion(Character character) {
+        String alert = "";
+        for (Elements element : MyEquipament) {
+            if (element.getClass().getSimpleName().equals("Potions")) {
+                switch (element.getName()) {
+                    case "Adrenalina":
+                        alert = "A";
+                        break;
+                    case "Golpe Fatal":
+                        alert = " B ";
+                        break;
+                    case "Curacion Instantanea":
+                        alert = " C ";
+                        break;
+                }
+            }
+        }
+        MyEquipament.removeIf(element -> element.getClass().getSimpleName().equals("Potions"));
+        return alert;
+    }
+
+    //Verificadores
+    public boolean CheckFullEquipment() {
+        return (long) MyEquipament.size() < 7;
     }
     public boolean CheckRepeatArmadure(Armor armor) {
         for (Armor existingArmor : amorsType) {
@@ -100,26 +127,6 @@ public class Equipment {
         return true;
     }
 
-    public String usePotion(Character character) {
-        String alert = "";
-        for (Elements element : MyEquipament) {
-            if (element.getClass().getSimpleName().equals("Potions")) {
-                switch (element.getName()) {
-                    case "Adrenalina":
-                        alert = "A";
-                        break;
-                    case "Golpe Fatal":
-                        alert = " B ";
-                        break;
-                    case "Curacion Instantanea":
-                        alert = " C ";
-                        break;
-                }
-            }
-        }
-        MyEquipament.removeIf(element -> element.getClass().getSimpleName().equals("Potions"));
-        return alert;
-    }
 }
 
 

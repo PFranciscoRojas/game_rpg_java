@@ -1,7 +1,6 @@
 package enums;
 
 public enum Arms implements Elements {
-
     SWORD("Espada Platinum",0,5),
     ARC("Arco Domiante",0,10),
     GRENADE("Granada Metralla ",8,15),
@@ -11,7 +10,6 @@ public enum Arms implements Elements {
     private final String name;
     private final int gold;
     private final int force;
-
     Arms (String name,int gold,int force){
         this.name = name;
         this.force = force;
@@ -26,6 +24,4 @@ public enum Arms implements Elements {
     public int getForce() {
         return force;
     }
-
-
 }

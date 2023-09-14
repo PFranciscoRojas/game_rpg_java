@@ -28,6 +28,8 @@ public class Store {
         }
         return instance;
     }
+
+    //Mostradores de Elements
      public String showCatalogArms () {
          StringBuilder listado = new StringBuilder();
          int posicion = 0; // Inicializa el contador de posición
@@ -36,8 +38,7 @@ public class Store {
              listado.append(fila);
              posicion++; // Incrementa la posición para el próximo elemento
          }
-         String table = "                CATALOGO DE ARMAS\n----------------------------------------------------\n|   | Precio | Nombre                     | Daño    |\n|---|--------|----------------------------|---------|\n" + listado.toString();
-         return table;
+         return "                CATALOGO DE ARMAS\n----------------------------------------------------\n|   | Precio | Nombre                     | Daño    |\n|---|--------|----------------------------|---------|\n" + listado.toString();
      }
     public String showCatalogArmors () {
         StringBuilder listado = new StringBuilder();
@@ -47,8 +48,7 @@ public class Store {
             listado.append(fila);
             posicion++;
         }
-        String table = "               CATALOGO DE ARMADURAS\n-------------------------------------------------------\n|    | Precio | Nombre                     |Proteccion|\n|----|--------|----------------------------|----------|\n" + listado.toString();
-        return table;
+        return "               CATALOGO DE ARMADURAS\n-------------------------------------------------------\n|    | Precio | Nombre                     |Proteccion|\n|----|--------|----------------------------|----------|\n" + listado.toString();
     }
     public String showCatalogPotions () {
         StringBuilder listado = new StringBuilder();
@@ -58,8 +58,10 @@ public class Store {
             listado.append(fila);
             posicion++;
         }
-        return "               CATALOGO DE POSCIONES\n--------------------------------------------------------------------------------------------------\n|    | Precio | Nombre                     | Power                                               |\n|----|--------|----------------------------|-----------------------------------------------------|\n" + listado.toString();
+        return "               CATALOGO DE POCIONES\n--------------------------------------------------------------------------------------------------\n|    | Precio | Nombre                     | Power                                               |\n|----|--------|----------------------------|-----------------------------------------------------|\n" + listado.toString();
     }
+
+    //Compras de Elements
     public String buyArm (int position, Inventory inventory , Character character){
         Arms object = arms.get(position);
         if(character.getGold()>= object.getGold()){
