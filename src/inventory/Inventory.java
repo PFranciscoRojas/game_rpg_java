@@ -2,6 +2,7 @@ package src.inventory;
 import enums.Armor;
 import enums.Arms;
 import enums.Elements;
+import enums.Potions;
 import src.Character;
 
 import java.util.ArrayList;
@@ -34,9 +35,7 @@ public class Inventory {
         return !inventory.contains(element); // El elemento no está en el inventario, se agrega y se devuelve true.
     }
 
-
-    public void addItemEquipment(int select,Equipment equipment) {
-        Elements item =  equipment.selectItem(select);
+    public void addItemInventaryToEquipmnt(Elements item) {
         if (inventory.stream().count() < 10) {
             inventory.add(item);
         }
@@ -47,12 +46,16 @@ public class Inventory {
         table.append("               INVENTARIO\n---------------------------------------------\n|    | Nombre                     | Atributo    |\n|----|----------------------------|-------------|\n");
         for (Elements object : inventory) {
             String attribute = "";
-            if (object instanceof Arms) {
-                String at = Integer.toString(((Arms) object).getForce());
-                attribute = " Fuerza:" + at;
-            } else if (object instanceof Armor) {
-                String at = Integer.toString(((Armor) object).getlife());
-                attribute = " Vida:" + at;
+            switch (object.getClass().getSimpleName()) {
+                case "Arms" :
+                    attribute = "Fuerza: " + ((Arms) object).getForce();
+                    break;
+                case "Armor":
+                    attribute = "Vida: " + ((Armor) object).getlife();
+                    break;
+                case "Potions":
+                    attribute = "Power";
+                    break;
             }
             String fila = String.format("| %-2d | %-25s  | %-10s  |%n", posicion, object.getName(), attribute);
             table.append(fila);
@@ -76,16 +79,30 @@ public class Inventory {
                 alert = "Ya tienes Implementada esta prenda de armadura";
             }
 
-            if (object instanceof Arms) {
+            if (object instanceof Arms && equipment.CheckRepeatArm()) {
                 alert = equipment.AddItemToEquipment(object,character);
                 inventory.remove(position);
+            }else {
+                alert = "Ya tienes Implementada un Arma";
             }
 
+            if (object instanceof Potions && equipment.CheckRepeatPotion()) {
+                alert = equipment.AddItemToEquipment(object,character);
+                inventory.remove(position);
+            }else {
+                alert = "Ya tienes Implementada un Pocion";
+            }
         }else {
             alert ="Ya tienes muchas cosas en tu equipo de batalla";
         }
 
             return alert;
+    }
+
+    public String removeItemInventory(int select,Character character){
+        Elements delete = inventory.get(select);
+        inventory.remove(select);
+        return delete.getName() + " Fue devuelto a la tienda recibiste " +  character.removeInventory(delete.getGold()) + " de oro por su devolucion";
     }
 
 }

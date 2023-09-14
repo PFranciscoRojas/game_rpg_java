@@ -9,9 +9,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        int daño;
         Character characterOne = new Character("nombre","humano","guerrero",100);
-
         Inventory inventory = Inventory.getInstance();
         Equipment equipment = Equipment.getInstance();
         Store tienda = Store.getInstance();

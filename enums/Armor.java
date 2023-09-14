@@ -39,10 +39,6 @@ public enum Armor implements Elements {
         return gold;
     }
 
-    public char getType() {
-        return type;
-    }
-
 
     public boolean compare(Armor o) {
         if (this == o) return true;
