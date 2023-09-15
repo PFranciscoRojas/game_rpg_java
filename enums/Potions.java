@@ -4,9 +4,7 @@ public enum Potions implements Elements {
 
         ADRENALIN("Adrenalina",10,5,"Aumenta descontroladamente tu nivel de fuerza"),
         FATALITY("Golpe Fatal",20,10,"Derriva a tu oponente con un K.O"),
-        REGENERE("Curacion Instantanea",8,2,"Recupera tu Vida en un Instante"){
-
-        };
+        REGENERE("Curacion Instantanea",8,2,"Recupera tu Vida en un Instante");
         private final String name;
         private final String description;
         private final int power;
@@ -32,8 +30,6 @@ public enum Potions implements Elements {
                 return description;
         }
 
-        public void use(Character character){
 
-        }
 
 }

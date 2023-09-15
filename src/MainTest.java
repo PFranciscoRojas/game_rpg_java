@@ -12,7 +12,6 @@ public class MainTest {
         Inventory inventory = Inventory.getInstance();
         Equipment equipment = Equipment.getInstance();
         Store tienda = Store.getInstance();
-        System.out.println(tienda.showCatalogPotions());
         System.out.println(tienda.buyPotion(2,inventory,characterOne));
         System.out.println(tienda.buyPotion(0,inventory,characterOne));
         System.out.println(tienda.buyArm(2,inventory,characterOne));
@@ -20,6 +19,7 @@ public class MainTest {
         System.out.println(inventory.showInventory());
         System.out.println(inventory.selectEquipment(0,equipment,characterOne));
         System.out.println(inventory.selectEquipment(0,equipment,characterOne));
+        System.out.println(inventory.selectEquipment(1,equipment,characterOne));
         System.out.println(inventory.selectEquipment(1,equipment,characterOne));
         System.out.println(equipment.showEquipament());
         System.out.println(equipment.usePotion(characterOne));

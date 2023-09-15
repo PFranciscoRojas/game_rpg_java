@@ -1,4 +1,7 @@
 package enums;
+
+import src.Character;
+
 public enum Armor implements Elements {
     HELMETONE("Casco Coraza",10,20,'H'),
     HELMETWO("Casco Porton",6,15,'H'),
@@ -39,11 +42,9 @@ public enum Armor implements Elements {
         return gold;
     }
 
-
     public boolean compare(Armor o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Armor armor =  o;
-        return type == armor.type;
+        if (o == null) return false;
+        return type == o.type;
     }
 }
