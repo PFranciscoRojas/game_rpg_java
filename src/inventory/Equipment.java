@@ -5,6 +5,8 @@ import enums.Elements;
 import enums.Potions;
 import src.Character;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 public class Equipment {
     private static Equipment instance;
     private final int capacidadInicial = 7;
@@ -77,26 +79,19 @@ public class Equipment {
         }
         return mss;
     }
-    public String usePotion(Character character) {
-        String alert = "";
-        for (Elements element : MyEquipament) {
-            if (element.getClass().getSimpleName().equals("Potions")) {
-                switch (element.getName()) {
-                    case "Adrenalina":
-                        alert = "A";
-                        break;
-                    case "Golpe Fatal":
-                        alert = " B ";
-                        break;
-                    case "Curacion Instantanea":
-                        alert = " C ";
-                        break;
-                }
+    public String usePotion(Character character) {//JAVA OTERATOR REMOVE
+        Iterator<Elements> iterador = MyEquipament.iterator();
+        while (iterador.hasNext()){
+            Elements i = iterador.next();
+            if (i instanceof Potions){
+                iterador.remove();
+                return i.getName() + " Fue utilizada";
             }
         }
-        MyEquipament.removeIf(element -> element.getClass().getSimpleName().equals("Potions"));
-        return alert;
+        return "No se encontraron pociones utilizables";
     }
+
+
 
     //Verificadores
     public boolean CheckFullEquipment() {

@@ -51,29 +51,43 @@ public class Inventory {
     }
     public String selectEquipment (int position, Equipment equipment , Character character){
         Elements object = inventory.get(position);
-        if (equipment.CheckFullEquipment()){
-            if (object instanceof Armor && equipment.CheckRepeatArmadure((Armor) object)){
-                alert = equipment.AddItemToEquipment(object,character);
+        boolean addedArmor = false;
+        boolean addedArms = false;
+        boolean addedPotion = false;
+
+        if (equipment.CheckFullEquipment()) {
+            if (object instanceof Armor && equipment.CheckRepeatArmadure((Armor) object)) {
+                equipment.AddItemToEquipment(object, character);
                 inventory.remove(position);
-            }else {
-                alert = "Ya tienes Implementada esta prenda de armadura";
+                addedArmor = true;
             }
+
             if (object instanceof Arms && equipment.CheckRepeatArm()) {
-                alert = equipment.AddItemToEquipment(object,character);
+                equipment.AddItemToEquipment(object, character);
                 inventory.remove(position);
-            }else {
-                alert = "Ya tienes Implementada un Arma";
+                addedArms = true;
             }
+
             if (object instanceof Potions && equipment.CheckRepeatPotion()) {
-                alert = equipment.AddItemToEquipment(object,character);
+                equipment.AddItemToEquipment(object, character);
                 inventory.remove(position);
-            }else {
-                alert = "Ya tienes Implementada un Pocion";
+                addedPotion = true;
             }
-        }else {
-            alert ="Ya tienes muchas cosas en tu equipo de batalla";
+
+            if (addedArmor) {
+                alert = "Se ha agregado una prenda de armadura al equipo.";
+            } else if (addedArms) {
+                alert = "Se ha agregado un arma al equipo.";
+            } else if (addedPotion) {
+                alert = "Se ha agregado una poción al equipo.";
+            } else {
+                alert = "No se ha agregado ningún elemento al equipo Seguramente ya tienes equipado un elemento similar.";
+            }
+        } else {
+            alert = "Ya tienes muchas cosas en tu equipo de batalla.";
         }
         return alert;
+
     }
 
     //Metodos Que interactuan con Store
