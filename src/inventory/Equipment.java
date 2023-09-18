@@ -85,7 +85,8 @@ public class Equipment {
             Elements i = iterador.next();
             if (i instanceof Potions){
                 iterador.remove();
-                return i.getName() + " Fue utilizada";
+              return  ((Potions) i).aplyPotion(character,(Potions) i);
+
             }
         }
         return "No se encontraron pociones utilizables";
