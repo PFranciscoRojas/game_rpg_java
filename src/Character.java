@@ -98,20 +98,17 @@ public class Character implements MainSkills {
     public int AddArmor(int life) {
         return this.life+=life;
     }
-    public void setElementEquipment (Armor object ){
-        MyEquipment.add(object);
+    public int removeArm(int force) {
+        return this.force-=force;
     }
-    public String showEquipment() {
-        StringBuilder Equipament = new StringBuilder();
-        for (Armor element : MyEquipment) {
-            String nombre = element.getName();
-            String atributo =  "Daño";
-            String ElementEquipament = String.format("| %-15s | %-15s |%n", nombre, atributo + ": " );
-            Equipament.append(ElementEquipament);
-            }
-        String tabla = Equipament.toString();
-        return "TU EQUIPAMIENTO\n" + tabla;
-        }
+    public int removeArmor(int life) {
+        return this.life-=life;
+    }
+    public int removeInventory(int gold) {
+         this.gold+=gold/2;
+         return gold/2;
+    }
+
 
     public int establecerLife(){
         return this.life=500;

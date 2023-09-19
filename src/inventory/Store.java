@@ -1,28 +1,26 @@
 package src.inventory;
 import enums.Armor;
 import enums.Arms;
+import enums.Potions;
 import src.Character;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 public class Store {
-
-
     String alert = null;
     List<Arms> arms = new ArrayList<>();
     List<Armor> armors = new ArrayList<>();
+    List<Potions> potions = new ArrayList<>();
     private static Store instance;
     private Store() {
-        for (Arms element : Arms.values()){
-         arms.add(element);
-        }
-        for(Armor element : Armor.values()){
-            armors.add(element);
-        }
-        armors.sort(Comparator.comparingInt(armorsElement -> armorsElement.getGold()));
-        arms.sort(Comparator.comparingInt(armsElement -> armsElement.getGold()));
+        Collections.addAll(arms, Arms.values());
+        Collections.addAll(armors, Armor.values());
+        Collections.addAll(potions, Potions.values());
+        armors.sort(Comparator.comparingInt(Armor::getGold));
+        arms.sort(Comparator.comparingInt(Arms::getGold));
+        potions.sort(Comparator.comparingInt(Potions::getGold));
     }
     public static Store getInstance() {
         if (instance == null) {
@@ -30,6 +28,8 @@ public class Store {
         }
         return instance;
     }
+
+    //Mostradores de Elements
      public String showCatalogArms () {
          StringBuilder listado = new StringBuilder();
          int posicion = 0; // Inicializa el contador de posición
@@ -38,21 +38,30 @@ public class Store {
              listado.append(fila);
              posicion++; // Incrementa la posición para el próximo elemento
          }
-         String table = "                CATALOGO DE ARMAS\n----------------------------------------------------\n|   | Precio | Nombre                     | Daño    |\n|---|--------|----------------------------|---------|\n" + listado.toString();
-         return table;
+         return "                CATALOGO DE ARMAS\n----------------------------------------------------\n|   | Precio | Nombre                     | Daño    |\n|---|--------|----------------------------|---------|\n" + listado.toString();
      }
     public String showCatalogArmors () {
-
         StringBuilder listado = new StringBuilder();
         int posicion = 0; // Inicializa el contador de posición
         for (Armor element : armors) {
             String fila = String.format("| %-2d | %-6s | %-25s  | %-7s  |%n", posicion,element.getGold(),element.getName(),element.getlife());
             listado.append(fila);
-            posicion++; // Incrementa la posición para el próximo elemento
+            posicion++;
         }
-        String table = "               CATALOGO DE ARMADURAS\n-------------------------------------------------------\n|    | Precio | Nombre                     |Proteccion|\n|----|--------|----------------------------|----------|\n" + listado.toString();
-        return table;
+        return "               CATALOGO DE ARMADURAS\n-------------------------------------------------------\n|    | Precio | Nombre                     |Proteccion|\n|----|--------|----------------------------|----------|\n" + listado.toString();
     }
+    public String showCatalogPotions () {
+        StringBuilder listado = new StringBuilder();
+        int posicion = 0; // Inicializa el contador de posición
+        for (Potions element : potions) {
+            String fila = String.format("| %-2d | %-6s | %-25s  | %-50s  |%n", posicion,element.getGold(),element.getName(),element.getDescription());
+            listado.append(fila);
+            posicion++;
+        }
+        return "               CATALOGO DE POCIONES\n--------------------------------------------------------------------------------------------------\n|    | Precio | Nombre                     | Power                                               |\n|----|--------|----------------------------|-----------------------------------------------------|\n" + listado.toString();
+    }
+
+    //Compras de Elements
     public String buyArm (int position, Inventory inventory , Character character){
         Arms object = arms.get(position);
         if(character.getGold()>= object.getGold()){
@@ -78,7 +87,6 @@ public class Store {
         Armor object = armors.get(position);
         if (character.getGold() >= object.getGold()) {
             if (inventory.CheckFullInventory()) {
-                ///Verifica si no hay 10 articulos
                 if (inventory.CheckRepeat(object)) {
                     character.payArticle(object.getGold());
                     inventory.AddItemInventory(object);
@@ -91,6 +99,26 @@ public class Store {
             }
         } else {
             alert = " No tienes suficiente oro";
+        }
+        return alert;
+    }
+    public String buyPotion (int position, Inventory inventory , Character character){
+        Potions object = potions.get(position);
+        if(character.getGold()>= object.getGold()){
+            if (inventory.CheckFullInventory()){
+                if (inventory.CheckRepeat(object)){
+                    character.payArticle(object.getGold());
+                    inventory.AddItemInventory(object);
+                    alert =  " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
+                } else{
+                    alert =  " Ya tienes este articulo en tu inventario";
+                }
+            }else {
+                alert =  " Tienes Lleno el Inventario";
+            }
+        }
+        else{
+            alert =  " No tienes suficiente oro";
         }
         return alert;
     }
