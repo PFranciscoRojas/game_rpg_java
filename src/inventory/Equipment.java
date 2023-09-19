@@ -78,6 +78,16 @@ public class Equipment {
         }
         return true;
     }
+
+    public int restablecerVidaConItem(){
+        int contadorVidaArmor=0;
+        for (Elements element : MyEquipament) {
+            if (element instanceof Armor) {
+                contadorVidaArmor=contadorVidaArmor+((Armor) element).getlife();
+            }
+        }
+        return contadorVidaArmor;
+    }
 }
 
 
