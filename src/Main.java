@@ -56,6 +56,8 @@ public class Main {
             switch (opcion){
                 case 1:
                     do {
+                        int vidaReiniciada= character.establecerLife();
+                        int vidaItem=equipment.restablecerVidaConItem()+vidaReiniciada;
                         System.out.println("MENU DE MISIONES");
                         System.out.println("¡ En esta seccion enfrentaras aventuras y retos los cuales" +
                                 " te brindaran sorpresas para mejorar tu nivel !");
@@ -65,9 +67,10 @@ public class Main {
                         switch (mision){
                             case 1:
                                 Mission mission=new Mission("misión 1","bosque perdido","1",5,2);
-                                if (monstruoUno.getLife()<=0){
-                                    System.out.println("¡ Usted ya no tiene nuevas misiones por realizar !");
-                                }else{
+                                Monster esqueletoUno = new Monster(MonstersFeatures.ESKELETON);
+                                Monster esqueletoDos = new Monster(MonstersFeatures.ESKELETON);
+                                    System.out.println("vida de armaduras: "+equipment.restablecerVidaConItem());
+                                    System.out.println("VIDA DEL PWEERSONAJE: "+vidaItem);
                                     System.out.println("....Load mision I....");
                                     System.out.println("Recomendaciones");
                                     System.out.println("El nivel del personaje minimo debe ser 1");
@@ -75,54 +78,13 @@ public class Main {
                                     System.out.println(mission.getDescription());
                                     System.out.println("Recompensa Oro: "+mission.getGoldReward());
                                     System.out.println("Recompensa Experiencia: "+mission.getExperienceReward());
-                                    System.out.println("Batalla encontrada");
+                                    boolean characterAlive = character.battle(esqueletoUno, vidaItem);
 
-                                    System.out.println("¡ Has encontrado un mostruo !");
-
-                                    System.out.println("CARACTERISTICAS DEL MONSTRUO");
-
-                                    System.out.println("Tipo: "+monstruoUno.getName());
-                                    System.out.println("Vida: "+monstruoUno.getLife());
-                                    System.out.println("La fuerza base es de : "+monstruoUno.getforce());
-                                    System.out.println("....CARGANDO BATTALA....");
-
-                                    System.out.println("Batalla iniciada");
-                                    while (character.getLife() > 0 && monstruoUno.getLife() > 0) {
-
-                                        System.out.println("¡ Turno del personaje para atacar !");
-                                        System.out.println("Vida actual del personaje es: "+character.getLife());
-                                        System.out.println("Presiona T para hacer daño al " + monstruoUno.getName());
-                                        String Atacar = sc.next();
-                                        if (Atacar.equals("t")) {
-                                            System.out.println("Tu personaje "+character.getName()+" ataca con fuerza de "+character.getForce());
-                                            monstruoUno.recibirAtaque(character.getForce());
-                                            System.out.println("Se redujo -" + character.getForce() + "xp a la vida del mosntruo");
-                                        }
-
-                                        if (monstruoUno.getLife() <= 0) {
-                                            System.out.println("Has derrotado al monstruo");
-                                            System.out.println("Felicitaciones ¡ VICTORIA !");
-                                            System.out.println("Tu personaje quedo "+character.getLife()+"xp de vida");
-                                            character.setExperience(2.0);
-                                            int oro = mission.getGoldReward();
-                                            System.out.println(" Su personaje obtuvo " + oro + " de Oro");
-                                            System.out.println(" Su personaje obtuvo " + character.getExperience() + " de experiencia");
-                                        } else {
-                                            var attackMonster = monstruoUno.calculateAttack();
-                                            System.out.println("¡ Turno del monstruo para atacar !");
-                                            System.out.println("Vida actual monstruo es: "+monstruoUno.getLife());
-                                            System.out.println("El mosntruo tipo "+monstruoUno.getName()+" ataca con fuerza de "+attackMonster);
-                                            character.recibirAtaque(attackMonster);
-                                            System.out.println("Se redujo -"+ attackMonster +"xp a la vida de tu personaje");
-                                            if (character.getLife()<=0){
-                                                System.out.println("Tu personaje a muerto");
-                                                System.out.println("Has fracasado la mision");
-                                                System.out.println("Vuelve a repetir la mission");
-                                                System.out.println("Game over");
-                                            }
-                                        }
+                                    if (characterAlive) {
+                                        vidaItem=character.getLife();
+                                        character.battle(esqueletoDos, vidaItem);
+                                        System.out.println("COMPLETASTE 100% LA MISION");
                                     }
-                                }
                                 break;
                             case 2:
                                 break;
@@ -191,7 +153,8 @@ public class Main {
                             " fortaleceran para futuras batallas !");
                     System.out.println("OPCIONES");
                     System.out.println("1. Ver inventario");
-                    System.out.println("2. Salir al menu principal");
+                    System.out.println("2. Ver equipo");
+                    System.out.println("3. Salir al menu principal");
                     System.out.println("Digita un numero para entrar al inventario: ");
                     opcionEquipo=sc.nextInt();
                     if (opcionEquipo==1){
@@ -205,7 +168,9 @@ public class Main {
                             System.out.println("¡ Dirijace a la tienda y compre un item !");
                             System.out.println(inventory.showInventory());
                         }
-                    } else{
+                    } else if (opcionEquipo==2) {
+                        System.out.println(equipment.showEquipament());
+                    }else{
                         System.out.println("Salio del menu de Equipamiento");
                         break;
                     }
