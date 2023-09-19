@@ -23,8 +23,7 @@ public class Character implements MainSkills {
         this.level=1;
         this.experience=0;
         this.agility=10;
-        this.force=100;
-        this.life=10;
+        this.force=10;
         this.intelligence=500;
         this.gold = gold;
     }
@@ -109,22 +108,14 @@ public class Character implements MainSkills {
          return gold/2;
     }
 
-
-    public int establecerLife(){
-        return this.life=500;
-    }
-
     public boolean  battle(Monster monster, int vidaItem){
         this.setLife(vidaItem);
         Scanner sc=new Scanner(System.in);
-        System.out.println("Batalla iniciada");
         System.out.println("¡ Has encontrado un mostruo !");
+        System.out.println("Batalla iniciada");
         System.out.println("CARACTERISTICAS DEL MONSTRUO");
-        System.out.println("Tipo: "+monster.getName());
-        System.out.println("Vida: "+monster.getLife());
-        System.out.println("La fuerza base es de : "+monster.getforce());
+        System.out.println("Tipo: "+monster.getName() + " - Vida: "+monster.getLife() + "La fuerza base es de : "+monster.getforce());
         System.out.println("....CARGANDO BATTALA....");
-        System.out.println("VIDA DEL PERSONAJE: "+this.getLife());
         while (this.getLife() > 0 && monster.getLife() > 0) {
 
             System.out.println("¡ Turno del personaje para atacar !");
@@ -134,7 +125,7 @@ public class Character implements MainSkills {
             if (Atacar.equals("t")) {
                 System.out.println("Tu personaje "+this.getName()+" ataca con fuerza de "+this.getForce());
                 monster.recibirAtaque(this.getForce());
-                System.out.println("Se redujo -" + this.getForce() + "xp a la vida del mosntruo");
+                System.out.println("Se redujo -" + this.getForce() + " a la vida del monstruo y quedo con "+monster.getLife());
             }
             if (monster.getLife() <= 0) {
                 System.out.println("Has derrotado al monstruo");
@@ -145,7 +136,7 @@ public class Character implements MainSkills {
                 System.out.println("Vida actual monstruo es: "+monster.getLife());
                 System.out.println("El mosntruo tipo "+monster.getName()+" ataca con fuerza de "+attackMonster);
                 this.recibirAtaque(attackMonster);
-                System.out.println("Se redujo -"+ attackMonster +"xp a la vida de tu personaje");
+                System.out.println("Se redujo -"+ attackMonster +" a la vida de tu personaje y quedo con "+this.getLife());
                 if (this.getLife()<=0){
                     System.out.println("Tu personaje a muerto");
                     System.out.println("Has fracasado la mision");

@@ -18,28 +18,14 @@ public class Main {
         System.out.println("Digite un nombre para su cuenta: ");
         String nombre = sc.nextLine();
         Character character = new Character(nombre,"humano","guerrero",100);
-        int opcion;
-        int mision;
-        int opcionTienda;
-        int opcionCompra;
-        int opcionArma;
-        int opcionArmadura;
-        int opcionEquipo;
-        int itemSeleccionado;
+        int opcion,mision,opcionTienda,opcionCompra,opcionArma,opcionArmadura,opcionEquipo,itemSeleccionado;
+
         System.out.println(".....Creando Personaje.....");
         System.out.println("Se ha creado tu personaje");
-
         System.out.println("CARACTERISTICAS DEL PERSONAJE");
-
-        System.out.println("Nombre: "+nombre);
-        System.out.println("Raza: "+character.getBreed());
-        System.out.println("Clase: "+character.getTypeClass());
-        System.out.println("Vida: "+character.getLife());
-        System.out.println("Fuerza: "+character.getForce());
-        System.out.println("Inteligencia: "+character.getIntelligence());
-        System.out.println("Agilidad: "+character.getAgility());
-        System.out.println("Nivel: "+character.getLevel());
-        System.out.println("Experiencia: "+character.getExperience());
+        System.out.println("Nombre: "+nombre+" - Raza: "+character.getBreed()+" - Clase: "+character.getTypeClass()+
+                " - Vida: "+character.getLife()+" - Fuerza: "+character.getForce()+ " - Inteligencia: "+character.getIntelligence()+
+                " - Agilidad: "+character.getAgility()+" - Nivel: "+character.getLevel()+" - Experiencia: "+character.getExperience() );
 
         Monster monstruoUno = new Monster(MonstersFeatures.DRAGON);
         do {
@@ -54,8 +40,8 @@ public class Main {
             switch (opcion){
                 case 1:
                     do {
-                        int vidaReiniciada= character.establecerLife();
-                        int vidaItem=equipment.restablecerVidaConItem()+vidaReiniciada;
+                        character.setLife(10);
+                        int vidaItem=equipment.restablecerVidaConItem() + character.getLife();
                         System.out.println("MENU DE MISIONES");
                         System.out.println("¡ En esta seccion enfrentaras aventuras y retos los cuales" +
                                 " te brindaran sorpresas para mejorar tu nivel !");
@@ -67,7 +53,6 @@ public class Main {
                                 Mission mission=new Mission("misión 1","bosque perdido","1",5,2);
                                 Monster esqueletoUno = new Monster(MonstersFeatures.ESKELETON);
                                 Monster esqueletoDos = new Monster(MonstersFeatures.ESKELETON);
-                                    System.out.println("vida de armaduras: "+equipment.restablecerVidaConItem());
                                     System.out.println("VIDA DEL PWEERSONAJE: "+vidaItem);
                                     System.out.println("....Load mision I....");
                                     System.out.println("Recomendaciones");
