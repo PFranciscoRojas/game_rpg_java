@@ -133,6 +133,7 @@ public class Equipment {
         }
         return contadorVidaArmor;
     }
+
 }
 
 

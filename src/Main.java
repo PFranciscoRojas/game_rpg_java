@@ -18,7 +18,7 @@ public class Main {
         System.out.println("Digite un nombre para su cuenta: ");
         String nombre = sc.nextLine();
         Character character = new Character(nombre,"humano","guerrero",100);
-        int opcion,mision,opcionTienda,opcionCompra,opcionArma,opcionArmadura,opcionEquipo,itemSeleccionado;
+        int opcion,mision,opcionTienda,opcionArma,opcionArmadura,opcionPocima,opcionEquipo,itemSeleccionado;
 
         System.out.println(".....Creando Personaje.....");
         System.out.println("Se ha creado tu personaje");
@@ -67,6 +67,8 @@ public class Main {
                                         vidaItem=character.getLife();
                                         character.battle(esqueletoDos, vidaItem);
                                         System.out.println("COMPLETASTE 100% LA MISION");
+                                    }else {
+                                        break;
                                     }
                                 break;
                             case 2:
@@ -87,76 +89,82 @@ public class Main {
                     do {
                         System.out.println("1. Catalogo Armas");
                         System.out.println("2. Catalogo Armaduras");
-                        System.out.println("3. Salir al menu principal");
+                        System.out.println("3. Catalogo de pocimas");
+                        System.out.println("4. Salir al menu principal");
                         System.out.println("Ingrese su opcion: ");
                         opcionTienda=sc.nextInt();
                         switch (opcionTienda){
                             case 1:
                                 System.out.println(tienda.showCatalogArms());
                                 System.out.println("OPCIONES DE COMPRA");
-                                System.out.println("Si desea comprar Digite el numero 1");
-                                System.out.println("Si no desea comprar Digite el numero 2");
-                                opcionCompra=sc.nextInt();
-                                if (opcionCompra==1){
-                                    System.out.println("¡ ADVERTENCIA !");
-                                    System.out.println("Si desea comprar ingrese el numero del id corespondiente a la arma" +
-                                            " para comprarla");
-                                    opcionArma=sc.nextInt();
-                                    System.out.println(tienda.buyArm(opcionArma, inventory,character));
-                                }else {
+                                System.out.println("Si no desea comprar Digite el numero 50");
+
+                                System.out.println("¡ ADVERTENCIA !");
+                                System.out.println("Si desea comprar ingrese el numero del id corespondiente a la arma" + " para comprarla");
+                                opcionArma=sc.nextInt();
+                                if (opcionArma==50){
                                     System.out.println("Usted no realizo ninguna compra");
                                     break;
+                                }else {
+                                    System.out.println(tienda.buyArm(opcionArma, inventory,character));
                                 }
                                 break;
                             case  2:
                                 System.out.println(tienda.showCatalogArmors());
                                 System.out.println("OPCIONES DE COMPRA");
-                                System.out.println("Si desea comprar Digite el numero 1");
-                                System.out.println("Si no desea comprar Digite el numero 2");
-                                opcionCompra=sc.nextInt();
-                                switch (opcionCompra){
-                                    case 1:
-                                        System.out.println("¡ ADVERTENCIA !");
-                                        System.out.println("Si desea comprar ingrese el numero del id corespondiente a la armadura" +
-                                                " para comprarla");
-                                        opcionArmadura=sc.nextInt();
-                                        System.out.println(tienda.buyArmor(opcionArmadura,inventory,character));
-                                        break;
-                                    case 2:
-                                        System.out.println("Usted no realizo ninguna compra");
-                                        break;
+                                System.out.println("¡ ADVERTENCIA !");
+                                System.out.println("Si no desea comprar Digite el numero 50");
+                                System.out.println("Si desea comprar ingrese el numero del id corespondiente a la armadura" + " para comprarla");
+                                opcionArmadura=sc.nextInt();
+                                if (opcionArmadura==50){
+                                    System.out.println("Usted no realizo ninguna compra");
+                                    break;
+                                }else {
+                                    System.out.println(tienda.buyArmor(opcionArmadura,inventory,character));
                                 }
                                 break;
+                            case 3:
+                                System.out.println(tienda.showCatalogPotions());
+                                System.out.println("OPCIONES DE COMPRA");
+                                System.out.println("¡ ADVERTENCIA !");
+                                System.out.println("Si no desea comprar Digite el numero 50");
+                                System.out.println("Si desea comprar ingrese el numero del id corespondiente a la pocima" + " para comprarla");
+                                opcionPocima=sc.nextInt();
+                                if (opcionPocima==50){
+                                    System.out.println("Usted no realizo ninguna compra");
+                                    break;
+                                }else {
+                                    System.out.println(tienda.buyPotion(opcionPocima,inventory,character));
+                                }
                         }
-                    }while (opcionTienda!=3);
+                    }while (opcionTienda!=4);
                     break;
                 case 4:
                     System.out.println("EQUIPAMIENTO PARA TU PERSONAJE");
                     System.out.println("¡ En esta seccion podras equipar a tu personaje objetos los cuales te" +
                             " fortaleceran para futuras batallas !");
-                    System.out.println("OPCIONES");
-                    System.out.println("1. Ver inventario");
-                    System.out.println("2. Ver equipo");
-                    System.out.println("3. Salir al menu principal");
-                    System.out.println("Digita un numero para entrar al inventario: ");
-                    opcionEquipo=sc.nextInt();
-                    if (opcionEquipo==1){
-                        if (inventory.hasItemsInInventory()){
-                            System.out.println(inventory.showInventory());
-                            System.out.println("Digite el numero del id correspondiente al item para equipar a su personaje: ");
-                            itemSeleccionado=sc.nextInt();
-                            System.out.println(inventory.selectEquipment(itemSeleccionado,equipment,character));
-                        }else {
-                            System.out.println("Usted no posee ningun item en su inventario");
-                            System.out.println("¡ Dirijace a la tienda y compre un item !");
-                            System.out.println(inventory.showInventory());
+                    do {
+                        System.out.println("OPCIONES");
+                        System.out.println("1. Ver inventario");
+                        System.out.println("2. Ver equipo");
+                        System.out.println("3. Salir al menu principal");
+                        System.out.println("Digita un numero para entrar al inventario: ");
+                        opcionEquipo=sc.nextInt();
+                        if (opcionEquipo==1){
+                            if (inventory.hasItemsInInventory()){
+                                System.out.println(inventory.showInventory());
+                                System.out.println("Digite el numero del id correspondiente al item para equipar a su personaje: ");
+                                itemSeleccionado=sc.nextInt();
+                                System.out.println(inventory.selectEquipment(itemSeleccionado,equipment,character));
+                            }else {
+                                System.out.println("Usted no posee ningun item en su inventario");
+                                System.out.println("¡ Dirijace a la tienda y compre un item !");
+                                System.out.println(inventory.showInventory());
+                            }
+                        } else if (opcionEquipo==2) {
+                            System.out.println(equipment.showEquipament());
                         }
-                    } else if (opcionEquipo==2) {
-                        System.out.println(equipment.showEquipament());
-                    }else{
-                        System.out.println("Salio del menu de Equipamiento");
-                        break;
-                    }
+                    }while (opcionEquipo!=3);
                     break;
             }
         }while (opcion!=0);
