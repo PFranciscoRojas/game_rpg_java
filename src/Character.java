@@ -149,5 +149,9 @@ public class Character implements MainSkills {
         return true;
     }
 
+    public int regenerarVida(int lifeArmadura){
+        return lifeArmadura+10;
+    }
+
 
 }

@@ -23,7 +23,7 @@ public class Equipment {
     //Mostrar Equipment
     public String showEquipament() {
         StringBuilder table = new StringBuilder();
-        int posicion = 0;
+        int posicion = 1;
         table.append("               EQUIPAMENTO\n---------------------------------------------\n|    | Nombre                     | Atributo    |\n|----|----------------------------|-------------|\n");
         for (Elements object : MyEquipament) {
             String attribute = "";
@@ -79,17 +79,18 @@ public class Equipment {
         }
         return mss;
     }
-    public String usePotion(Character character) {//JAVA OTERATOR REMOVE
+    public int usePotion(Character character, int vidaArmadura) {//JAVA OTERATOR REMOVE
+        int lifeArmadura=vidaArmadura;
         Iterator<Elements> iterador = MyEquipament.iterator();
         while (iterador.hasNext()){
             Elements i = iterador.next();
             if (i instanceof Potions){
                 iterador.remove();
-              return  ((Potions) i).aplyPotion(character,(Potions) i);
+              return  ((Potions) i).aplyPotion(character,(Potions) i, lifeArmadura);
 
             }
         }
-        return "No se encontraron pociones utilizables";
+        return 0;
     }
 
 
@@ -132,6 +133,26 @@ public class Equipment {
             }
         }
         return contadorVidaArmor;
+    }
+
+    public String devolverNombre(){
+        String descripcion="";
+        for (Elements element : MyEquipament) {
+            if (element instanceof Potions) {
+                descripcion="Usted tiene una pocima de: "+element.getName() + "\nDescripcion: "+((Potions) element).getDescription();
+            }
+        }
+        return descripcion;
+    }
+
+    public boolean existePocima(){
+        boolean pocima=false;
+        for (Elements element : MyEquipament) {
+            if (element instanceof Potions) {
+                pocima=true;
+            }
+        }
+        return pocima;
     }
 
 }

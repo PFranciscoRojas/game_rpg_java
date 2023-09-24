@@ -18,7 +18,7 @@ public class Main {
         System.out.println("Digite un nombre para su cuenta: ");
         String nombre = sc.nextLine();
         Character character = new Character(nombre,"humano","guerrero",100);
-        int opcion,mision,opcionTienda,opcionArma,opcionArmadura,opcionPocima,opcionEquipo,itemSeleccionado;
+        int opcion,mision,opcionTienda,opcionArma,opcionArmadura,opcionPocima,opcionEquipo,itemSeleccionado, regenerar=0;
 
         System.out.println(".....Creando Personaje.....");
         System.out.println("Se ha creado tu personaje");
@@ -42,6 +42,7 @@ public class Main {
                     do {
                         character.setLife(10);
                         int vidaItem=equipment.restablecerVidaConItem() + character.getLife();
+                        int vidaArmaduraTotal=equipment.restablecerVidaConItem();
                         System.out.println("MENU DE MISIONES");
                         System.out.println("¡ En esta seccion enfrentaras aventuras y retos los cuales" +
                                 " te brindaran sorpresas para mejorar tu nivel !");
@@ -64,8 +65,27 @@ public class Main {
                                     boolean characterAlive = character.battle(esqueletoUno, vidaItem);
 
                                     if (characterAlive) {
+                                        if (equipment.existePocima()){
+                                            System.out.println(equipment.devolverNombre());
+                                            System.out.println("Si desea usarla digite si ó digite No para continuar");
+                                            sc.nextLine();
+                                            String usarPocima=sc.nextLine();
+
+                                            System.out.println("Valor ingresado en usarPocima: " + usarPocima);
+                                            if (usarPocima.equalsIgnoreCase("si")){
+                                                regenerar=equipment.usePotion(character, vidaArmaduraTotal);
+
+                                            }else {
+                                                regenerar=character.getLife();
+                                            }
+
+
+                                        }
+                                        character.setLife(regenerar);
                                         vidaItem=character.getLife();
+                                        System.out.println("VIDA REGENERADA ES: "+vidaItem);
                                         character.battle(esqueletoDos, vidaItem);
+
                                         System.out.println("COMPLETASTE 100% LA MISION");
                                     }else {
                                         break;
@@ -97,12 +117,12 @@ public class Main {
                             case 1:
                                 System.out.println(tienda.showCatalogArms());
                                 System.out.println("OPCIONES DE COMPRA");
-                                System.out.println("Si no desea comprar Digite el numero 50");
+                                System.out.println("Si no desea comprar Digite el numero 0");
 
                                 System.out.println("¡ ADVERTENCIA !");
                                 System.out.println("Si desea comprar ingrese el numero del id corespondiente a la arma" + " para comprarla");
                                 opcionArma=sc.nextInt();
-                                if (opcionArma==50){
+                                if (opcionArma==0){
                                     System.out.println("Usted no realizo ninguna compra");
                                     break;
                                 }else {
@@ -113,10 +133,10 @@ public class Main {
                                 System.out.println(tienda.showCatalogArmors());
                                 System.out.println("OPCIONES DE COMPRA");
                                 System.out.println("¡ ADVERTENCIA !");
-                                System.out.println("Si no desea comprar Digite el numero 50");
+                                System.out.println("Si no desea comprar Digite el numero 0");
                                 System.out.println("Si desea comprar ingrese el numero del id corespondiente a la armadura" + " para comprarla");
                                 opcionArmadura=sc.nextInt();
-                                if (opcionArmadura==50){
+                                if (opcionArmadura==0){
                                     System.out.println("Usted no realizo ninguna compra");
                                     break;
                                 }else {
@@ -127,10 +147,10 @@ public class Main {
                                 System.out.println(tienda.showCatalogPotions());
                                 System.out.println("OPCIONES DE COMPRA");
                                 System.out.println("¡ ADVERTENCIA !");
-                                System.out.println("Si no desea comprar Digite el numero 50");
+                                System.out.println("Si no desea comprar Digite el numero 0");
                                 System.out.println("Si desea comprar ingrese el numero del id corespondiente a la pocima" + " para comprarla");
                                 opcionPocima=sc.nextInt();
-                                if (opcionPocima==50){
+                                if (opcionPocima==0){
                                     System.out.println("Usted no realizo ninguna compra");
                                     break;
                                 }else {

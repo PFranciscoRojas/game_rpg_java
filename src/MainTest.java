@@ -17,7 +17,7 @@ public class MainTest {
         System.out.println(inventory.showInventory());
         System.out.println(inventory.selectEquipment(0,equipment,characterOne));
         System.out.println(equipment.showEquipament());
-        System.out.println(equipment.usePotion(characterOne));
+        //System.out.println(equipment.usePotion(characterOne));
         System.out.println(equipment.showEquipament());
         System.out.println(characterOne.getLife());
         System.out.println(characterOne.getForce());
