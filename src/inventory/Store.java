@@ -32,7 +32,7 @@ public class Store {
     //Mostradores de Elements
      public String showCatalogArms () {
          StringBuilder listado = new StringBuilder();
-         int posicion = 0; // Inicializa el contador de posición
+         int posicion = 1; // Inicializa el contador de posición
          for (Arms element : arms) {
              String fila = String.format("| %-1d | %-6s | %-25s  | %-6s  |%n", posicion,element.getGold(),element.getName(),element.getForce());
              listado.append(fila);
@@ -42,7 +42,7 @@ public class Store {
      }
     public String showCatalogArmors () {
         StringBuilder listado = new StringBuilder();
-        int posicion = 0; // Inicializa el contador de posición
+        int posicion = 1; // Inicializa el contador de posición
         for (Armor element : armors) {
             String fila = String.format("| %-2d | %-6s | %-25s  | %-7s  |%n", posicion,element.getGold(),element.getName(),element.getlife());
             listado.append(fila);
@@ -52,7 +52,7 @@ public class Store {
     }
     public String showCatalogPotions () {
         StringBuilder listado = new StringBuilder();
-        int posicion = 0; // Inicializa el contador de posición
+        int posicion = 1; // Inicializa el contador de posición
         for (Potions element : potions) {
             String fila = String.format("| %-2d | %-6s | %-25s  | %-50s  |%n", posicion,element.getGold(),element.getName(),element.getDescription());
             listado.append(fila);
@@ -63,62 +63,77 @@ public class Store {
 
     //Compras de Elements
     public String buyArm (int position, Inventory inventory , Character character){
-        Arms object = arms.get(position);
-        if(character.getGold()>= object.getGold()){
-            if (inventory.CheckFullInventory()){
-                ///Verifica si no hay 10 articulos
-                if (inventory.CheckRepeat(object)){
-                    character.payArticle(object.getGold());
-                   inventory.AddItemInventory(object);
-                    alert =  " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
-                } else{
-                    alert =  " Ya tienes este articulo en tu inventario";
+        int posicionAjustada=position-1;
+        if (posicionAjustada >=0 && posicionAjustada < arms.size()){
+            Arms object = arms.get(posicionAjustada);
+            if(character.getGold()>= object.getGold()){
+                if (inventory.CheckFullInventory()){
+                    ///Verifica si no hay 10 articulos
+                    if (inventory.CheckRepeat(object)){
+                        character.payArticle(object.getGold());
+                        inventory.AddItemInventory(object);
+                        alert =  " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
+                    } else{
+                        alert =  " Ya tienes este articulo en tu inventario";
+                    }
+                }else {
+                    alert =  " Tienes Lleno el Inventario";
                 }
-            }else {
-                alert =  " Tienes Lleno el Inventario";
             }
-        }
-        else{
-            alert =  " No tienes suficiente oro";
+            else{
+                alert =  " No tienes suficiente oro";
+            }
+        }else {
+            alert = "numero no valido";
         }
         return alert;
     }
     public String buyArmor (int position, Inventory inventory , Character character) {
-        Armor object = armors.get(position);
-        if (character.getGold() >= object.getGold()) {
-            if (inventory.CheckFullInventory()) {
-                if (inventory.CheckRepeat(object)) {
-                    character.payArticle(object.getGold());
-                    inventory.AddItemInventory(object);
-                    alert = " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
+        int posicionAjustada=position-1;
+        if (posicionAjustada >=0 && posicionAjustada < armors.size()){
+            Armor object = armors.get(posicionAjustada);
+            if (character.getGold() >= object.getGold()) {
+                if (inventory.CheckFullInventory()) {
+                    if (inventory.CheckRepeat(object)) {
+                        character.payArticle(object.getGold());
+                        inventory.AddItemInventory(object);
+                        alert = " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
+                    } else {
+                        alert = " Ya tienes este articulo en tu inventario";
+                    }
                 } else {
-                    alert = " Ya tienes este articulo en tu inventario";
+                    alert = " Tienes Lleno el Inventario";
                 }
             } else {
-                alert = " Tienes Lleno el Inventario";
+                alert = " No tienes suficiente oro";
             }
-        } else {
-            alert = " No tienes suficiente oro";
+        }else {
+            alert = "numero no valido";
         }
         return alert;
     }
     public String buyPotion (int position, Inventory inventory , Character character){
-        Potions object = potions.get(position);
-        if(character.getGold()>= object.getGold()){
-            if (inventory.CheckFullInventory()){
-                if (inventory.CheckRepeat(object)){
-                    character.payArticle(object.getGold());
-                    inventory.AddItemInventory(object);
-                    alert =  " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
-                } else{
-                    alert =  " Ya tienes este articulo en tu inventario";
+        int posicionAjustada=position-1;
+        if (posicionAjustada >=0 && posicionAjustada < potions.size()){
+            Potions object = potions.get(posicionAjustada);
+            if(character.getGold()>= object.getGold()){
+                if (inventory.CheckFullInventory()){
+                    if (inventory.CheckRepeat(object)){
+                        character.payArticle(object.getGold());
+                        inventory.AddItemInventory(object);
+                        alert =  " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
+                    } else{
+                        alert =  " Ya tienes este articulo en tu inventario";
+                    }
+                }else {
+                    alert =  " Tienes Lleno el Inventario";
                 }
-            }else {
-                alert =  " Tienes Lleno el Inventario";
             }
-        }
-        else{
-            alert =  " No tienes suficiente oro";
+            else{
+                alert =  " No tienes suficiente oro";
+            }
+        }else {
+            alert = "numero no valido";
         }
         return alert;
     }

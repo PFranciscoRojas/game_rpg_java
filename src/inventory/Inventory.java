@@ -21,7 +21,7 @@ public class Inventory {
     //Mostrar Inventario
     public String showInventory() {
         StringBuilder table = new StringBuilder();
-        int posicion = 0;
+        int posicion = 1;
         table.append("               INVENTARIO\n---------------------------------------------\n|    | Nombre                     | Atributo    |\n|----|----------------------------|-------------|\n");
         for (Elements object : inventory) {
             String attribute = "";
@@ -50,41 +50,47 @@ public class Inventory {
         }
     }
     public String selectEquipment (int position, Equipment equipment , Character character){
-        Elements object = inventory.get(position);
+        int posicionAjustada=position-1;
+
         boolean addedArmor = false;
         boolean addedArms = false;
         boolean addedPotion = false;
 
-        if (equipment.CheckFullEquipment()) {
-            if (object instanceof Armor && equipment.CheckRepeatArmadure((Armor) object)) {
-                equipment.AddItemToEquipment(object, character);
-                inventory.remove(position);
-                addedArmor = true;
-            }
+        if (posicionAjustada >=0 && posicionAjustada < inventory.size()){
+            Elements object = inventory.get(posicionAjustada);
+            if (equipment.CheckFullEquipment()) {
+                if (object instanceof Armor && equipment.CheckRepeatArmadure((Armor) object)) {
+                    equipment.AddItemToEquipment(object, character);
+                    inventory.remove(posicionAjustada);
+                    addedArmor = true;
+                }
 
-            if (object instanceof Arms && equipment.CheckRepeatArm()) {
-                equipment.AddItemToEquipment(object, character);
-                inventory.remove(position);
-                addedArms = true;
-            }
+                if (object instanceof Arms && equipment.CheckRepeatArm()) {
+                    equipment.AddItemToEquipment(object, character);
+                    inventory.remove(posicionAjustada);
+                    addedArms = true;
+                }
 
-            if (object instanceof Potions && equipment.CheckRepeatPotion()) {
-                equipment.AddItemToEquipment(object, character);
-                inventory.remove(position);
-                addedPotion = true;
-            }
+                if (object instanceof Potions && equipment.CheckRepeatPotion()) {
+                    equipment.AddItemToEquipment(object, character);
+                    inventory.remove(posicionAjustada);
+                    addedPotion = true;
+                }
 
-            if (addedArmor) {
-                alert = "Se ha agregado una prenda de armadura al equipo.";
-            } else if (addedArms) {
-                alert = "Se ha agregado un arma al equipo.";
-            } else if (addedPotion) {
-                alert = "Se ha agregado una poción al equipo.";
+                if (addedArmor) {
+                    alert = "Se ha agregado una prenda de armadura al equipo.";
+                } else if (addedArms) {
+                    alert = "Se ha agregado un arma al equipo.";
+                } else if (addedPotion) {
+                    alert = "Se ha agregado una poción al equipo.";
+                } else {
+                    alert = "No se ha agregado ningún elemento al equipo Seguramente ya tienes equipado un elemento similar.";
+                }
             } else {
-                alert = "No se ha agregado ningún elemento al equipo Seguramente ya tienes equipado un elemento similar.";
+                alert = "Ya tienes muchas cosas en tu equipo de batalla.";
             }
-        } else {
-            alert = "Ya tienes muchas cosas en tu equipo de batalla.";
+        }else {
+            alert = "Numero no valido";
         }
         return alert;
 

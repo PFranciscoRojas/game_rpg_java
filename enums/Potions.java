@@ -33,21 +33,26 @@ public enum Potions implements Elements {
                 return description;
         }
 
-    public String aplyPotion(Character character,Potions i) {//JAVA OTERATOR REMOVE
+    public int aplyPotion(Character character,Potions i, int lifeArmadura) {//JAVA OTERATOR REMOVE
+            int poder=0;
+            int armaduraLife=lifeArmadura;
                 if (i == ADRENALIN) {
-                    character.AddArm(i.getPower());
-                    return i.getName() + " Fue utilizada";
+
+                    poder=character.AddArm(i.getPower());
+                    return poder;
                 }
                 if (i == FATALITY) {
-                     character.AddArm(i.getPower());
-                     return i.getName() + " Fue utilizda";
+
+                    poder=character.AddArm(i.getPower());
+                    return poder;
                 }
                 if (i == REGENERE) {
-                     character.AddArmor(i.getPower());
-                     return i.getName() + " Fue utilizda";
+
+                    poder=character.regenerarVida(armaduraLife);
+                    return poder;
                 }
 
-        return "No se encontraron pociones utilizables";
+        return poder;
     }
 
 }

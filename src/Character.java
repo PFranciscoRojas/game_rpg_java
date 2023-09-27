@@ -2,6 +2,7 @@ package src;
 import enums.Armor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Character implements MainSkills {
     List<Armor> MyEquipment = new ArrayList<>();
@@ -22,8 +23,7 @@ public class Character implements MainSkills {
         this.level=1;
         this.experience=0;
         this.agility=10;
-        this.force=100;
-        this.life=10;
+        this.force=10;
         this.intelligence=500;
         this.gold = gold;
     }
@@ -108,6 +108,50 @@ public class Character implements MainSkills {
          return gold/2;
     }
 
+    public boolean  battle(Monster monster, int vidaItem){
+        this.setLife(vidaItem);
+        Scanner sc=new Scanner(System.in);
+        System.out.println("¡ Has encontrado un mostruo !");
+        System.out.println("Batalla iniciada");
+        System.out.println("CARACTERISTICAS DEL MONSTRUO");
+        System.out.println("Tipo: "+monster.getName() + " - Vida: "+monster.getLife() + "La fuerza base es de : "+monster.getforce());
+        System.out.println("....CARGANDO BATTALA....");
+        while (this.getLife() > 0 && monster.getLife() > 0) {
+
+            System.out.println("¡ Turno del personaje para atacar !");
+            System.out.println("Vida actual del personaje es: "+this.getLife());
+            System.out.println("Presiona T para hacer daño al " + monster.getName());
+            String Atacar = sc.next();
+            if (Atacar.equals("t")) {
+                System.out.println("Tu personaje "+this.getName()+" ataca con fuerza de "+this.getForce());
+                monster.recibirAtaque(this.getForce());
+                System.out.println("Se redujo -" + this.getForce() + " a la vida del monstruo y quedo con "+monster.getLife());
+            }
+            if (monster.getLife() <= 0) {
+                System.out.println("Has derrotado al monstruo");
+                System.out.println("Tu personaje quedo "+this.getLife()+"xp de vida");
+            } else {
+                var attackMonster = monster.calculateAttack();
+                System.out.println("¡ Turno del monstruo para atacar !");
+                System.out.println("Vida actual monstruo es: "+monster.getLife());
+                System.out.println("El mosntruo tipo "+monster.getName()+" ataca con fuerza de "+attackMonster);
+                this.recibirAtaque(attackMonster);
+                System.out.println("Se redujo -"+ attackMonster +" a la vida de tu personaje y quedo con "+this.getLife());
+                if (this.getLife()<=0){
+                    System.out.println("Tu personaje a muerto");
+                    System.out.println("Has fracasado la mision");
+                    System.out.println("Vuelve a repetir la mision");
+                    System.out.println("Game over");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public int regenerarVida(int lifeArmadura){
+        return lifeArmadura+10;
+    }
 
 
 }
