@@ -201,6 +201,10 @@ public class Main {
                             }
                         } else if (opcionEquipo==2) {
                             System.out.println(equipment.showEquipament());
+                            System.out.println("Digite el numero del id correspondiente al item para desequipar a su personaje: ");
+                            int option = sc.nextInt();
+                            System.out.println(equipment.returnItemToInventory(option,inventory,character));
+
                         }
                     }while (opcionEquipo!=3);
                     break;
