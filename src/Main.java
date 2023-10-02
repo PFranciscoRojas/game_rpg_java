@@ -29,7 +29,11 @@ public class Main {
 
         Monster monstruoUno = new Monster(MonstersFeatures.DRAGON);
         do {
+            System.out.println("EXPERIENCIA DEL PERSONAJE: "+ character.getExperience());
+            double experienciaNueva=character.restarExperiencia(character.getExperience());
+            character.setExperience(experienciaNueva);
             System.out.println("MENU DEL JUEGO RPG");
+            System.out.println("LEVEL DEL PERSONAJE: "+ character.getLevel());
             System.out.println("CANTIDAD DE ORO: "+character.getGold());
             System.out.println("CANTIDAD DE EXPERIENCIA: "+character.getExperience());
             System.out.println("1. Misiones");

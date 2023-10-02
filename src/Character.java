@@ -164,5 +164,20 @@ public class Character implements MainSkills {
         return experienceTotal;
     }
 
+    public double restarExperiencia(double experiencia){
+        double totalExperiencia=0.0;
+        if (experiencia>=5){
+            aumentarLevel();
+            totalExperiencia=experiencia-5.0;
+            return totalExperiencia;
+        }
+        return totalExperiencia=experiencia;
+    }
+
+    public void aumentarLevel(){
+        int newLevel=this.level+1;
+        this.setLevel(newLevel);
+    }
+
 
 }
