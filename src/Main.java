@@ -29,7 +29,13 @@ public class Main {
 
         Monster monstruoUno = new Monster(MonstersFeatures.DRAGON);
         do {
+            System.out.println("EXPERIENCIA DEL PERSONAJE: "+ character.getExperience());
+            double experienciaNueva=character.restarExperiencia(character.getExperience());
+            character.setExperience(experienciaNueva);
             System.out.println("MENU DEL JUEGO RPG");
+            System.out.println("LEVEL DEL PERSONAJE: "+ character.getLevel());
+            System.out.println("CANTIDAD DE ORO: "+character.getGold());
+            System.out.println("CANTIDAD DE EXPERIENCIA: "+character.getExperience());
             System.out.println("1. Misiones");
             System.out.println("2. Inventario");
             System.out.println("3. Tienda");
@@ -51,7 +57,7 @@ public class Main {
                         mision=sc.nextInt();
                         switch (mision){
                             case 1:
-                                Mission mission=new Mission("misión 1","bosque perdido","1",5,2);
+                                Mission mission=new Mission("misión 1","bosque perdido","1",3,3);
                                 Monster esqueletoUno = new Monster(MonstersFeatures.ESKELETON);
                                 Monster esqueletoDos = new Monster(MonstersFeatures.ESKELETON);
                                     System.out.println("VIDA DEL PWEERSONAJE: "+vidaItem);
@@ -65,6 +71,7 @@ public class Main {
                                     boolean characterAlive = character.battle(esqueletoUno, vidaItem);
 
                                     if (characterAlive) {
+                                        System.out.println("ORO NUEVO: "+character.aumentarOro());
                                         if (equipment.existePocima()){
                                             System.out.println(equipment.devolverNombre());
                                             System.out.println("Si desea usarla digite si ó digite No para continuar");
@@ -78,15 +85,22 @@ public class Main {
                                             }else {
                                                 regenerar=character.getLife();
                                             }
-
-
+                                            character.setLife(regenerar);
                                         }
-                                        character.setLife(regenerar);
+
                                         vidaItem=character.getLife();
                                         System.out.println("VIDA REGENERADA ES: "+vidaItem);
-                                        character.battle(esqueletoDos, vidaItem);
-
-                                        System.out.println("COMPLETASTE 100% LA MISION");
+                                        characterAlive=character.battle(esqueletoDos, vidaItem);
+                                        if (!characterAlive){
+                                            break;
+                                        }else {
+                                            System.out.println("NUEVO ORO FINALIZAR: "+character.aumentarOro());
+                                            System.out.println("COMPLETASTE 100% LA MISION");
+                                            System.out.println("Obtuvistes oro: "+mission.getGoldReward()+" y Obtuvistes experiencia: "+mission.getExperienceReward());
+                                            int recompensaOro=character.getGold()+mission.getGoldReward();
+                                            character.aumentarExperience(mission.getExperienceReward());
+                                            character.setGold(recompensaOro);
+                                        }
                                     }else {
                                         break;
                                     }
@@ -106,6 +120,7 @@ public class Main {
                     System.out.println("CATALOGO GENERAL DE LA TIENDA");
                     System.out.println("¡ En esta seccion podras comprar un item para fortalecer tus habilidades" +
                             "como guerrero !");
+                    System.out.println("Cantidad de oro: "+character.getGold());
                     do {
                         System.out.println("1. Catalogo Armas");
                         System.out.println("2. Catalogo Armaduras");
@@ -120,6 +135,7 @@ public class Main {
                                 System.out.println("Si no desea comprar Digite el numero 0");
 
                                 System.out.println("¡ ADVERTENCIA !");
+                                System.out.println("Cantidad de oro: "+character.getGold());
                                 System.out.println("Si desea comprar ingrese el numero del id corespondiente a la arma" + " para comprarla");
                                 opcionArma=sc.nextInt();
                                 if (opcionArma==0){
@@ -133,6 +149,7 @@ public class Main {
                                 System.out.println(tienda.showCatalogArmors());
                                 System.out.println("OPCIONES DE COMPRA");
                                 System.out.println("¡ ADVERTENCIA !");
+                                System.out.println("Cantidad de oro: "+character.getGold());
                                 System.out.println("Si no desea comprar Digite el numero 0");
                                 System.out.println("Si desea comprar ingrese el numero del id corespondiente a la armadura" + " para comprarla");
                                 opcionArmadura=sc.nextInt();
@@ -147,6 +164,7 @@ public class Main {
                                 System.out.println(tienda.showCatalogPotions());
                                 System.out.println("OPCIONES DE COMPRA");
                                 System.out.println("¡ ADVERTENCIA !");
+                                System.out.println("Cantidad de oro: "+character.getGold());
                                 System.out.println("Si no desea comprar Digite el numero 0");
                                 System.out.println("Si desea comprar ingrese el numero del id corespondiente a la pocima" + " para comprarla");
                                 opcionPocima=sc.nextInt();

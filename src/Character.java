@@ -90,7 +90,7 @@ public class Character implements MainSkills {
     public int recibirAtaque(int force) {
      return this.life-=force;
     }
-    public int payArticle(int gold){return this.gold+=gold;}
+    public int payArticle(int gold){return this.gold-=gold;}
     public int AddArm(int force) {
         return this.force+=force;
     }
@@ -151,6 +151,32 @@ public class Character implements MainSkills {
 
     public int regenerarVida(int lifeArmadura){
         return lifeArmadura+10;
+    }
+
+    public int aumentarOro(){
+        int nuevoOro=this.getGold()+5;
+        this.setGold(nuevoOro);
+        return nuevoOro;
+    }
+    public double aumentarExperience(double experiencia){
+        double experienceTotal=this.getExperience()+experiencia;
+        this.setExperience(experienceTotal);
+        return experienceTotal;
+    }
+
+    public double restarExperiencia(double experiencia){
+        double totalExperiencia=0.0;
+        if (experiencia>=5){
+            aumentarLevel();
+            totalExperiencia=experiencia-5.0;
+            return totalExperiencia;
+        }
+        return totalExperiencia=experiencia;
+    }
+
+    public void aumentarLevel(){
+        int newLevel=this.level+1;
+        this.setLevel(newLevel);
     }
 
 
