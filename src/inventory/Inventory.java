@@ -1,16 +1,21 @@
 package src.inventory;
+import database.ConnectionInventoryDB;
 import enums.Armor;
 import enums.Arms;
 import enums.Elements;
 import enums.Potions;
 import src.Character;
+import java.util.List;
 import java.util.ArrayList;
 public class Inventory {
-    String alert = null;
+    ConnectionInventoryDB connectionInventoryDB = new ConnectionInventoryDB();    String alert = null;
     private static Inventory instance;
     private final int capacidadInicial = 7;
-    ArrayList<Elements> inventory = new ArrayList<>(capacidadInicial);
-    private Inventory() {}
+    List<Elements> inventory;
+    private Inventory() {
+        inventory =  connectionInventoryDB.listElements();
+        connectionInventoryDB.closeConnection();
+    }
     public static Inventory getInstance() {
         if (instance == null) {
             instance = new Inventory();
@@ -21,18 +26,18 @@ public class Inventory {
     //Mostrar Inventario
     public String showInventory() {
         StringBuilder table = new StringBuilder();
-        int posicion = 1;
+       int posicion = 1;
         table.append("               INVENTARIO\n---------------------------------------------\n|    | Nombre                     | Atributo    |\n|----|----------------------------|-------------|\n");
         for (Elements object : inventory) {
-            String attribute = "";
-            switch (object.getClass().getSimpleName()) {
-                case "Arms" :
-                    attribute = "Fuerza: " + ((Arms) object).getForce();
+          String attribute = "";
+            switch (object.getCategory()) {
+              case "a" :
+                    attribute = "Daño: " + object.getScore();
                     break;
-                case "Armor":
-                    attribute = "Vida: " + ((Armor) object).getlife();
+               case "b":
+                    attribute = "Protec: " + object.getScore();
                     break;
-                case "Potions":
+                case "c":
                     attribute = "Power";
                     break;
             }
@@ -44,61 +49,62 @@ public class Inventory {
     }
 
     //Metodos Que interactuan con Equipment
-    public void addItemInventaryToEquipment(Elements item) {
-        if ((long) inventory.size() < 10) {
-            inventory.add(item);
-        }
-    }
-    public String selectEquipment (int position, Equipment equipment , Character character){
-        int posicionAjustada=position-1;
-
-        boolean addedArmor = false;
-        boolean addedArms = false;
-        boolean addedPotion = false;
-
-        if (posicionAjustada >=0 && posicionAjustada < inventory.size()){
-            Elements object = inventory.get(posicionAjustada);
-            if (equipment.CheckFullEquipment()) {
-                if (object instanceof Armor && equipment.CheckRepeatArmadure((Armor) object)) {
-                    equipment.AddItemToEquipment(object, character);
-                    inventory.remove(posicionAjustada);
-                    addedArmor = true;
-                }
-
-                if (object instanceof Arms && equipment.CheckRepeatArm()) {
-                    equipment.AddItemToEquipment(object, character);
-                    inventory.remove(posicionAjustada);
-                    addedArms = true;
-                }
-
-                if (object instanceof Potions && equipment.CheckRepeatPotion()) {
-                    equipment.AddItemToEquipment(object, character);
-                    inventory.remove(posicionAjustada);
-                    addedPotion = true;
-                }
-
-                if (addedArmor) {
-                    alert = "Se ha agregado una prenda de armadura al equipo.";
-                } else if (addedArms) {
-                    alert = "Se ha agregado un arma al equipo.";
-                } else if (addedPotion) {
-                    alert = "Se ha agregado una poción al equipo.";
-                } else {
-                    alert = "No se ha agregado ningún elemento al equipo Seguramente ya tienes equipado un elemento similar.";
-                }
-            } else {
-                alert = "Ya tienes muchas cosas en tu equipo de batalla.";
-            }
-        }else {
-            alert = "Numero no valido";
-        }
-        return alert;
-
-    }
-
-    //Metodos Que interactuan con Store
+//    public void addItemInventaryToEquipment(Elements item) {
+//        if ((long) inventory.size() < 10) {
+//            inventory.add(item);
+//        }
+//    }
+//    public String selectEquipment (int position, Equipment equipment , Character character){
+//        int posicionAjustada=position-1;
+//
+//        boolean addedArmor = false;
+//        boolean addedArms = false;
+//        boolean addedPotion = false;
+//
+//        if (posicionAjustada >=0 && posicionAjustada < inventory.size()){
+//            Elements object = inventory.get(posicionAjustada);
+//            if (equipment.CheckFullEquipment()) {
+//                if (object instanceof Armor && equipment.CheckRepeatArmadure((Armor) object)) {
+//                    equipment.AddItemToEquipment(object, character);
+//                    inventory.remove(posicionAjustada);
+//                    addedArmor = true;
+//                }
+//
+//                if (object instanceof Arms && equipment.CheckRepeatArm()) {
+//                    equipment.AddItemToEquipment(object, character);
+//                    inventory.remove(posicionAjustada);
+//                    addedArms = true;
+//                }
+//
+//                if (object instanceof Potions && equipment.CheckRepeatPotion()) {
+//                    equipment.AddItemToEquipment(object, character);
+//                    inventory.remove(posicionAjustada);
+//                    addedPotion = true;
+//                }
+//
+//                if (addedArmor) {
+//                    alert = "Se ha agregado una prenda de armadura al equipo.";
+//                } else if (addedArms) {
+//                    alert = "Se ha agregado un arma al equipo.";
+//                } else if (addedPotion) {
+//                    alert = "Se ha agregado una poción al equipo.";
+//                } else {
+//                    alert = "No se ha agregado ningún elemento al equipo Seguramente ya tienes equipado un elemento similar.";
+//                }
+//            } else {
+//                alert = "Ya tienes muchas cosas en tu equipo de batalla.";
+//            }
+//        }else {
+//            alert = "Numero no valido";
+//        }
+//        return alert;
+//
+//    }
+//
+//    //Metodos Que interactuan con Store
     public void AddItemInventory(Elements element) {
         inventory.add(element);
+
     }
     public String removeItemInventory(int select,Character character){
         Elements delete = inventory.get(select);
@@ -118,5 +124,4 @@ public class Inventory {
     }
 
 }
-
 

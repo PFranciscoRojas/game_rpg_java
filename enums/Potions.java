@@ -3,7 +3,7 @@ import src.Character;
 
 import java.util.Iterator;
 
-public enum Potions implements Elements {
+public enum Potions  {
 
         ADRENALIN("Adrenalina",10,5,"Aumenta descontroladamente tu nivel de fuerza"),
         FATALITY("Golpe Fatal",20,10,"Derriva a tu oponente con un K.O"),

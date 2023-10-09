@@ -4,10 +4,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConnectionStoreDB {
+public class ConnectionInventoryDB {
     private Connection connection = null;
 
-    public ConnectionStoreDB() {
+    public ConnectionInventoryDB() {
 
         ConfigurationDB Setting = new ConfigurationDB();
         String url = Setting.getUrl();
@@ -17,7 +17,7 @@ public class ConnectionStoreDB {
         try {
             connection = DriverManager.getConnection(url, user, password);
             connection.setAutoCommit(false);
-            System.out.println("conection Exitosa");
+            System.out.println("Cargando Inventario");
 
         } catch (SQLException ex) {
             // Manejar la excepción de conexión y proporcionar un mensaje descriptivo
@@ -34,28 +34,24 @@ public class ConnectionStoreDB {
             throw new RuntimeException("Error al cerrar tabla", ex);
         }
     }
-    public List<Elements> listElements(char Type) {
-        String consulta = "SELECT * FROM store WHERE category = ?";
+    public  List<Elements> listElements() {
+        String consulta = "SELECT iny.*, ste.* FROM inventory iny INNER JOIN store ste ON iny.id_store = ste.id";
         List<Elements> list = new ArrayList<>();
-
         try (PreparedStatement statement = connection.prepareStatement(consulta)) {
-            statement.setString(1, String.valueOf(Type));
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Elements object = new Elements();
-                    object.setId(resultSet.getInt("id"));
-                    object.setName(resultSet.getString("name"));
-                    object.setDescription(resultSet.getString("description"));
-                    object.setScore(resultSet.getInt("score"));
-                    object.setGold(resultSet.getInt("gold"));
-                    object.setCategory(resultSet.getString("category"));
+                    object.setName(resultSet.getString("ste.name"));
+                    object.setDescription(resultSet.getString("ste.description"));
+                    object.setScore(resultSet.getInt("ste.score"));
+                    object.setGold(resultSet.getInt("ste.gold"));
+                    object.setCategory(resultSet.getString("ste.category"));
                     list.add(object);
                 }
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("Error al consultar los Elementos", ex);
+            throw new RuntimeException("Error al consultar los datos", ex);
         }
-
         return list;
     }
 

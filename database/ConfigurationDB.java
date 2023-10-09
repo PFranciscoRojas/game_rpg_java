@@ -1,6 +1,7 @@
 package database;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.Properties;
 
 public class ConfigurationDB {
@@ -14,6 +15,8 @@ public class ConfigurationDB {
         } catch (IOException ex) {
            System.out.println("Error de Configuracion");
         }
+
+
     }
 
     public String getUrl() {
