@@ -1,13 +1,19 @@
 package src.inventory;
 import database.ConnectionEquipmentDB;
 import enums.Elements;
+import src.Character;
+
+import java.util.Iterator;
 import java.util.List;
 public class Equipment {
-    ConnectionEquipmentDB connectionEquipmentDB = new ConnectionEquipmentDB();
+    ConnectionEquipmentDB connectionEquipmentDB;
     private static Equipment instance;
+    Elements item;
     List<Elements> MyEquipament;
     private Equipment() {
+       connectionEquipmentDB  = new ConnectionEquipmentDB();
        MyEquipament = connectionEquipmentDB.listElements();
+       connectionEquipmentDB.closeConnection();
     }
     public static Equipment getInstance() {
         if (instance == null) {
@@ -15,7 +21,7 @@ public class Equipment {
         }
         return instance;
     }
-    //Mostrar Equipment
+
     public String showEquipament() {
         StringBuilder table = new StringBuilder();
         int posicion = 1;
@@ -39,61 +45,43 @@ public class Equipment {
         }
         return table.toString();
     }
-//
-//    //Metodos que interactuan con el Inventory
-//    public String returnItemToInventory(int select, Inventory inventory, Character character) {
-//        Elements item = MyEquipament.get(select);
-//        if (item instanceof Arms) {
-//            character.removeArm(((Arms) item).getScore());
-//        } else if (item instanceof Armor) {
-//            character.removeArmor(((Armor) item).getlife());
-//        }
-//        MyEquipament.remove(item);
-//        inventory.addItemInventaryToEquipment(item);
-//        return item.getName() + " Fue devuelto al inventario";
-//    }
-//
-//    //Metodos que interactuan con Personaje
-//    public String AddItemToEquipment(Elements item, Character character) {
-//        String mss = "";
-//        String mssAdd = " Fue Agregado a tu Equipo";
-//        MyEquipament.add(item);
-//        switch (item.getClass().getSimpleName()) {
-//            case "Arms":
-//                character.AddArm(((Arms) item).getScore());
-//                mss = item.getName() + mssAdd;
-//                break;
-//            case "Armor":
-//                character.AddArmor(((Armor) item).getlife());
-//                mss = item.getName() + mssAdd;
-//                amorsType.add((Armor) item);
-//                break;
-//            case "Potions":
-//                mss = item.getName() + mssAdd;
-//                break;
-//        }
-//        return mss;
-//    }
-//    public int usePotion(Character character, int vidaArmadura) {//JAVA OTERATOR REMOVE
-//        int lifeArmadura=vidaArmadura;
-//        Iterator<Elements> iterador = MyEquipament.iterator();
-//        while (iterador.hasNext()){
-//            Elements i = iterador.next();
-//            if (i instanceof Potions){
-//                iterador.remove();
-//              return  ((Potions) i).aplyPotion(character,(Potions) i, lifeArmadura);
-//
-//            }
-//        }
-//        return 0;
-//    }
-//
-//
-//
-//    //Verificadores
-//    public boolean CheckFullEquipment() {
-//        return (long) MyEquipament.size() < 7;
-//    }
+    public String returnItemToInventory(int select, Inventory inventory, Character character) {
+        connectionEquipmentDB  = new ConnectionEquipmentDB();
+        item = MyEquipament.get(select-1);
+        character.removeArm (item.getScore());
+             MyEquipament.remove(item);
+                connectionEquipmentDB.deleteElement(item.getId());
+                connectionEquipmentDB.closeConnection();
+             return inventory.AddItemInventory(item,1) + " Fue devuelto al inventario";
+
+    }
+    public String AddItemToEquipment(Elements item) {
+        if ((long) MyEquipament.size() < 7) {
+            connectionEquipmentDB.insertElement(item.getId());
+            MyEquipament.add(item);
+            connectionEquipmentDB.closeConnection();
+            return item.getName();
+        }
+        return  "Upss! El equipamento esta lleno";
+
+    }
+
+
+
+    public int usePotion(Character character, int vidaArmadura) {//JAVA OTERATOR REMOVE
+        int lifeArmadura = vidaArmadura;
+        Iterator<Elements> iterador = MyEquipament.iterator();
+        while (iterador.hasNext()){
+            item = iterador.next();
+            if (item.getCategory() == 0){
+                iterador.remove();
+              return 0;//item.aplyPotion(character,item, lifeArmadura);
+
+            }
+        }
+        return 0;
+    }
+
 //    public boolean CheckRepeatArmadure(Armor armor) {
 //        for (Armor existingArmor : amorsType) {
 //            if (existingArmor.compare(armor)) {

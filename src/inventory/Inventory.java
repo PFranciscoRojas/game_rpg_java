@@ -4,12 +4,15 @@ import enums.Elements;
 import src.Character;
 import java.util.List;
 public class Inventory {
-    ConnectionInventoryDB connectionInventoryDB = new ConnectionInventoryDB();
+    Elements item;
     String alert = null;
     private static Inventory instance;
+    ConnectionInventoryDB connectionInventoryDB;
     List<Elements> inventory;
     private Inventory() {
-     inventory =  connectionInventoryDB.listElements();
+        connectionInventoryDB = new ConnectionInventoryDB();
+        inventory =  connectionInventoryDB.listElements();
+        connectionInventoryDB.closeConnection();
     }
     public static Inventory getInstance() {
         if (instance == null) {
@@ -17,7 +20,6 @@ public class Inventory {
         }
         return instance;
     }
-    //Mostrar Inventario
     public String showInventory() {
         StringBuilder table = new StringBuilder();
        int posicion = 1;
@@ -41,77 +43,38 @@ public class Inventory {
         }
         return table.toString();
     }
-   // Metodos Que interactuan con Equipment
+    public String selectEquipment (int position, Equipment equipment , Character character){
+        int posicionAjustada=position-1;
+        if (posicionAjustada >=0 && posicionAjustada < inventory.size()){
+             item = inventory.get(posicionAjustada);
+                    alert = "Seleccionaste " + equipment.AddItemToEquipment(item)+ " Fue Agregado a Tu equipo";
+        }else {
+            alert = "numero no valido";
+        }
+        return alert;
 
-//    public String selectEquipment (int position, Equipment equipment , Character character){
-//        int posicionAjustada=position-1;
-//
-//        boolean addedArmor = false;
-//        boolean addedArms = false;
-//        boolean addedPotion = false;
-//
-//        if (posicionAjustada >=0 && posicionAjustada < inventory.size()){
-//            Elements object = inventory.get(posicionAjustada);
-//            if (equipment.CheckFullEquipment()) {
-//                if (object && equipment.CheckRepeatArmadure((Armor) object)) {
-//                    equipment.AddItemToEquipment(object, character);
-//                    inventory.remove(posicionAjustada);
-//                    addedArmor = true;
-//                }
-//
-//                if (object instanceof Arms && equipment.CheckRepeatArm()) {
-//                    equipment.AddItemToEquipment(object, character);
-//                    inventory.remove(posicionAjustada);
-//                    addedArms = true;
-//                }
-//
-//                if (object instanceof Potions && equipment.CheckRepeatPotion()) {
-//                    equipment.AddItemToEquipment(object, character);
-//                    inventory.remove(posicionAjustada);
-//                    addedPotion = true;
-//                }
-//
-//                if (addedArmor) {
-//                    alert = "Se ha agregado una prenda de armadura al equipo.";
-//                } else if (addedArms) {
-//                    alert = "Se ha agregado un arma al equipo.";
-//                } else if (addedPotion) {
-//                    alert = "Se ha agregado una poción al equipo.";
-//                } else {
-//                    alert = "No se ha agregado ningún elemento al equipo Seguramente ya tienes equipado un elemento similar.";
-//                }
-//            } else {
-//                alert = "Ya tienes muchas cosas en tu equipo de batalla.";
-//            }
-//        }else {
-//            alert = "Numero no valido";
-//        }
-//        return alert;
-//
-//    }
-//
-    public String AddItemInventory(Elements element,int idCharacter) {
+            //--->Agregar metodo que hace aumentar al personaje
+    }
+    public String AddItemInventory(Elements item,int idCharacter) {
+        connectionInventoryDB = new ConnectionInventoryDB();
         if ((long) inventory.size() < 10) {
-            connectionInventoryDB.InsertElement(element.getId(),idCharacter);
-            inventory.add(element);
-            return "Compraste" + element.getName() + " Fue Agregado a Tu inventario";
+            connectionInventoryDB.insertElement(item.getId(),idCharacter);
+            inventory.add(item);
+            connectionInventoryDB.closeConnection();
+            return item.getName();
         }
         return  "Upss! El inventario esta lleno";
     }
     public String removeItemInventory(int select,Character character){
-        Elements delete =  inventory.get(select-1);
-        inventory.remove(select-1);
-        System.out.println(delete.getId());
-        connectionInventoryDB.DeleteElement(delete.getId());
-        return delete.getName() + " Fue devuelto a la tienda recibiste " +  character.removeInventory(delete.getGold()) + " de oro por su devolucion";
+        connectionInventoryDB = new ConnectionInventoryDB();
+        item =  inventory.get(select-1);
+        inventory.remove(item);
+        connectionInventoryDB.DeleteElement(item.getId());
+        connectionInventoryDB.closeConnection();
+        return item.getName() +  " Fue devuelto a la tienda recibiste " +  character.removeInventory(item.getGold()) + " de oro por su devolucion";
     }
-    //Verificadores
     public boolean CheckRepeat(Elements elements) {
      return true;
     }
-//    public boolean hasItemsInInventory() {
-//        return !inventory.isEmpty();
-//    }
-
 }
 

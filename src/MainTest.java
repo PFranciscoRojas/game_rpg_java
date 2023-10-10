@@ -7,13 +7,12 @@ import src.inventory.Store;
 
 public class MainTest {
     public static void main(String[] args) {
-        Character character = new Character("Esteban");
+        Character character = new Character("Esteban",1);
         Equipment equipment = Equipment.getInstance();
         Inventory inventory = Inventory.getInstance();
-        Store store = Store.getInstance();
-        System.out.println(store.showCatalog(store.arms));
-        System.out.println(store.buyProduct(5,inventory,character,store.arms));
-        System.out.println( inventory.showInventory());
+        System.out.println(inventory.showInventory());
+        System.out.println(equipment.showEquipament());
+        System.out.println(equipment.showEquipament());
         System.out.println(equipment.showEquipament());
     }
 }

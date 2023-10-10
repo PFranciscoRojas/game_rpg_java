@@ -18,7 +18,7 @@ public class Character implements MainSkills {
     private int intelligence;
     private int agility;
     private int gold;
-    public Character(String name ) {
+    public Character(String name,int id ) {
         this.name = name;
         this.breed = breed;
         this.typeClass = typeClass;

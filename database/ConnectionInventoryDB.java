@@ -62,8 +62,8 @@ public class ConnectionInventoryDB {
         return list;
 
     }
-    public void InsertElement(int id, int idCharacter){
-        try {
+    public void insertElement(int id, int idCharacter){
+        try {//Poner QUERY PERSONAJE
             connection.setAutoCommit(false);
             query = "INSERT INTO inventory (store_id,personage_id) VALUES (?,?)";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -91,11 +91,6 @@ public class ConnectionInventoryDB {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, id);
                 int rowsDeleted = statement.executeUpdate();
-                if (rowsDeleted > 0) {
-                    System.out.println("La eliminación se realizó con éxito.");
-                } else {
-                    System.out.println("No se encontraron registros para eliminar con el ID especificado.");
-                }
             }
             connection.commit();
         } catch (SQLException ex) {
