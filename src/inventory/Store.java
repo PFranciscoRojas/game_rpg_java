@@ -5,7 +5,6 @@ import src.Character;
 import java.util.Comparator;
 import java.util.List;
 public class Store {
-
     ConnectionStoreDB connectionStoreDB = new ConnectionStoreDB();
     String alert = null;
     public List<Elements> arms;
@@ -13,9 +12,9 @@ public class Store {
     public List<Elements> potions;
     private static Store instance;
     private Store() {
-        arms = connectionStoreDB.listElements('a');
-        armors = connectionStoreDB.listElements('b');
-        potions = connectionStoreDB.listElements('c');
+        arms = connectionStoreDB.listElements(1);
+        armors = connectionStoreDB.listElements(2);
+        potions = connectionStoreDB.listElements(3);
         armors.sort(Comparator.comparingInt(Elements::getGold));
         arms.sort(Comparator.comparingInt(Elements::getGold));
         potions.sort(Comparator.comparingInt(Elements::getGold));
@@ -28,7 +27,7 @@ public class Store {
         return instance;
     }
 //    Mostrador de Elements
-     public String showCatalog (List<Elements> list ) {
+    public String showCatalog (List<Elements> list ) {
          StringBuilder listado = new StringBuilder();
          int posicion = 1; // Inicializa el contador de posición
          String attribute = null;
@@ -36,15 +35,15 @@ public class Store {
          for (Elements element : list) {
              attribute = "";
              switch (element.getCategory()) {
-                 case "a":
+                 case 1:
                      attribute = "Fuerza: ";
                      attributeTwo = "ARMAS";
                      break;
-                 case "b":
+                 case 2:
                      attribute = "Vida:   ";
                      attributeTwo = "ARMADURAS";
                      break;
-                 case "c":
+                 case 3:
                      attribute = "Power";
                      attributeTwo = "POCIONES";
                      break;
@@ -56,25 +55,18 @@ public class Store {
 
          return "                CATALOGO DE "+attributeTwo+"\n----------------------------------------------------\n|   | Precio | Nombre                     |" + attribute + " |\n|---|--------|----------------------------|---------|\n" + listado.toString();
      }
-
     //Compras de Elements
     public String buyProduct (int position, Inventory inventory , Character character,List<Elements> list ){
         int posicionAjustada=position-1;
         if (posicionAjustada >=0 && posicionAjustada < list.size()){
             Elements object = list.get(posicionAjustada);
             if(character.getGold()>= object.getGold()){
-                if (inventory.CheckFullInventory()){
-                    ///Verifica si no hay 10 articulos
                     if (inventory.CheckRepeat(object)){
                         character.payArticle(object.getGold());
-                        inventory.AddItemInventory(object);
-                        alert =  " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
+                        alert =  inventory.AddItemInventory(object,character.getId());
                     } else{
                         alert =  " Ya tienes este articulo en tu inventario";
                     }
-                }else {
-                    alert =  " Tienes Lleno el Inventario";
-                }
             }
             else{
                 alert =  " No tienes suficiente oro";

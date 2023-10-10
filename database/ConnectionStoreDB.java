@@ -6,7 +6,6 @@ import java.util.List;
 
 public class ConnectionStoreDB {
     private Connection connection = null;
-
     public ConnectionStoreDB() {
 
         ConfigurationDB Setting = new ConfigurationDB();
@@ -34,21 +33,21 @@ public class ConnectionStoreDB {
             throw new RuntimeException("Error al cerrar tabla", ex);
         }
     }
-    public List<Elements> listElements(char Type) {
-        String consulta = "SELECT * FROM store WHERE category = ?";
+    public List<Elements> listElements(int Type) {
+        String consulta = "SELECT * FROM store WHERE category_id = ?";
         List<Elements> list = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(consulta)) {
-            statement.setString(1, String.valueOf(Type));
+            statement.setInt(1, Type);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Elements object = new Elements();
                     object.setId(resultSet.getInt("id"));
-                    object.setName(resultSet.getString("name"));
-                    object.setDescription(resultSet.getString("description"));
+                    object.setName(resultSet.getString("name_item"));
+                    object.setDescription(resultSet.getString("description_item"));
                     object.setScore(resultSet.getInt("score"));
                     object.setGold(resultSet.getInt("gold"));
-                    object.setCategory(resultSet.getString("category"));
+                    object.setCategory(resultSet.getInt("category_id"));
                     list.add(object);
                 }
             }
@@ -58,6 +57,4 @@ public class ConnectionStoreDB {
 
         return list;
     }
-
-
 }

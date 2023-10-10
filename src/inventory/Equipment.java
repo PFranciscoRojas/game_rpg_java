@@ -1,49 +1,44 @@
 package src.inventory;
-import enums.Armor;
-import enums.Arms;
+import database.ConnectionEquipmentDB;
 import enums.Elements;
-import enums.Potions;
-import src.Character;
-import java.util.ArrayList;
-import java.util.Iterator;
-
+import java.util.List;
 public class Equipment {
+    ConnectionEquipmentDB connectionEquipmentDB = new ConnectionEquipmentDB();
     private static Equipment instance;
-    private final int capacidadInicial = 7;
-    ArrayList<Elements> MyEquipament = new ArrayList<>(capacidadInicial);
-    ArrayList<Armor> amorsType = new ArrayList<>(capacidadInicial);
-    private Equipment() {}
+    List<Elements> MyEquipament;
+    private Equipment() {
+       MyEquipament = connectionEquipmentDB.listElements();
+    }
     public static Equipment getInstance() {
         if (instance == null) {
             instance = new Equipment();
         }
         return instance;
     }
-
     //Mostrar Equipment
-//    public String showEquipament() {
-//        StringBuilder table = new StringBuilder();
-//        int posicion = 1;
-//        table.append("               EQUIPAMENTO\n---------------------------------------------\n|    | Nombre                     | Atributo    |\n|----|----------------------------|-------------|\n");
-//        for (Elements object : MyEquipament) {
-//            String attribute = "";
-//            switch (object.getClass().getSimpleName()) {
-//                case "Arms":
-//                    attribute = "Fuerza: " + ((Arms) object).getScore();
-//                    break;
-//                case "Armor":
-//                    attribute = "Vida: " + ((Armor) object).getlife();
-//                    break;
-//                case "Potions":
-//                    attribute = "Power";
-//                    break;
-//            }
-//            String fila = String.format("| %-2d | %-25s  | %-10s  |%n", posicion, object.getName(), attribute);
-//            table.append(fila);
-//            posicion++;
-//        }
-//        return table.toString();
-//    }
+    public String showEquipament() {
+        StringBuilder table = new StringBuilder();
+        int posicion = 1;
+        table.append("               EQUIPAMENTO\n---------------------------------------------\n|    | Nombre                     | Atributo    |\n|----|----------------------------|-------------|\n");
+        for (Elements object : MyEquipament) {
+            String attribute = "";
+            switch (object.getCategory()) {
+                case 1 :
+                    attribute = "Fuerza: " + object.getScore();
+                    break;
+                case 2 :
+                    attribute = "Vida: " + object.getScore();
+                    break;
+                case 3 :
+                    attribute = "Power";
+                    break;
+            }
+            String fila = String.format("| %-2d | %-25s  | %-10s  |%n", posicion, object.getName(), attribute);
+            table.append(fila);
+            posicion++;
+        }
+        return table.toString();
+    }
 //
 //    //Metodos que interactuan con el Inventory
 //    public String returnItemToInventory(int select, Inventory inventory, Character character) {

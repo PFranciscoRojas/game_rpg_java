@@ -1,20 +1,15 @@
 package src.inventory;
 import database.ConnectionInventoryDB;
-import enums.Armor;
-import enums.Arms;
 import enums.Elements;
-import enums.Potions;
 import src.Character;
 import java.util.List;
-import java.util.ArrayList;
 public class Inventory {
-    ConnectionInventoryDB connectionInventoryDB = new ConnectionInventoryDB();    String alert = null;
+    ConnectionInventoryDB connectionInventoryDB = new ConnectionInventoryDB();
+    String alert = null;
     private static Inventory instance;
-    private final int capacidadInicial = 7;
     List<Elements> inventory;
     private Inventory() {
-        inventory =  connectionInventoryDB.listElements();
-        connectionInventoryDB.closeConnection();
+     inventory =  connectionInventoryDB.listElements();
     }
     public static Inventory getInstance() {
         if (instance == null) {
@@ -22,7 +17,6 @@ public class Inventory {
         }
         return instance;
     }
-
     //Mostrar Inventario
     public String showInventory() {
         StringBuilder table = new StringBuilder();
@@ -31,13 +25,13 @@ public class Inventory {
         for (Elements object : inventory) {
           String attribute = "";
             switch (object.getCategory()) {
-              case "a" :
+              case 1 :
                     attribute = "Daño: " + object.getScore();
                     break;
-               case "b":
+               case 2:
                     attribute = "Protec: " + object.getScore();
                     break;
-                case "c":
+                case 3:
                     attribute = "Power";
                     break;
             }
@@ -47,13 +41,8 @@ public class Inventory {
         }
         return table.toString();
     }
+   // Metodos Que interactuan con Equipment
 
-    //Metodos Que interactuan con Equipment
-//    public void addItemInventaryToEquipment(Elements item) {
-//        if ((long) inventory.size() < 10) {
-//            inventory.add(item);
-//        }
-//    }
 //    public String selectEquipment (int position, Equipment equipment , Character character){
 //        int posicionAjustada=position-1;
 //
@@ -64,7 +53,7 @@ public class Inventory {
 //        if (posicionAjustada >=0 && posicionAjustada < inventory.size()){
 //            Elements object = inventory.get(posicionAjustada);
 //            if (equipment.CheckFullEquipment()) {
-//                if (object instanceof Armor && equipment.CheckRepeatArmadure((Armor) object)) {
+//                if (object && equipment.CheckRepeatArmadure((Armor) object)) {
 //                    equipment.AddItemToEquipment(object, character);
 //                    inventory.remove(posicionAjustada);
 //                    addedArmor = true;
@@ -101,27 +90,28 @@ public class Inventory {
 //
 //    }
 //
-//    //Metodos Que interactuan con Store
-    public void AddItemInventory(Elements element) {
-        inventory.add(element);
-
+    public String AddItemInventory(Elements element,int idCharacter) {
+        if ((long) inventory.size() < 10) {
+            connectionInventoryDB.InsertElement(element.getId(),idCharacter);
+            inventory.add(element);
+            return "Compraste" + element.getName() + " Fue Agregado a Tu inventario";
+        }
+        return  "Upss! El inventario esta lleno";
     }
     public String removeItemInventory(int select,Character character){
-        Elements delete = inventory.get(select);
-        inventory.remove(select);
+        Elements delete =  inventory.get(select-1);
+        inventory.remove(select-1);
+        System.out.println(delete.getId());
+        connectionInventoryDB.DeleteElement(delete.getId());
         return delete.getName() + " Fue devuelto a la tienda recibiste " +  character.removeInventory(delete.getGold()) + " de oro por su devolucion";
     }
-
     //Verificadores
-    public boolean CheckFullInventory() {
-        return (long) inventory.size() < 10;
+    public boolean CheckRepeat(Elements elements) {
+     return true;
     }
-    public boolean CheckRepeat(Elements element) {
-        return !inventory.contains(element);
-    }
-    public boolean hasItemsInInventory() {
-        return !inventory.isEmpty();
-    }
+//    public boolean hasItemsInInventory() {
+//        return !inventory.isEmpty();
+//    }
 
 }
 

@@ -1,14 +1,12 @@
 package enums;
 
-import src.Character;
-
 public class Elements {
     private int id;
     private String name;
     private String description;
     private int score;
     private int gold;
-    private String category;
+    private int category;
     public int getId() {
         return id;
     }
@@ -36,10 +34,10 @@ public class Elements {
         this.gold = gold;
     }
 
-    public String getCategory() {
+    public int getCategory() {
         return category;
     }
-    public void setCategory(String category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 
