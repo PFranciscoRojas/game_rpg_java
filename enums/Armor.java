@@ -2,7 +2,7 @@ package enums;
 
 import src.Character;
 
-public enum Armor implements Elements {
+public enum Armor {
     HELMETONE("Casco Coraza",10,20,'H'),
     HELMETWO("Casco Porton",6,15,'H'),
     HELMETHREE("Casco Kraken",4,8,'H'),

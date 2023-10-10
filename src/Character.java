@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 public class Character implements MainSkills {
     List<Armor> MyEquipment = new ArrayList<>();
+
+    int id;
     private String name;
     private String breed;
     private String typeClass;
@@ -16,7 +18,7 @@ public class Character implements MainSkills {
     private int intelligence;
     private int agility;
     private int gold;
-    public Character(String name, String breed, String typeClass,int gold) {
+    public Character(String name ) {
         this.name = name;
         this.breed = breed;
         this.typeClass = typeClass;
@@ -25,9 +27,10 @@ public class Character implements MainSkills {
         this.agility=10;
         this.force=10;
         this.intelligence=500;
-        this.gold = gold;
+        this.gold = 100;
     }
 
+    public int getId(){return this.id;}
     public String getName() {
         return this.name;
     }
@@ -56,6 +59,10 @@ public class Character implements MainSkills {
         return this.intelligence;
     }
     public int getGold() {return this.gold;}
+
+    public void setId(int id) {
+        this.id = id;
+    }
     public void setName(String name) {
         this.name = name;
     }

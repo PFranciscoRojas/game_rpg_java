@@ -1,26 +1,24 @@
 package src.inventory;
-import enums.Armor;
-import enums.Arms;
-import enums.Potions;
+import database.ConnectionStoreDB;
+import enums.Elements;
 import src.Character;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 public class Store {
+    ConnectionStoreDB connectionStoreDB = new ConnectionStoreDB();
     String alert = null;
-    List<Arms> arms = new ArrayList<>();
-    List<Armor> armors = new ArrayList<>();
-    List<Potions> potions = new ArrayList<>();
+    public List<Elements> arms;
+    public List<Elements> armors;
+    public List<Elements> potions;
     private static Store instance;
     private Store() {
-        Collections.addAll(arms, Arms.values());
-        Collections.addAll(armors, Armor.values());
-        Collections.addAll(potions, Potions.values());
-        armors.sort(Comparator.comparingInt(Armor::getGold));
-        arms.sort(Comparator.comparingInt(Arms::getGold));
-        potions.sort(Comparator.comparingInt(Potions::getGold));
+        arms = connectionStoreDB.listElements(1);
+        armors = connectionStoreDB.listElements(2);
+        potions = connectionStoreDB.listElements(3);
+        armors.sort(Comparator.comparingInt(Elements::getGold));
+        arms.sort(Comparator.comparingInt(Elements::getGold));
+        potions.sort(Comparator.comparingInt(Elements::getGold));
+        connectionStoreDB.closeConnection();
     }
     public static Store getInstance() {
         if (instance == null) {
@@ -28,106 +26,47 @@ public class Store {
         }
         return instance;
     }
-
-    //Mostradores de Elements
-     public String showCatalogArms () {
+//    Mostrador de Elements
+    public String showCatalog (List<Elements> list ) {
          StringBuilder listado = new StringBuilder();
          int posicion = 1; // Inicializa el contador de posición
-         for (Arms element : arms) {
-             String fila = String.format("| %-1d | %-6s | %-25s  | %-6s  |%n", posicion,element.getGold(),element.getName(),element.getForce());
+         String attribute = null;
+         String attributeTwo = null;
+         for (Elements element : list) {
+             attribute = "";
+             switch (element.getCategory()) {
+                 case 1:
+                     attribute = "Fuerza: ";
+                     attributeTwo = "ARMAS";
+                     break;
+                 case 2:
+                     attribute = "Vida:   ";
+                     attributeTwo = "ARMADURAS";
+                     break;
+                 case 3:
+                     attribute = "Power";
+                     attributeTwo = "POCIONES";
+                     break;
+             }
+             String fila = String.format("| %-1d | %-6s | %-25s  | %-6s  |%n", posicion, element.getGold(), element.getName(), element.getScore());
              listado.append(fila);
              posicion++; // Incrementa la posición para el próximo elemento
          }
-         return "                CATALOGO DE ARMAS\n----------------------------------------------------\n|   | Precio | Nombre                     | Daño    |\n|---|--------|----------------------------|---------|\n" + listado.toString();
-     }
-    public String showCatalogArmors () {
-        StringBuilder listado = new StringBuilder();
-        int posicion = 1; // Inicializa el contador de posición
-        for (Armor element : armors) {
-            String fila = String.format("| %-2d | %-6s | %-25s  | %-7s  |%n", posicion,element.getGold(),element.getName(),element.getlife());
-            listado.append(fila);
-            posicion++;
-        }
-        return "               CATALOGO DE ARMADURAS\n-------------------------------------------------------\n|    | Precio | Nombre                     |Proteccion|\n|----|--------|----------------------------|----------|\n" + listado.toString();
-    }
-    public String showCatalogPotions () {
-        StringBuilder listado = new StringBuilder();
-        int posicion = 1; // Inicializa el contador de posición
-        for (Potions element : potions) {
-            String fila = String.format("| %-2d | %-6s | %-25s  | %-50s  |%n", posicion,element.getGold(),element.getName(),element.getDescription());
-            listado.append(fila);
-            posicion++;
-        }
-        return "               CATALOGO DE POCIONES\n--------------------------------------------------------------------------------------------------\n|    | Precio | Nombre                     | Power                                               |\n|----|--------|----------------------------|-----------------------------------------------------|\n" + listado.toString();
-    }
 
+         return "                CATALOGO DE "+attributeTwo+"\n----------------------------------------------------\n|   | Precio | Nombre                     |" + attribute + " |\n|---|--------|----------------------------|---------|\n" + listado.toString();
+     }
     //Compras de Elements
-    public String buyArm (int position, Inventory inventory , Character character){
+    public String buyProduct (int position, Inventory inventory , Character character,List<Elements> list ){
         int posicionAjustada=position-1;
-        if (posicionAjustada >=0 && posicionAjustada < arms.size()){
-            Arms object = arms.get(posicionAjustada);
+        if (posicionAjustada >=0 && posicionAjustada < list.size()){
+            Elements object = list.get(posicionAjustada);
             if(character.getGold()>= object.getGold()){
-                if (inventory.CheckFullInventory()){
-                    ///Verifica si no hay 10 articulos
                     if (inventory.CheckRepeat(object)){
                         character.payArticle(object.getGold());
-                        inventory.AddItemInventory(object);
-                        alert =  " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
+                        alert =  inventory.AddItemInventory(object,character.getId());
                     } else{
                         alert =  " Ya tienes este articulo en tu inventario";
                     }
-                }else {
-                    alert =  " Tienes Lleno el Inventario";
-                }
-            }
-            else{
-                alert =  " No tienes suficiente oro";
-            }
-        }else {
-            alert = "numero no valido";
-        }
-        return alert;
-    }
-    public String buyArmor (int position, Inventory inventory , Character character) {
-        int posicionAjustada=position-1;
-        if (posicionAjustada >=0 && posicionAjustada < armors.size()){
-            Armor object = armors.get(posicionAjustada);
-            if (character.getGold() >= object.getGold()) {
-                if (inventory.CheckFullInventory()) {
-                    if (inventory.CheckRepeat(object)) {
-                        character.payArticle(object.getGold());
-                        inventory.AddItemInventory(object);
-                        alert = " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
-                    } else {
-                        alert = " Ya tienes este articulo en tu inventario";
-                    }
-                } else {
-                    alert = " Tienes Lleno el Inventario";
-                }
-            } else {
-                alert = " No tienes suficiente oro";
-            }
-        }else {
-            alert = "numero no valido";
-        }
-        return alert;
-    }
-    public String buyPotion (int position, Inventory inventory , Character character){
-        int posicionAjustada=position-1;
-        if (posicionAjustada >=0 && posicionAjustada < potions.size()){
-            Potions object = potions.get(posicionAjustada);
-            if(character.getGold()>= object.getGold()){
-                if (inventory.CheckFullInventory()){
-                    if (inventory.CheckRepeat(object)){
-                        character.payArticle(object.getGold());
-                        inventory.AddItemInventory(object);
-                        alert =  " Compraste " + object.getName() + " Fue Agregada a Tu inventario";
-                    } else{
-                        alert =  " Ya tienes este articulo en tu inventario";
-                    }
-                }else {
-                    alert =  " Tienes Lleno el Inventario";
-                }
             }
             else{
                 alert =  " No tienes suficiente oro";
