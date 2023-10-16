@@ -60,12 +60,8 @@ public class Store {
         if (posicionAjustada >=0 && posicionAjustada < list.size()){
             Elements object = list.get(posicionAjustada);
             if(character.getGold()>= object.getGold()){
-                    if (inventory.CheckRepeat(object)){
                         character.payArticle(object.getGold());
-                        alert = "Compraste" + inventory.AddItemInventory(object,1) + " Fue Agregado a Tu inventario";;
-                    } else{
-                        alert =  " Ya tienes este articulo en tu inventario";
-                    }
+                        alert = "Compraste " + inventory.AddItemInventory(object,1) ;
             }
             else{
                 alert =  " No tienes suficiente oro";

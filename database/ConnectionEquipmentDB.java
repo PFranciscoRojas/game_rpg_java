@@ -16,9 +16,6 @@ public class ConnectionEquipmentDB {
         try {
             connection = DriverManager.getConnection(url, user, password);
             connection.setAutoCommit(false);
-            System.out.println("Cargando Inventario");
-
-
         } catch (SQLException ex) {
             // Manejar la excepción de conexión y proporcionar un mensaje descriptivo
             System.out.println("Error al conectar a la base de datos: ");
@@ -136,6 +133,10 @@ public class ConnectionEquipmentDB {
             throw new RuntimeException("Error al insertar el elemento en la tabla", ex);
         }
     }
+    public boolean doesItemExist(int storeId,char Type) {
+        return false;
+    }
+
 }
 
 

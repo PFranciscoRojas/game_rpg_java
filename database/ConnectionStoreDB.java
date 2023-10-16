@@ -44,6 +44,7 @@ public class ConnectionStoreDB {
                     Elements object = new Elements();
                     object.setId(resultSet.getInt("id"));
                     object.setName(resultSet.getString("name_item"));
+                    object.setType(resultSet.getString("category"));
                     object.setDescription(resultSet.getString("description_item"));
                     object.setScore(resultSet.getInt("score"));
                     object.setGold(resultSet.getInt("gold"));

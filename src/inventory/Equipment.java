@@ -21,7 +21,6 @@ public class Equipment {
         }
         return instance;
     }
-
     public String showEquipament() {
         StringBuilder table = new StringBuilder();
         int posicion = 1;
@@ -52,21 +51,25 @@ public class Equipment {
              MyEquipament.remove(item);
                 connectionEquipmentDB.deleteElement(item.getId());
                 connectionEquipmentDB.closeConnection();
-             return inventory.AddItemInventory(item,1) + " Fue devuelto al inventario";
+                inventory.AddItemInventory(item,1);
+             return  item.getName() + " Fue devuelto al inventario";
 
     }
     public String AddItemToEquipment(Elements item) {
+        connectionEquipmentDB  = new ConnectionEquipmentDB();
         if ((long) MyEquipament.size() < 7) {
+            if(connectionEquipmentDB.doesItemExist(item.getId(),item.getType())){
             connectionEquipmentDB.insertElement(item.getId());
             MyEquipament.add(item);
             connectionEquipmentDB.closeConnection();
             return item.getName();
+            }
+            return "Ya tienes " + item.getName() + " en tu inventario";
         }
+        connectionEquipmentDB.closeConnection();
         return  "Upss! El equipamento esta lleno";
 
     }
-
-
 
     public int usePotion(Character character, int vidaArmadura) {//JAVA OTERATOR REMOVE
         int lifeArmadura = vidaArmadura;

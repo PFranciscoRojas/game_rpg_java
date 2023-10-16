@@ -63,16 +63,13 @@ public class ConnectionInventoryDB {
 
     }
     public void insertElement(int id, int idCharacter){
-        try {//Poner QUERY PERSONAJE
+        try {
             connection.setAutoCommit(false);
             query = "INSERT INTO inventory (store_id,personage_id) VALUES (?,?)";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, id);
                 statement.setInt(2, idCharacter);
                 int rowsInserted = statement.executeUpdate();
-                if (rowsInserted > 0) {
-                    System.out.println("La inserción se realizó con éxito.");
-                }
             }
             connection.commit();
         } catch (SQLException ex) {
@@ -97,5 +94,25 @@ public class ConnectionInventoryDB {
             throw new RuntimeException("Error al insertar el elemento en la tabla", ex);
         }
 
+    }
+    public boolean doesItemExist(int id) {
+        try {
+            query = "SELECT * FROM inventory WHERE store_id = ? ";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, id);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        // Si hay resultados, significa que el registro existe
+                        return true;
+                    } else {
+                        // Si no hay resultados, el registro no existe
+                        return false;
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // Manejo de errores (puedes personalizarlo según tus necesidades)
+            return false;
+        }
     }
 }

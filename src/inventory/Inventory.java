@@ -34,7 +34,7 @@ public class Inventory {
                     attribute = "Protec: " + object.getScore();
                     break;
                 case 3:
-                    attribute = "Power";
+                    attribute = "Power : " + object.getScore();
                     break;
             }
             String fila = String.format("| %-2d | %-25s  | %-10s  |%n", posicion, object.getName(), attribute);
@@ -52,19 +52,23 @@ public class Inventory {
             alert = "numero no valido";
         }
         return alert;
-
             //--->Agregar metodo que hace aumentar al personaje
     }
     public String AddItemInventory(Elements item,int idCharacter) {
         connectionInventoryDB = new ConnectionInventoryDB();
+
         if ((long) inventory.size() < 10) {
-            connectionInventoryDB.insertElement(item.getId(),idCharacter);
-            inventory.add(item);
-            connectionInventoryDB.closeConnection();
-            return item.getName();
+             if (!connectionInventoryDB.doesItemExist(item.getId())){
+                connectionInventoryDB.insertElement(item.getId(),idCharacter);
+                inventory.add(item);
+                connectionInventoryDB.closeConnection();
+                return item.getName();
+            }
+            return "Ya tienes este articulo en el inventario";
         }
-        return  "Upss! El inventario esta lleno";
-    }
+        return "Tienes el inventario lleno";
+        }
+
     public String removeItemInventory(int select,Character character){
         connectionInventoryDB = new ConnectionInventoryDB();
         item =  inventory.get(select-1);
@@ -73,8 +77,6 @@ public class Inventory {
         connectionInventoryDB.closeConnection();
         return item.getName() +  " Fue devuelto a la tienda recibiste " +  character.removeInventory(item.getGold()) + " de oro por su devolucion";
     }
-    public boolean CheckRepeat(Elements elements) {
-     return true;
+
     }
-}
 
