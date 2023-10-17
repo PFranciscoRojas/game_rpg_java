@@ -1,10 +1,18 @@
 package src;
+import database.ConnectionCharacterBD;
 import enums.Armor;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Character implements MainSkills {
+
+    ConnectionCharacterBD connectionCharacterBD=new ConnectionCharacterBD();
+
     List<Armor> MyEquipment = new ArrayList<>();
 
     int id;
@@ -18,6 +26,10 @@ public class Character implements MainSkills {
     private int intelligence;
     private int agility;
     private int gold;
+
+    public Character(){
+
+    }
     public Character(String name ) {
         this.name = name;
         this.breed = breed;
