@@ -47,11 +47,11 @@ public class Inventory {
         int posicionAjustada=position-1;
         if (posicionAjustada >=0 && posicionAjustada < inventory.size()){
              item = inventory.get(posicionAjustada);
-                    alert = "Seleccionaste " + equipment.AddItemToEquipment(item)+ " Fue Agregado a Tu equipo";
+             return equipment.AddItemToEquipment(item);
         }else {
-            alert = "numero no valido";
+            return "numero no valido";
         }
-        return alert;
+
             //--->Agregar metodo que hace aumentar al personaje
     }
     public String AddItemInventory(Elements item,int idCharacter) {

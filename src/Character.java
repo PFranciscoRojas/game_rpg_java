@@ -18,16 +18,8 @@ public class Character implements MainSkills {
     private int intelligence;
     private int agility;
     private int gold;
-    public Character(String name,int id ) {
-        this.name = name;
-        this.breed = breed;
-        this.typeClass = typeClass;
-        this.level=1;
-        this.experience=0;
-        this.agility=10;
-        this.force=10;
-        this.intelligence=500;
-        this.gold = 100;
+    public Character() {
+    ;
     }
 
     public int getId(){return this.id;}

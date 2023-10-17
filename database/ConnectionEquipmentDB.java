@@ -133,8 +133,33 @@ public class ConnectionEquipmentDB {
             throw new RuntimeException("Error al insertar el elemento en la tabla", ex);
         }
     }
-    public boolean doesItemExist(int storeId,char Type) {
+    public boolean doesItemExist(char Type) {
+        try {
+            connection.setAutoCommit(false);
+            String checkCategoryQuery = "SELECT EXISTS (SELECT 1 FROM equipment e " +
+                    "INNER JOIN inventory i ON e.inventory_id = i.id " +
+                    "INNER JOIN store s ON i.store_id = s.id " +
+                    "WHERE s.category = ? )";
+            try (PreparedStatement categoryStatement = connection.prepareStatement(checkCategoryQuery)) {
+                categoryStatement.setString(1, String.valueOf(Type));
+                ResultSet resultSet = categoryStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    return resultSet.getBoolean(1);
+                }
+            }
+            connection.commit();
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException rollbackEx) {
+                throw new RuntimeException("Error al realizar rollback de la transacción", rollbackEx);
+            }
+            throw new RuntimeException("Error al realizar la verificación en la base de datos", ex);
+        }
+
         return false;
+
     }
 
 }

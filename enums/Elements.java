@@ -7,7 +7,7 @@ public class Elements {
     private int score;
     private int gold;
     private int category;
-    private char type;
+    private String type;
     public int getId() {
         return id;
     }
@@ -48,8 +48,11 @@ public class Elements {
     public void setScore(int score) {
         this.score = score;
     }
-    public char getType (){return type;}
-    public void setType(String Type){this.type = Type.charAt(0);}
+    public String getType (){return type;}
+    public void setType(String type) {
+       this.type = type;
+    }
+
 
 
 

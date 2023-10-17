@@ -55,92 +55,35 @@ public class Equipment {
              return  item.getName() + " Fue devuelto al inventario";
 
     }
-    public String AddItemToEquipment(Elements item) {
+    public String AddItemToEquipment(Elements item ) {
         connectionEquipmentDB  = new ConnectionEquipmentDB();
         if ((long) MyEquipament.size() < 7) {
-            if(connectionEquipmentDB.doesItemExist(item.getId(),item.getType())){
+            if(!connectionEquipmentDB.doesItemExist(item.getType().charAt(0))){
             connectionEquipmentDB.insertElement(item.getId());
             MyEquipament.add(item);
             connectionEquipmentDB.closeConnection();
-            return item.getName();
+            return "Equipaste " + item.getName();
             }
-            return "Ya tienes " + item.getName() + " en tu inventario";
+            return "Ya tienes este tipo de equipacion";
         }
         connectionEquipmentDB.closeConnection();
         return  "Upss! El equipamento esta lleno";
 
     }
 
-    public int usePotion(Character character, int vidaArmadura) {//JAVA OTERATOR REMOVE
-        int lifeArmadura = vidaArmadura;
+    public int usePotion(Character character) {
         Iterator<Elements> iterador = MyEquipament.iterator();
         while (iterador.hasNext()){
             item = iterador.next();
-            if (item.getCategory() == 0){
+            if (item.getType().charAt(0) == 's'){
                 iterador.remove();
-              return 0;//item.aplyPotion(character,item, lifeArmadura);
+                character.setForce(item.getScore());
+              return 0;
 
             }
         }
         return 0;
     }
-
-//    public boolean CheckRepeatArmadure(Armor armor) {
-//        for (Armor existingArmor : amorsType) {
-//            if (existingArmor.compare(armor)) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-//    public boolean CheckRepeatArm() {
-//        for (Elements element : MyEquipament) {
-//            if (element.getClass().getSimpleName().equals("Arms")) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-//    public boolean CheckRepeatPotion() {
-//        for (Elements element : MyEquipament) {
-//            if (element.getClass().getSimpleName().equals("Potions")) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-//
-//
-//    public int restablecerVidaConItem(){
-//        int contadorVidaArmor=0;
-//        for (Elements element : MyEquipament) {
-//            if (element instanceof Armor) {
-//                contadorVidaArmor=contadorVidaArmor+((Armor) element).getlife();
-//            }
-//        }
-//        return contadorVidaArmor;
-//    }
-//
-//    public String devolverNombre(){
-//        String descripcion="";
-//        for (Elements element : MyEquipament) {
-//            if (element instanceof Potions) {
-//                descripcion="Usted tiene una pocima de: "+element.getName() + "\nDescripcion: "+((Potions) element).getDescription();
-//            }
-//        }
-//        return descripcion;
-//    }
-//
-//    public boolean existePocima(){
-//        boolean pocima=false;
-//        for (Elements element : MyEquipament) {
-//            if (element instanceof Potions) {
-//                pocima=true;
-//            }
-//        }
-//        return pocima;
-//    }
-
 }
 
 

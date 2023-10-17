@@ -46,6 +46,7 @@ public class ConnectionInventoryDB {
                     Elements object = new Elements();
                     object.setId(resultSet.getInt("str.id"));
                     object.setName(resultSet.getString("str.name_item"));
+                    object.setType(resultSet.getString("str.category"));
                     object.setDescription(resultSet.getString("str.description_item"));
                     object.setScore(resultSet.getInt("str.score"));
                     object.setGold(resultSet.getInt("str.gold"));
