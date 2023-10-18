@@ -5,13 +5,14 @@ import src.Character;
 import java.util.Comparator;
 import java.util.List;
 public class Store {
-    ConnectionStoreDB connectionStoreDB = new ConnectionStoreDB();
+    ConnectionStoreDB connectionStoreDB;
     String alert = null;
     public List<Elements> arms;
     public List<Elements> armors;
     public List<Elements> potions;
     private static Store instance;
     private Store() {
+        connectionStoreDB = new ConnectionStoreDB();
         arms = connectionStoreDB.listElements(1);
         armors = connectionStoreDB.listElements(2);
         potions = connectionStoreDB.listElements(3);
@@ -26,7 +27,6 @@ public class Store {
         }
         return instance;
     }
-//    Mostrador de Elements
     public String showCatalog (List<Elements> list ) {
          StringBuilder listado = new StringBuilder();
          int posicion = 1; // Inicializa el contador de posición
@@ -55,18 +55,13 @@ public class Store {
 
          return "                CATALOGO DE "+attributeTwo+"\n----------------------------------------------------\n|   | Precio | Nombre                     |" + attribute + " |\n|---|--------|----------------------------|---------|\n" + listado.toString();
      }
-    //Compras de Elements
     public String buyProduct (int position, Inventory inventory , Character character,List<Elements> list ){
         int posicionAjustada=position-1;
         if (posicionAjustada >=0 && posicionAjustada < list.size()){
             Elements object = list.get(posicionAjustada);
             if(character.getGold()>= object.getGold()){
-                    if (inventory.CheckRepeat(object)){
                         character.payArticle(object.getGold());
-                        alert =  inventory.AddItemInventory(object,character.getId());
-                    } else{
-                        alert =  " Ya tienes este articulo en tu inventario";
-                    }
+                        alert = "Compraste " + inventory.AddItemInventory(object,1) ;
             }
             else{
                 alert =  " No tienes suficiente oro";

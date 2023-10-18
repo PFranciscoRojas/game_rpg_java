@@ -1,12 +1,14 @@
 package database;
 import enums.Elements;
+import src.Character;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConnectionStoreDB {
+public class ConnectionCharacterDB {
     private Connection connection = null;
-    public ConnectionStoreDB() {
+    public ConnectionCharacterDB() {
 
         ConfigurationDB Setting = new ConfigurationDB();
         String url = Setting.getUrl();
@@ -33,23 +35,22 @@ public class ConnectionStoreDB {
             throw new RuntimeException("Error al cerrar tabla", ex);
         }
     }
-    public List<Elements> listElements(int Type) {
-        String consulta = "SELECT * FROM store WHERE category_id = ?";
-        List<Elements> list = new ArrayList<>();
+    public List<Character> listCharacters() {
+        String consulta = "SELECT * FROM personage";
+        List<Character> list = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(consulta)) {
-            statement.setInt(1, Type);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Elements object = new Elements();
-                    object.setId(resultSet.getInt("id"));
-                    object.setName(resultSet.getString("name_item"));
-                    object.setType(resultSet.getString("category"));
-                    object.setDescription(resultSet.getString("description_item"));
-                    object.setScore(resultSet.getInt("score"));
-                    object.setGold(resultSet.getInt("gold"));
-                    object.setCategory(resultSet.getInt("category_id"));
-                    list.add(object);
+                    Character character = new Character();
+                    character.setId(resultSet.getInt("id"));
+                    character.setName(resultSet.getString("name_personage"));
+                    character.setBreed(resultSet.getString("breed"));
+                    character.setLevel(resultSet.getInt("level_personage"));
+                    character.setExperience(resultSet.getDouble("experience"));
+                    character.setForce(resultSet.getInt("force_personage"));
+                    character.setGold(resultSet.getInt("gold"));
+                    list.add(character);
                 }
             }
         } catch (SQLException ex) {
@@ -58,4 +59,16 @@ public class ConnectionStoreDB {
 
         return list;
     }
+
+    public void createPersonage(int nombre) {
+        String insertEquipmentQuery = "INSERT INTO equipment (id) VALUES (?)";
+        try (PreparedStatement equipmentStatement = connection.prepareStatement(insertEquipmentQuery)) {
+            equipmentStatement.setInt(1, nombre);
+            int rowsInserted = equipmentStatement.executeUpdate();
+        } catch (SQLException e) {
+
+
+        }
+    }
+
 }

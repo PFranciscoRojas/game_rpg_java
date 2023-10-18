@@ -4,6 +4,8 @@ out/
 !**/src/test/**/out/
 src/MainTest.java
 game_rpg_java.iml
+database/.properties
+.idea
 ### Eclipse ###
 .apt_generated
 .classpath

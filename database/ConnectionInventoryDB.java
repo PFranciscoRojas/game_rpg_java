@@ -46,6 +46,7 @@ public class ConnectionInventoryDB {
                     Elements object = new Elements();
                     object.setId(resultSet.getInt("str.id"));
                     object.setName(resultSet.getString("str.name_item"));
+                    object.setType(resultSet.getString("str.category"));
                     object.setDescription(resultSet.getString("str.description_item"));
                     object.setScore(resultSet.getInt("str.score"));
                     object.setGold(resultSet.getInt("str.gold"));
@@ -62,7 +63,7 @@ public class ConnectionInventoryDB {
         return list;
 
     }
-    public void InsertElement(int id, int idCharacter){
+    public void insertElement(int id, int idCharacter){
         try {
             connection.setAutoCommit(false);
             query = "INSERT INTO inventory (store_id,personage_id) VALUES (?,?)";
@@ -70,9 +71,6 @@ public class ConnectionInventoryDB {
                 statement.setInt(1, id);
                 statement.setInt(2, idCharacter);
                 int rowsInserted = statement.executeUpdate();
-                if (rowsInserted > 0) {
-                    System.out.println("La inserción se realizó con éxito.");
-                }
             }
             connection.commit();
         } catch (SQLException ex) {
@@ -91,16 +89,31 @@ public class ConnectionInventoryDB {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, id);
                 int rowsDeleted = statement.executeUpdate();
-                if (rowsDeleted > 0) {
-                    System.out.println("La eliminación se realizó con éxito.");
-                } else {
-                    System.out.println("No se encontraron registros para eliminar con el ID especificado.");
-                }
             }
             connection.commit();
         } catch (SQLException ex) {
             throw new RuntimeException("Error al insertar el elemento en la tabla", ex);
         }
 
+    }
+    public boolean doesItemExist(int id) {
+        try {
+            query = "SELECT * FROM inventory WHERE store_id = ? ";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, id);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        // Si hay resultados, significa que el registro existe
+                        return true;
+                    } else {
+                        // Si no hay resultados, el registro no existe
+                        return false;
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // Manejo de errores (puedes personalizarlo según tus necesidades)
+            return false;
+        }
     }
 }

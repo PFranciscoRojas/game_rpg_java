@@ -7,6 +7,7 @@ public class Elements {
     private int score;
     private int gold;
     private int category;
+    private String type;
     public int getId() {
         return id;
     }
@@ -47,6 +48,11 @@ public class Elements {
     public void setScore(int score) {
         this.score = score;
     }
+    public String getType (){return type;}
+    public void setType(String type) {
+       this.type = type;
+    }
+
 
 
 
