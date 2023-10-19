@@ -1,5 +1,6 @@
 package src;
 
+import database.ConnectionCharacterDB;
 import enums.MonstersFeatures;
 import src.inventory.Equipment;
 import src.inventory.Inventory;
@@ -13,36 +14,41 @@ public class Main {
 //        Inventory inventory = Inventory.getInstance();
 //        Equipment equipment = Equipment.getInstance();
 //        Store tienda = Store.getInstance();
-//        System.out.println("Bienvenido al juego RPG");
-//        Scanner sc = new Scanner(System.in);
-//        System.out.println("Digite un nombre para su cuenta: ");
-//        String nombre = sc.nextLine();
-//        Character character = new Character(nombre,"humano","guerrero",100);
-//        int opcion,mision,opcionTienda,opcionArma,opcionArmadura,opcionPocima,opcionEquipo,itemSeleccionado, regenerar=0;
-//
-//        System.out.println(".....Creando Personaje.....");
-//        System.out.println("Se ha creado tu personaje");
-//        System.out.println("CARACTERISTICAS DEL PERSONAJE");
-//        System.out.println("Nombre: "+nombre+" - Raza: "+character.getBreed()+" - Clase: "+character.getTypeClass()+
-//                " - Vida: "+character.getLife()+" - Fuerza: "+character.getForce()+ " - Inteligencia: "+character.getIntelligence()+
-//                " - Agilidad: "+character.getAgility()+" - Nivel: "+character.getLevel()+" - Experiencia: "+character.getExperience() );
+        System.out.println("Bienvenido al juego RPG");
+        Scanner sc = new Scanner(System.in);
+        int opcion,mision,opcionTienda,opcionArma,opcionArmadura,opcionPocima,opcionEquipo,itemSeleccionado, regenerar=0;
+        ConnectionCharacterDB connectionCharacterDB = new ConnectionCharacterDB();
+        int count=connectionCharacterDB.verifyCharacter();
+        if (count == 0) {
+            System.out.println("No hay personaje creado");
+            System.out.println("Digite un nombre para su personaje: ");
+            String nombre = sc.nextLine();
+            connectionCharacterDB.createPersonageGame(nombre);
+            System.out.println(".....Creando Personaje.....");
+
+        }
+        System.out.println("Cargando personaje");
+        Character character=connectionCharacterDB.getPersonage();
+        System.out.println("CARACTERISTICAS DEL PERSONAJE");
+        System.out.println("Nombre: "+character.getName()+" - Raza: "+character.getBreed()+" - Vida: "+character.getLife()+" - Fuerza: "+character.getForce()+
+                " - Nivel: "+character.getLevel()+" - Experiencia: "+character.getExperience()+" - Oro: "+character.getGold() );
 //
 //        Monster monstruoUno = new Monster(MonstersFeatures.DRAGON);
-//        do {
+        do {
 //            System.out.println("EXPERIENCIA DEL PERSONAJE: "+ character.getExperience());
 //            double experienciaNueva=character.restarExperiencia(character.getExperience());
 //            character.setExperience(experienciaNueva);
-//            System.out.println("MENU DEL JUEGO RPG");
-//            System.out.println("LEVEL DEL PERSONAJE: "+ character.getLevel());
-//            System.out.println("CANTIDAD DE ORO: "+character.getGold());
-//            System.out.println("CANTIDAD DE EXPERIENCIA: "+character.getExperience());
-//            System.out.println("1. Misiones");
-//            System.out.println("2. Inventario");
-//            System.out.println("3. Tienda");
-//            System.out.println("4. Equipo");
-//            System.out.println("0. Salir");
-//            System.out.println(" ¡ Digita el numero para elegir una opcion !");
-//            opcion = sc.nextInt();
+            System.out.println("MENU DEL JUEGO RPG");
+            System.out.println("LEVEL DEL PERSONAJE: "+ character.getLevel());
+            System.out.println("CANTIDAD DE ORO: "+character.getGold());
+            System.out.println("CANTIDAD DE EXPERIENCIA: "+character.getExperience());
+            System.out.println("1. Misiones");
+            System.out.println("2. Inventario");
+            System.out.println("3. Tienda");
+            System.out.println("4. Equipo");
+            System.out.println("0. Salir");
+            System.out.println(" ¡ Digita el numero para elegir una opcion !");
+            opcion = sc.nextInt();
 //            switch (opcion){
 //                case 1:
 //                    do {
@@ -209,9 +215,9 @@ public class Main {
 //                    }while (opcionEquipo!=3);
 //                    break;
 //            }
-//        }while (opcion!=0);
-//        System.out.println("Salio del juego RPG");
-//        System.out.println("...Closed...");
+        }while (opcion!=0);
+        System.out.println("Salio del juego RPG");
+        System.out.println("...Closed...");
 
     }
 }

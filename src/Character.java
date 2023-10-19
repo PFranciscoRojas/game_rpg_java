@@ -19,7 +19,7 @@ public class Character implements MainSkills {
     private int agility;
     private int gold;
     public Character() {
-    ;
+
     }
 
     public int getId(){return this.id;}
