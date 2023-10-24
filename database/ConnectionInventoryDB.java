@@ -1,4 +1,5 @@
 package database;
+
 import enums.Elements;
 import src.Character;
 
@@ -9,6 +10,7 @@ import java.util.List;
 public class ConnectionInventoryDB {
     private Connection connection = null;
     String query;
+
     public ConnectionInventoryDB() {
 
         ConfigurationDB Setting = new ConfigurationDB();
@@ -27,6 +29,7 @@ public class ConnectionInventoryDB {
             System.out.println("Error al conectar a la base de datos: ");
         }
     }
+
     public void closeConnection() {
         try {
             if (connection != null) {
@@ -37,7 +40,8 @@ public class ConnectionInventoryDB {
             throw new RuntimeException("Error al cerrar tabla", ex);
         }
     }
-    public  List<Elements> listElements() {
+
+    public List<Elements> listElements() {
         query = "SELECT iny.*, str.* FROM inventory iny INNER JOIN store str ON iny.store_id = str.id";
         List<Elements> list = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -63,7 +67,8 @@ public class ConnectionInventoryDB {
         return list;
 
     }
-    public void insertElement(int id, int idCharacter){
+
+    public void insertElement(int id, int idCharacter) {
         try {
             connection.setAutoCommit(false);
             query = "INSERT INTO inventory (store_id,personage_id) VALUES (?,?)";
@@ -82,20 +87,48 @@ public class ConnectionInventoryDB {
             throw new RuntimeException("Error al insertar el elemento en la tabla", ex);
         }
     }
-    public void DeleteElement(int id){
+
+    public void DeleteElement(int id) {
+        String idStore;
         try {
             connection.setAutoCommit(false);
-            query = "DELETE FROM inventory WHERE store_id = ?";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
+            idStore = "SELECT id FROM inventory WHERE store_id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(idStore)) {
                 statement.setInt(1, id);
-                int rowsDeleted = statement.executeUpdate();
+                ResultSet resultSet = statement.executeQuery();
+                int inventoryId = -1;
+
+                if (resultSet.next()) {
+                    inventoryId = resultSet.getInt("id");
+                } else {
+                    throw new RuntimeException("No se encontró el registro de inventario para el store_id proporcionado.");
+                }
+
+                // Confirmar la transacción de la primera consulta
+                connection.commit();
+
+                // Iniciar una nueva transacción para la inserción en la tabla equipment
+                connection.setAutoCommit(false);
+                String insertEquipmentQuery = "DELETE FROM equipment  WHERE id=?";
+                try (PreparedStatement equipmentStatement = connection.prepareStatement(insertEquipmentQuery)) {
+                    equipmentStatement.setInt(1, inventoryId);
+                    int rowsInserted = equipmentStatement.executeUpdate();
+                }
+
+                // Confirmar la transacción de la segunda consulta
+                connection.commit();
             }
-            connection.commit();
         } catch (SQLException ex) {
-            throw new RuntimeException("Error al insertar el elemento en la tabla", ex);
+            try {
+                connection.rollback(); // Deshacer la transacción en caso de error
+            } catch (SQLException rollbackEx) {
+                throw new RuntimeException("Error al realizar rollback de la transacción", rollbackEx);
+            }
+            throw new RuntimeException("Error al borrar el elemento en la tabla", ex);
         }
 
     }
+
     public boolean doesItemExist(int id) {
         try {
             query = "SELECT * FROM inventory WHERE store_id = ? ";
