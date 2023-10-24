@@ -1,5 +1,7 @@
 package database;
+
 import enums.Elements;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,8 @@ import java.util.List;
 public class ConnectionEquipmentDB {
     private Connection connection = null;
     String query;
-    public ConnectionEquipmentDB (){
+
+    public ConnectionEquipmentDB() {
         ConfigurationDB Setting = new ConfigurationDB();
         String url = Setting.getUrl();
         String user = Setting.getUser();
@@ -17,10 +20,10 @@ public class ConnectionEquipmentDB {
             connection = DriverManager.getConnection(url, user, password);
             connection.setAutoCommit(false);
         } catch (SQLException ex) {
-            // Manejar la excepción de conexión y proporcionar un mensaje descriptivo
             System.out.println("Error al conectar a la base de datos: ");
         }
     }
+
     public void closeConnection() {
         try {
             if (connection != null) {
@@ -31,6 +34,7 @@ public class ConnectionEquipmentDB {
             throw new RuntimeException("Error al cerrar tabla", ex);
         }
     }
+
     public List<Elements> listElements() {
 
         query = "SELECT eqp.*, iny.*, str.* FROM equipment eqp INNER JOIN inventory iny ON eqp.inventory_id = iny.id INNER JOIN  store str ON iny.store_id = str.id;";
@@ -55,6 +59,7 @@ public class ConnectionEquipmentDB {
         return list;
 
     }
+
     public void insertElement(int id) {
         String idStore;
         try {
@@ -94,6 +99,7 @@ public class ConnectionEquipmentDB {
             throw new RuntimeException("Error al insertar el elemento en la tabla", ex);
         }
     }
+
     public void deleteElement(int id) {
         String idStore;
         try {
@@ -133,6 +139,7 @@ public class ConnectionEquipmentDB {
             throw new RuntimeException("Error al insertar el elemento en la tabla", ex);
         }
     }
+
     public boolean doesItemExist(char Type) {
         try {
             connection.setAutoCommit(false);

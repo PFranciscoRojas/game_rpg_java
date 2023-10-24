@@ -7,7 +7,16 @@ public class Elements {
     private int score;
     private int gold;
     private int category;
+
     private String type;
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    public String getType() {
+        return type;
+    }
+    private int categoryId;
     public int getId() {
         return id;
     }
@@ -17,6 +26,11 @@ public class Elements {
     public String getName() {
         return name;
     }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -42,18 +56,15 @@ public class Elements {
         this.category = category;
     }
 
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
     public int getScore() {
         return score;
     }
     public void setScore(int score) {
         this.score = score;
     }
-    public String getType (){return type;}
-    public void setType(String type) {
-       this.type = type;
-    }
-
-
-
 
 }
