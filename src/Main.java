@@ -40,7 +40,7 @@ public class Main {
 
         //Monster monstruoUno = new Monster(MonstersFeatures.DRAGON);
         do {
-            character.setExperience(experienciaNueva);
+
             System.out.println("MENU DEL JUEGO RPG");
             System.out.println("LEVEL DEL PERSONAJE: " + character.getLevel());
             System.out.println("CANTIDAD DE ORO: " + character.getGold());
@@ -60,6 +60,8 @@ public class Main {
                             connectionCharacterBD.subtractExperienceCharacter(experienciaNueva,1 );
                             levelNew = character.aumentarLevel(character.getLevel());
                             connectionCharacterBD.levelUpCharacter(levelNew, character.getId());
+                            character.setExperience(experienciaNueva);
+                            character.setLevel(levelNew);
                         }
                         character.setLife(100);
                         vidaItem = equipment.restablecerVidaConItem() + character.getLife();
