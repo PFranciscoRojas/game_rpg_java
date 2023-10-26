@@ -48,7 +48,7 @@ public class Elements {
         this.gold = gold;
     }
 
-    public int getCategory() {
+    public String getCategory() {
         return category;
     }
     public void setCategory(String string) {
