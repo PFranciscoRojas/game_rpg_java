@@ -54,7 +54,7 @@ public class ConnectionInventoryDB {
                     object.setDescription(resultSet.getString("str.description_item"));
                     object.setScore(resultSet.getInt("str.score"));
                     object.setGold(resultSet.getInt("str.gold"));
-                    object.setCategory(resultSet.getInt("str.category_id"));
+                    object.setCategoryId(resultSet.getInt("str.category_id"));
                     list.add(object);
                 }
 
