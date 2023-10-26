@@ -6,9 +6,9 @@ public class Elements {
     private String description;
     private int score;
     private int gold;
-    private int category;
-
+    private String category;
     private String type;
+    private int categoryId;
 
     public void setType(String type) {
         this.type = type;
@@ -16,7 +16,6 @@ public class Elements {
     public String getType() {
         return type;
     }
-    private int categoryId;
     public int getId() {
         return id;
     }
@@ -52,8 +51,8 @@ public class Elements {
     public int getCategory() {
         return category;
     }
-    public void setCategory(int category) {
-        this.category = category;
+    public void setCategory(String string) {
+        this.category = string;
     }
 
     public void setCategoryId(int categoryId) {

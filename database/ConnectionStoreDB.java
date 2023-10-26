@@ -53,7 +53,7 @@ public class ConnectionStoreDB {
                     object.setDescription(resultSet.getString("description_item"));
                     object.setScore(resultSet.getInt("score"));
                     object.setGold(resultSet.getInt("gold"));
-                    object.setCategory(resultSet.getInt("category_id"));
+                    object.setCategoryId(resultSet.getInt("category_id"));
                     list.add(object);
                 }
             }
