@@ -1,9 +1,5 @@
 package src;
 
-
-
-
-import enums.MonstersFeatures;
 import src.inventory.Equipment;
 import src.inventory.Inventory;
 import src.inventory.Store;

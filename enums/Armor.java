@@ -1,7 +1,7 @@
 package enums;
 
 public enum Armor {
-    Armor(1);
+    Armor(2);
     private final int id;
     Armor( int id){
         this.id=id;
