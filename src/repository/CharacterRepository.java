@@ -79,4 +79,66 @@ public class CharacterRepository implements Repository<Character> {
             }
         }
     }
+
+    public void subtractExperienceCharacter(double experience, int idCharacter) {
+        try (PreparedStatement statement =  getConnection().prepareStatement("UPDATE personage SET experience=? WHERE id=?")) {
+            statement.setDouble(1, experience);
+            statement.setInt(2, idCharacter);
+            statement.executeUpdate();
+            getConnection().commit();
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error al actualizar la experiencia del personage", ex);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void levelUpCharacter(int levelCharacter, int idCharacter) {
+        try (PreparedStatement statement =  getConnection().prepareStatement( "UPDATE personage SET level_personage=? WHERE id=?")) {
+            statement.setInt(1, levelCharacter);
+            statement.setInt(2, idCharacter);
+            statement.executeUpdate();
+            getConnection().commit();
+        } catch (Exception ex) {
+            throw new RuntimeException("Error al actualizar el nivel del personage", ex);
+        }
+    }
+
+    public void increaseGoldCharacter(int gold, int idCharacter) {
+        try (PreparedStatement statement =  getConnection().prepareStatement("UPDATE personage SET gold=? WHERE id=?")) {
+            statement.setInt(1, gold);
+            statement.setInt(2, idCharacter);
+            statement.executeUpdate();
+            getConnection().commit();
+        } catch (Exception ex) {
+            throw new RuntimeException("Error al aumentar el oro del personage");
+        }
+
+    }
+
+    public void usePotionCharacter(int idPotion) {
+        try (PreparedStatement statement = getConnection().prepareStatement( "DELETE FROM equipment  WHERE id=?")) {
+            statement.setInt(1, idPotion);
+            statement.executeUpdate();
+            getConnection().commit();
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error a eliminar la pocima");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void addExperienceCharacter(double experience, int idCharacter) {
+        try (PreparedStatement statement = getConnection().prepareStatement("UPDATE personage SET experience=? WHERE id=?")) {
+            statement.setDouble(1, experience);
+            statement.setInt(2, idCharacter);
+            statement.executeUpdate();
+            getConnection().commit();
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error al actualizar y sumar la experiencia del personage", ex);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

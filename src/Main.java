@@ -23,7 +23,7 @@ public class Main {
         double experienciaNueva = 0;
         String [] nombre  = new String[1];
         Integer [] opciones;
-        Repository<Character>repository = new CharacterRepository();
+        CharacterRepository repository = new CharacterRepository();
         Repository<Mission>repositoryM = new MissionRepository();
         Repository<Monster>repositoryMs = new MonsterRepository();
 
@@ -69,9 +69,9 @@ public class Main {
                     do {
                         if (character.getExperience() >= 5) {
                             experienciaNueva = character.restarExperiencia(character.getExperience());
-                          //  connectionCharacterBD.subtractExperienceCharacter(experienciaNueva,1 );
+                            repository.subtractExperienceCharacter(experienciaNueva,1 );
                             levelNew = character.aumentarLevel(character.getLevel());
-                           // connectionCharacterBD.levelUpCharacter(levelNew, character.getId());
+                            repository.levelUpCharacter(levelNew, character.getId());
                         }
                         character.setLife(100);
                         vidaItem = equipment.restablecerVidaConItem() + character.getLife();
@@ -109,7 +109,7 @@ public class Main {
                                     if (characterAlive) {
                                         goldNew = character.aumentarOro();
                                         System.out.println("ORO NUEVO: " + goldNew);
-                                        //connectionCharacterBD.increaseGoldCharacter(goldNew, character.getId());
+                                        repository.increaseGoldCharacter(goldNew, character.getId());
                                         if (i == 0) {
                                             if (equipment.existePocima()) {
                                                 System.out.println(equipment.devolverNombre());
@@ -119,7 +119,7 @@ public class Main {
                                                 System.out.println("Valor ingresado en usarPocima: " + usarPocima);
                                                 if (usarPocima.equalsIgnoreCase("si")) {
                                                     regenerar = equipment.usePotion(character, vidaArmaduraTotal);
-                                                   // connectionCharacterBD.usePotionCharacter(equipment.getIdPotion());
+                                                    repository.usePotionCharacter(equipment.getIdPotion());
                                                 } else {
                                                     regenerar = character.getLife();
                                                 }
@@ -134,13 +134,13 @@ public class Main {
                                                 break;
                                             } else {
                                                 System.out.println("NUEVO ORO FINALIZAR: " + goldNew);
-                                                //connectionCharacterBD.increaseGoldCharacter(goldNew, character.getId());
+                                                repository.increaseGoldCharacter(goldNew, character.getId());
                                                 System.out.println("COMPLETASTE 100% LA MISION");
                                                 System.out.println("Obtuvistes oro: " + mission.getGoldReward() + " y Obtuvistes experiencia: " + mission.getExperienceReward());
                                                 int recompensaOro = character.getGold() + mission.getGoldReward();
-                                                //connectionCharacterBD.increaseGoldCharacter(recompensaOro, character.getId());
+                                                repository.increaseGoldCharacter(recompensaOro, character.getId());
                                                 experienciaNueva = character.aumentarExperience(mission.getExperienceReward());
-                                                //connectionCharacterBD.addExperienceCharacter(experienciaNueva, character.getId());
+                                                repository.addExperienceCharacter(experienciaNueva, character.getId());
                                                 character.setGold(recompensaOro);
                                                 repositoryM.deleteModel(mision);
                                             }
