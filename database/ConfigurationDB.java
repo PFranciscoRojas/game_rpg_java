@@ -1,35 +1,34 @@
 package database;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConfigurationDB {
-    private Properties properties;
+
+    private static Connection myConnection;
 
     public ConfigurationDB() {
 
-        properties = new Properties();
-        try {
-            FileInputStream fileInputStream = new FileInputStream("./database/.properties");//Carga propiedades del archivo
+    }
+
+
+    public static Connection getInstance() throws SQLException, IOException {
+        if(myConnection == null){
+            Properties properties = new Properties();
+            FileInputStream fileInputStream = new FileInputStream("./database/.properties");
             properties.load(fileInputStream);
-        } catch (IOException ex) {
-            System.out.println("Error de Configuracion");
+            myConnection = DriverManager.getConnection( properties.getProperty("url"), properties.getProperty("user"), properties.getProperty("password"));
         }
-
-
+        return myConnection;
     }
 
-    public String getUrl() {
-        return properties.getProperty("url");
-    }
 
-    public String getUser() {
-        return properties.getProperty("user");
-    }
 
-    public String getPassword() {
-        return properties.getProperty("password");
-    }
+
+
 }

@@ -1,17 +1,15 @@
 package src;
-
-import database.ConnectionStoreDB;
-import src.inventory.Equipment;
+import database.ConfigurationDB;
 import src.inventory.Inventory;
 import src.inventory.Store;
 
+import java.sql.SQLException;
+
 public class MainTest {
-    public static void main(String[] args) {
-
-        Character character = new Character();
+    public static void main(String[] args) throws Exception {
         Store store = Store.getInstance();
-        Equipment equipment = Equipment.getInstance();
         Inventory inventory = Inventory.getInstance();
-
+        System.out.println(store.showCatalog(store.arms));
+       // System.out.println(inventory.removeItemInventory(1));
     }
 }

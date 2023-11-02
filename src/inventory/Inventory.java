@@ -1,25 +1,26 @@
 package src.inventory;
 
-import database.ConnectionInventoryDB;
-import enums.Elements;
-import src.Character;
+import src.model.Character;
+import src.model.Element;
+import src.repository.InventoryRepository;
+import src.repository.Repository;
 
 import java.util.List;
 
 public class Inventory {
-    Elements item;
+    Repository<Element> repository;
+    Element item;
     String alert = null;
     private static Inventory instance;
-    ConnectionInventoryDB connectionInventoryDB;
-    List<Elements> inventory;
 
-    private Inventory() {
-        connectionInventoryDB = new ConnectionInventoryDB();
-        inventory = connectionInventoryDB.listElements();
-        connectionInventoryDB.closeConnection();
+    List<Element> inventory;
+
+    private Inventory() throws Exception {
+        repository = new InventoryRepository();
+        inventory = repository.findAllModel(0);
     }
 
-    public static Inventory getInstance() {
+    public static Inventory getInstance() throws Exception {
         if (instance == null) {
             instance = new Inventory();
         }
@@ -30,7 +31,7 @@ public class Inventory {
         StringBuilder table = new StringBuilder();
         int posicion = 1;
         table.append("               INVENTARIO\n---------------------------------------------\n|    | Nombre                     | Atributo    |\n|----|----------------------------|-------------|\n");
-        for (Elements object : inventory) {
+        for (Element object : inventory) {
             String attribute = "";
             switch (object.getCategory()) {
                 case 1:
@@ -50,7 +51,7 @@ public class Inventory {
         return table.toString();
     }
 
-    public String selectEquipment(int position, Equipment equipment, Character character) {
+    public String selectEquipment(int position, Equipment equipment, Character character) throws Exception {
         int posicionAjustada = position - 1;
         if (posicionAjustada >= 0 && posicionAjustada < inventory.size()) {
             item = inventory.get(posicionAjustada);
@@ -62,29 +63,27 @@ public class Inventory {
         //--->Agregar metodo que hace aumentar al personaje
     }
 
-    public String AddItemInventory(Elements item, int idCharacter) {
-        connectionInventoryDB = new ConnectionInventoryDB();
-
+    public String AddItemInventory(Element item, int idCharacter) throws Exception {
+        repository = new InventoryRepository();
+        Integer[] dateId = new Integer[2];
+        dateId[0] = item.getId();
+        dateId[1] = idCharacter;
         if ((long) inventory.size() < 10) {
-            if (!connectionInventoryDB.doesItemExist(item.getId())) {
-                connectionInventoryDB.insertElement(item.getId(), idCharacter);
+            if (repository.saveModel(dateId)) {
                 inventory.add(item);
-                connectionInventoryDB.closeConnection();
                 return item.getName();
             }
-            return "Ya tienes este articulo en el inventario";
+            return " ----> !!!!  Ya tienes este articulo en el inventario";
         }
         return "Tienes el inventario lleno";
     }
 
-    public String removeItemInventory(int select, Character character) {
-        connectionInventoryDB = new ConnectionInventoryDB();
+    public String removeItemInventory(int select, Character character) throws Exception {
+        repository = new InventoryRepository();
         item = inventory.get(select - 1);
         inventory.remove(item);
-        connectionInventoryDB.DeleteElement(item.getId());
-        connectionInventoryDB.closeConnection();
-        return item.getName() + " Fue devuelto a la tienda recibiste " + character.removeInventory(item.getGold()) + " de oro por su devolucion";
-    }
+        repository.deleteModel(select);
+        return item.getName() + " Fue devuelto a la tienda recibiste " + character.removeInventory(item.getGold()) + " de oro por su devolucion";    }
 
     public boolean hasItemsInInventory() {
         return !inventory.isEmpty();
