@@ -237,10 +237,17 @@ public class Main {
                         if (opcionEquipo == 1) {
                             if (inventory.hasItemsInInventory()) {
                                 System.out.println(inventory.showInventory());
+                                System.out.println("OPCIONES DE INVENTARIO");
+                                System.out.println("Si no desea equipar Digite el numero 0");
                                 System.out.println("Digite el numero del id correspondiente al item para equipar a su personaje: ");
                                 itemSeleccionado = sc.nextInt();
-                                System.out.println(inventory.selectEquipment(itemSeleccionado, equipment, character));
-                                inventory.removeItemInventory(itemSeleccionado, character);
+                                if (itemSeleccionado==0){
+                                    System.out.println("Usted no eligio ningun item");
+                                    break;
+                                }else {
+                                    System.out.println(inventory.selectEquipment(itemSeleccionado, equipment, character));
+                                    inventory.removeItemInventory(itemSeleccionado, character);
+                                }
                             } else {
                                 System.out.println("Usted no posee ningun item en su inventario");
                                 System.out.println("¡ Dirijace a la tienda y compre un item !");
@@ -248,9 +255,15 @@ public class Main {
                             }
                         } else if (opcionEquipo == 2) {
                             System.out.println(equipment.showEquipament());
+                            System.out.println("OPCIONES DE EQUIPO");
+                            System.out.println("Si no desea desequipar Digite el numero 0");
                             System.out.println("Digite el numero del id correspondiente al item para desequipar a su personaje: ");
                             int option = sc.nextInt();
-                            System.out.println(equipment.returnItemToInventory(option, inventory, character));
+                            if (option==0){
+                                System.out.println("Usted no desequipo ningun item");
+                            }else {
+                                System.out.println(equipment.returnItemToInventory(option, inventory, character));
+                            }
 
                         }
                     } while (opcionEquipo != 3);
