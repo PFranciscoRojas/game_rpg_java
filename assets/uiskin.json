@@ -1,0 +1,20 @@
+{
+  "title": "Pantalla de Menú Principal",
+  "backgroundImage": "fondo.jpg",
+  "buttons": [
+    {
+      "text": "Pantalla 1",
+      "x": 100,
+      "y": 200
+    },
+    {
+      "text": "Pantalla 2",
+      "x": 100,
+      "y": 150
+    }
+  ],
+  "fontPosition": {
+    "x": 200,
+    "y": 150
+  }
+}
