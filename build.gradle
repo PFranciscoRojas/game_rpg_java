@@ -1,6 +1,4 @@
 buildscript {
-    
-
     repositories {
         mavenLocal()
         mavenCentral()
@@ -9,11 +7,18 @@ buildscript {
         google()
     }
     dependencies {
-        
-
+        // Aquí puedes agregar las dependencias necesarias para tu script de Gradle
     }
 }
 
+plugins {
+    id 'java'
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 allprojects {
     apply plugin: "eclipse"
 
@@ -42,21 +47,18 @@ allprojects {
 project(":desktop") {
     apply plugin: "java-library"
 
-
     dependencies {
         implementation project(":core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        
+        implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.1.0'
     }
 }
 
 project(":core") {
     apply plugin: "java-library"
 
-
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
-        
     }
 }

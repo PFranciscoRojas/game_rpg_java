@@ -1,4 +1,6 @@
 package com.mygdx.game;
+import classGame.inventory.Inventory;
+import classGame.inventory.Store;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -17,12 +19,16 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 
 public class MainFirstScreen implements Screen {
+
+    Store store = Store.getInstance();
+    Inventory inventory = Inventory.getInstance();
+
     final MyGdxGame game;
     OrthographicCamera camera;
     Stage stage;
     Skin skin;
     Sound dropSound;
-    public <y> MainFirstScreen(final MyGdxGame game) {
+    public <y> MainFirstScreen(final MyGdxGame game) throws Exception {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1080, 720);
@@ -91,6 +97,7 @@ public class MainFirstScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 // Acciones al hacer clic en el botón
                 game.setScreen(new StoreScreen(game));
+                System.out.println(store.showCatalog(store.arms));
             }
         });
 
@@ -109,6 +116,7 @@ public class MainFirstScreen implements Screen {
                 @Override
                 public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                     buttonStyle3.fontColor = Color.GRAY;
+
                 }
 
                 @Override
@@ -140,7 +148,7 @@ public class MainFirstScreen implements Screen {
                 // Acciones al hacer clic en el botón
             }
         });
-        dropSound.play();
+        //dropSound.play();
         stage.addActor(button1);
         stage.addActor(button2);
         stage.addActor(button3);

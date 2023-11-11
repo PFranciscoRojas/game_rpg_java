@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import java.util.Iterator;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
@@ -15,11 +14,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
-
+import classGame.model.Character;
 
 public class GameScreen implements Screen {
     final MyGdxGame game;
-
     Texture dropImage;
     Texture bucketImage;
     Sound dropSound;
