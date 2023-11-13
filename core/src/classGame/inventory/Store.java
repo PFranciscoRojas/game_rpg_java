@@ -71,8 +71,8 @@ public class Store {
         int posicionAjustada = position - 1;
         if (posicionAjustada >= 0 && posicionAjustada < list.size()) {
             Element object = list.get(posicionAjustada);
-            if (100 >= object.getGold()) {
-                characterRepository.payElement(2,1);
+            if (character.getGold() >= object.getGold()) {
+                character.setGold(character.getGold()-object.getGold());
                 return inventory.AddItemInventory(object, 1);
             } else {
                 return 'f';//falta dinero

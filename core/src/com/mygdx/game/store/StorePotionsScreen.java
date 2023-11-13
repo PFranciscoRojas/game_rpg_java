@@ -53,7 +53,7 @@ public class StorePotionsScreen implements Screen {
     Label selectGold = null;
     Label payGold = null;
     Store store = Store.getInstance();
-    Character character = new Character();
+    Character character;
     Inventory inventory = Inventory.getInstance();
     CharacterRepository repository = new CharacterRepository();
 
@@ -261,6 +261,7 @@ public class StorePotionsScreen implements Screen {
                                         button.setStyle(nuevoEstilo);
                                         break;
                                     case 'c':
+                                        repository.payElement(store.potions.get(imageIndex).getGold(),1);
                                         CharacterGold();
                                         break;
                                     case 'l':

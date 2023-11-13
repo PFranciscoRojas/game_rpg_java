@@ -116,9 +116,9 @@ public class CharacterRepository implements Repository<Character> {
 
     }
 
-    public void payElement(int gold, int idCharacter) {
+    public void payElement(int gold, int i) {
         try (PreparedStatement selectStatement = getConnection().prepareStatement("SELECT gold FROM personage WHERE id = ?")) {
-            selectStatement.setInt(1, idCharacter);
+            selectStatement.setInt(1, i);
 
             try (ResultSet resultSet = selectStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -126,7 +126,7 @@ public class CharacterRepository implements Repository<Character> {
 
                     try (PreparedStatement updateStatement = getConnection().prepareStatement("UPDATE personage SET gold=? WHERE id=?")) {
                         updateStatement.setInt(1, Math.max(0, currentGold - gold)); // Evita valores negativos
-                        updateStatement.setInt(2, idCharacter);
+                        updateStatement.setInt(2, i);
                         updateStatement.executeUpdate();
 
                         // Si estás utilizando autocommit, no es necesario el commit explícito.

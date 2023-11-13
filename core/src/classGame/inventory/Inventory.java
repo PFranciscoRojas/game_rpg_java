@@ -68,7 +68,7 @@ public class Inventory {
         Integer[] dateId = new Integer[2];
         dateId[0] = item.getId();
         dateId[1] = idCharacter;
-        if ((long) inventory.size() < 10) {
+        if ((long) inventory.size() < 9) {
             if (repository.saveModel(dateId)) {
                 inventory.add(item);
                 return 'c';//comprado

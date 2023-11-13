@@ -100,7 +100,7 @@ public class MenuStore implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 // Acciones al hacer clic en el botón
                 try {
-                    game.setScreen(new StorePotionsScreen(game));
+                    game.setScreen(new StoreArmorScreen(game));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

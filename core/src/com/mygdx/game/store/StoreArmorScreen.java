@@ -29,8 +29,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MainFirstScreen;
 import com.mygdx.game.MyGdxGame;
 
-public class StoreArmsScreen implements Screen {
-
+public class StoreArmorScreen implements Screen {
     final MyGdxGame game;
     Skin skin;
     Skin skinTwo;
@@ -53,12 +52,10 @@ public class StoreArmsScreen implements Screen {
     Label selectGold = null;
     Label payGold = null;
     Store store = Store.getInstance();
-    Character character = new Character();
+    Character character;
     Inventory inventory = Inventory.getInstance();
     CharacterRepository repository = new CharacterRepository();
-
-    public StoreArmsScreen(MyGdxGame game) throws Exception {
-
+    public StoreArmorScreen(MyGdxGame game) throws Exception {
         character = repository.getModel(1);
 
         this.game = game;
@@ -92,7 +89,7 @@ public class StoreArmsScreen implements Screen {
 
 
         // Crea un cuadro de texto
-        Label label = new Label("Lista De Armas", skin);
+        Label label = new Label("Lista De Posciones", skin);
         label.setPosition(120, Gdx.graphics.getHeight() - label.getHeight() - 85); // Ajusta la posición de la etiqueta de texto
 
         Label gold = new Label(String.valueOf("TU DINERO $" + character.getGold()), skin);
@@ -114,6 +111,7 @@ public class StoreArmsScreen implements Screen {
         CharacterGold();
         optionExit();
     }
+
     private void CharacterGold(){
         if (payGold != null) {
             // Oculta el Label de oro anterior
@@ -130,7 +128,6 @@ public class StoreArmsScreen implements Screen {
 
 
     }
-
     private void optionExit(){
         Texture buttonTextureExit = new Texture(Gdx.files.internal("img/exit.png"));
         Skin skinFull = new Skin();
@@ -159,38 +156,38 @@ public class StoreArmsScreen implements Screen {
         float padding = 15f; // Espacio entre imágenes
 
         // Calcula la cantidad de filas necesarias
-        int numRows = (int) Math.ceil(store.arms.size() / 3.0);
+        int numRows = (int) Math.ceil(store.armors.size() / 3.0);
 
         // Posición inicial del mosaico
         float startX = 550f;
-        float startY = Gdx.graphics.getHeight() - 350f; // Ajusta según sea necesario
+        float startY = Gdx.graphics.getHeight() - 280; // Ajusta según sea necesario
 
 // Crear las imágenes y agregarlas al Stage con funcionalidad de clic
-        for (int i = 0; i < store.arms.size(); i++) {
+        for (int i = 0; i < store.armors.size(); i++) {
             float x = startX + (i % 3) * (imageWidth + padding);
             float y = startY - (i / 3) * (imageHeight + padding);
 
             final int imageIndex = i; // Necesario para acceder al índice en el ClickListener
 
             Image images = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(imagePathss)))));
-            Image image = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(store.arms.get(imageIndex).getGraphicsElement())))));
+            Image image = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(store.armors.get(imageIndex).getGraphicsElement())))));
 
             images.setBounds(x, y, imageWidth, imageHeight);
             image.setBounds(x, y, imageWidth, imageHeight);
             image.setTouchable(Touchable.enabled); // Hace que la imagen sea táctil
 
-            Image select = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(store.arms.get(imageIndex).getGraphicsElement())))));
+            Image select = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(store.armors.get(imageIndex).getGraphicsElement())))));
             select.setSize(200, 200);
             select.setVisible(false);
             select.setPosition(250, Gdx.graphics.getHeight() / 2);
             stage.addActor(select);
 
-            Label titleElements = new Label(store.arms.get(imageIndex).getName(), skinTwo);
+            Label titleElements = new Label(store.armors.get(imageIndex).getName(), skinTwo);
             titleElements.setVisible(false);
             titleElements.setPosition(210, Gdx.graphics.getHeight() - 400);
             stage.addActor(titleElements);
 
-            Label parrafElements = new Label(store.arms.get(imageIndex).getDescription(), skinThree);
+            Label parrafElements = new Label(store.armors.get(imageIndex).getDescription(), skinThree);
             parrafElements.setVisible(false);
             parrafElements.setPosition(210, Gdx.graphics.getHeight() - 420);
             stage.addActor(parrafElements);
@@ -255,21 +252,20 @@ public class StoreArmsScreen implements Screen {
                         public void clicked(InputEvent event, float x, float y) {
                             // Verifica si payGold no es null antes de intentar operar con él
                             try {
-                                char response = store.buyProduct(imageIndex+1,inventory,character,store.arms);
-                                System.out.println(response);
+                                char response = store.buyProduct(imageIndex+1,inventory,character,store.armors);
                                 switch (response) {
                                     case 'e':
                                         button.setStyle(nuevoEstilo);
                                         break;
                                     case 'c':
-                                        repository.payElement(store.arms.get(imageIndex).getGold(),1);
+                                        repository.payElement(store.armors.get(imageIndex).getGold(),1);
                                         CharacterGold();
                                         break;
                                     case 'l':
                                         button.setStyle(nuevoEstilof);
                                         break;
                                     case 'f':
-                                        button.setStyle(nuevoEstilof); // secuencia de sentencias.
+                                        // secuencia de sentencias.
                                         break;
                                     case 'r':
                                         // secuencia de sentencias.
@@ -290,7 +286,7 @@ public class StoreArmsScreen implements Screen {
 
 
                     // Crea y muestra la etiqueta del oro
-                    Label goldElements = new Label(String.valueOf("$" + store.arms.get(imageIndex).getGold()), skinFour);
+                    Label goldElements = new Label(String.valueOf("$" + store.armors.get(imageIndex).getGold()), skinFour);
                     goldElements.setVisible(true);
                     goldElements.setPosition(325, Gdx.graphics.getHeight() - 485);
                     selectGold = goldElements;
@@ -304,8 +300,6 @@ public class StoreArmsScreen implements Screen {
 
         }
     }
-
-
     @Override
     public void show() {
 
@@ -349,9 +343,6 @@ public class StoreArmsScreen implements Screen {
 
     @Override
     public void dispose() {
-        dropImage.dispose();
-        bucketImage.dispose();
-        dropSound.dispose();
-        rainMusic.dispose();
+
     }
 }
