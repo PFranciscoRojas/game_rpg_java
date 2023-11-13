@@ -63,7 +63,7 @@ public class Inventory {
         //--->Agregar metodo que hace aumentar al personaje
     }
 
-    public String AddItemInventory(Element item, int idCharacter) throws Exception {
+    public char AddItemInventory(Element item, int idCharacter) throws Exception {
         repository = new InventoryRepository();
         Integer[] dateId = new Integer[2];
         dateId[0] = item.getId();
@@ -71,11 +71,11 @@ public class Inventory {
         if ((long) inventory.size() < 10) {
             if (repository.saveModel(dateId)) {
                 inventory.add(item);
-                return item.getName();
+                return 'c';//comprado
             }
-            return " ----> !!!!  Ya tienes este articulo en el inventario";
+            return'e';//ya existe
         }
-        return "Tienes el inventario lleno";
+        return 'l';//inventario lleno
     }
 
     public String removeItemInventory(int select, Character character) throws Exception {

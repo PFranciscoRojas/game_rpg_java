@@ -117,29 +117,30 @@ public class CharacterRepository implements Repository<Character> {
     }
 
     public void payElement(int gold, int idCharacter) {
-        int val = 0;
-        try(PreparedStatement myStat= getConnection().prepareStatement("SELECT gold FROM personage WHERE id = ?")) {
-            myStat.setInt(1, idCharacter);
+        try (PreparedStatement selectStatement = getConnection().prepareStatement("SELECT gold FROM personage WHERE id = ?")) {
+            selectStatement.setInt(1, idCharacter);
 
-            try (ResultSet myResult = myStat.executeQuery()) {
-                if( myResult.next()){
-                     val =  myResult.getInt("gold");
+            try (ResultSet resultSet = selectStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int currentGold = resultSet.getInt("gold");
+
+                    try (PreparedStatement updateStatement = getConnection().prepareStatement("UPDATE personage SET gold=? WHERE id=?")) {
+                        updateStatement.setInt(1, Math.max(0, currentGold - gold)); // Evita valores negativos
+                        updateStatement.setInt(2, idCharacter);
+                        updateStatement.executeUpdate();
+
+                        // Si estás utilizando autocommit, no es necesario el commit explícito.
+                        // getConnection().commit();
+                    } catch (SQLException ex) {
+                        throw new RuntimeException("Error al actualizar el oro del personaje", ex);
+                    }
                 }
             }
-
-        try (PreparedStatement statement =  getConnection().prepareStatement("UPDATE personage SET gold=? WHERE id=?")) {
-            statement.setInt(1,val-gold);
-            statement.setInt(2, idCharacter);
-            statement.executeUpdate();
-            getConnection().commit();
         } catch (Exception ex) {
-            throw new RuntimeException("Error al descontar el oro del personage");
+            throw new RuntimeException("Error al obtener el oro del personaje", ex);
         }
-        } catch (Exception ex) {
-            throw new RuntimeException("Error al Optener el oro del personage");
-        }
-
     }
+
     public void usePotionCharacter(int idPotion) {
         try (PreparedStatement statement = getConnection().prepareStatement( "DELETE FROM equipment  WHERE id=?")) {
             statement.setInt(1, idPotion);

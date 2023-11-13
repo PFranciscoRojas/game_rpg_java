@@ -4,6 +4,7 @@ package classGame.model;
 import classGame.enums.Armor;
 import classGame.model.MainSkills;
 import classGame.model.Monster;
+import classGame.repository.CharacterRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,6 +26,7 @@ public class Character implements MainSkills {
     private int intelligence;
     private int agility;
     private int gold;
+    CharacterRepository characterRepository;
 
     public Character() {
 

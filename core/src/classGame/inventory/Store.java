@@ -2,6 +2,7 @@ package classGame.inventory;
 
 import classGame.model.Character;
 import classGame.model.Element;
+import classGame.repository.CharacterRepository;
 import classGame.repository.Repository;
 import classGame.repository.StoreRepository;
 
@@ -10,7 +11,9 @@ import java.util.List;
 
 public class Store {
     Repository<Element> repository;
+    CharacterRepository characterRepository;
     String alert = null;
+    boolean state = true;
     public List<Element> arms;
     public List<Element> armors;
     public List<Element> potions;
@@ -63,20 +66,21 @@ public class Store {
         return "                CATALOGO DE " + attributeTwo + "\n----------------------------------------------------\n|   | Precio | Nombre                     |" + attribute + " |\n|---|--------|----------------------------|---------|\n" + listado.toString();
     }
 
-    public String buyProduct(int position, Inventory inventory, Character character, List<Element> list) throws Exception {
+    public char buyProduct(int position, Inventory inventory, Character character, List<Element> list) throws Exception {
+        characterRepository =new CharacterRepository();
         int posicionAjustada = position - 1;
         if (posicionAjustada >= 0 && posicionAjustada < list.size()) {
             Element object = list.get(posicionAjustada);
             if (100 >= object.getGold()) {
-                character.payArticle(object.getGold());
-                alert = "Compraste " + inventory.AddItemInventory(object, 1);
+                characterRepository.payElement(2,1);
+                return inventory.AddItemInventory(object, 1);
             } else {
-                alert = " No tienes suficiente oro";
+                return 'f';//falta dinero
             }
         } else {
-            alert = "numero no valido";
+            return 'r';//rango
         }
-        return alert;
+
     }
 }
 

@@ -100,7 +100,7 @@ public class MenuStore implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 // Acciones al hacer clic en el botón
                 try {
-                    game.setScreen(new StoreArmsScreen(game));
+                    game.setScreen(new StorePotionsScreen(game));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -128,8 +128,13 @@ public class MenuStore implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Acciones al hacer clic en el botón
-                game.setScreen(new LoginScreen(game));
+                // Accion
+                try {
+                    game.setScreen(new StorePotionsScreen(game));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
             }
         });
 

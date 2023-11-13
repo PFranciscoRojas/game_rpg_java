@@ -29,7 +29,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MainFirstScreen;
 import com.mygdx.game.MyGdxGame;
 
-public class StoreArmsScreen implements Screen {
+public class StorePotionsScreen implements Screen {
 
     final MyGdxGame game;
     Skin skin;
@@ -57,8 +57,7 @@ public class StoreArmsScreen implements Screen {
     Inventory inventory = Inventory.getInstance();
     CharacterRepository repository = new CharacterRepository();
 
-    public StoreArmsScreen(MyGdxGame game) throws Exception {
-
+    public StorePotionsScreen(MyGdxGame game) throws Exception {
         character = repository.getModel(1);
 
         this.game = game;
@@ -92,7 +91,7 @@ public class StoreArmsScreen implements Screen {
 
 
         // Crea un cuadro de texto
-        Label label = new Label("Lista De Armas", skin);
+        Label label = new Label("Lista De Posciones", skin);
         label.setPosition(120, Gdx.graphics.getHeight() - label.getHeight() - 85); // Ajusta la posición de la etiqueta de texto
 
         Label gold = new Label(String.valueOf("TU DINERO $" + character.getGold()), skin);
@@ -114,6 +113,7 @@ public class StoreArmsScreen implements Screen {
         CharacterGold();
         optionExit();
     }
+
     private void CharacterGold(){
         if (payGold != null) {
             // Oculta el Label de oro anterior
@@ -159,38 +159,38 @@ public class StoreArmsScreen implements Screen {
         float padding = 15f; // Espacio entre imágenes
 
         // Calcula la cantidad de filas necesarias
-        int numRows = (int) Math.ceil(store.arms.size() / 3.0);
+        int numRows = (int) Math.ceil(store.potions.size() / 3.0);
 
         // Posición inicial del mosaico
         float startX = 550f;
         float startY = Gdx.graphics.getHeight() - 350f; // Ajusta según sea necesario
 
 // Crear las imágenes y agregarlas al Stage con funcionalidad de clic
-        for (int i = 0; i < store.arms.size(); i++) {
+        for (int i = 0; i < store.potions.size(); i++) {
             float x = startX + (i % 3) * (imageWidth + padding);
             float y = startY - (i / 3) * (imageHeight + padding);
 
             final int imageIndex = i; // Necesario para acceder al índice en el ClickListener
 
             Image images = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(imagePathss)))));
-            Image image = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(store.arms.get(imageIndex).getGraphicsElement())))));
+            Image image = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(store.potions.get(imageIndex).getGraphicsElement())))));
 
             images.setBounds(x, y, imageWidth, imageHeight);
             image.setBounds(x, y, imageWidth, imageHeight);
             image.setTouchable(Touchable.enabled); // Hace que la imagen sea táctil
 
-            Image select = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(store.arms.get(imageIndex).getGraphicsElement())))));
+            Image select = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(store.potions.get(imageIndex).getGraphicsElement())))));
             select.setSize(200, 200);
             select.setVisible(false);
             select.setPosition(250, Gdx.graphics.getHeight() / 2);
             stage.addActor(select);
 
-            Label titleElements = new Label(store.arms.get(imageIndex).getName(), skinTwo);
+            Label titleElements = new Label(store.potions.get(imageIndex).getName(), skinTwo);
             titleElements.setVisible(false);
             titleElements.setPosition(210, Gdx.graphics.getHeight() - 400);
             stage.addActor(titleElements);
 
-            Label parrafElements = new Label(store.arms.get(imageIndex).getDescription(), skinThree);
+            Label parrafElements = new Label(store.potions.get(imageIndex).getDescription(), skinThree);
             parrafElements.setVisible(false);
             parrafElements.setPosition(210, Gdx.graphics.getHeight() - 420);
             stage.addActor(parrafElements);
@@ -288,7 +288,7 @@ public class StoreArmsScreen implements Screen {
 
 
                     // Crea y muestra la etiqueta del oro
-                    Label goldElements = new Label(String.valueOf("$" + store.arms.get(imageIndex).getGold()), skinFour);
+                    Label goldElements = new Label(String.valueOf("$" + store.potions.get(imageIndex).getGold()), skinFour);
                     goldElements.setVisible(true);
                     goldElements.setPosition(325, Gdx.graphics.getHeight() - 485);
                     selectGold = goldElements;
@@ -302,6 +302,7 @@ public class StoreArmsScreen implements Screen {
 
         }
     }
+
 
 
     @Override
@@ -347,9 +348,6 @@ public class StoreArmsScreen implements Screen {
 
     @Override
     public void dispose() {
-        dropImage.dispose();
-        bucketImage.dispose();
-        dropSound.dispose();
-        rainMusic.dispose();
+
     }
 }
