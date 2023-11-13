@@ -10,11 +10,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygdx.game.store.StoreArmsScreen;
 
 public class MenuMission implements Screen {
     final MyGdxGame game;
@@ -31,9 +30,12 @@ public class MenuMission implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         skin = new Skin();
+        skin.add("default", new Label.LabelStyle(game.font, Color.WHITE));
         skin.add("default", new TextButton.TextButtonStyle(null, null, null, game.font));
-
-
+        Window.WindowStyle windowStyle = new Window.WindowStyle();
+        windowStyle.titleFont = game.font;  // Ajusta el tipo de fuente según tus necesidades
+        // Ajusta según tus necesidades
+        skin.add("default", windowStyle, Window.WindowStyle.class);
         // Centro de la pantalla
         float centerX = Gdx.graphics.getWidth() / 2;
         float centerY = Gdx.graphics.getHeight() / 4;
@@ -62,12 +64,51 @@ public class MenuMission implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Dialog dialog = new Dialog("MISION 1", skin) {
+                    @Override
+                    protected void result(Object object) {
+                        // Este método se llama cuando el cuadro de diálogo se cierra
+                        if (object != null && object.equals("si")) {
+                            // Acción si se selecciona "si"
+                            try {
+                                game.setScreen(new MissionOneScreen(game));
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+                };
 
-                try {
-                    game.setScreen(new MissionOneScreen(game));
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+                // Agrega un mensaje al cuadro de diálogo
+                Label label = new Label("¿confirma ir a la Mision 1?", skin); // "white" es el nombre del estilo de la fuente blanca
+                customFont.getData().setScale(1.0f);
+                dialog.getContentTable().add(label).pad(20).center();
+
+                // Agrega botones al cuadro de diálogo
+                TextButton siButton = new TextButton("Sí", skin);
+                TextButton noButton = new TextButton("No", skin);
+
+                // Define acciones para los botones
+                siButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+
+                    }
+                });
+                noButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+
+                    }
+                });
+
+                // Agrega los botones al cuadro de diálogo
+                dialog.button(siButton, "si");
+                dialog.button(noButton, "no");
+                Texture backgroundTexture = new Texture(Gdx.files.internal("img/black_background.jpg"));
+                dialog.setBackground(new Image(backgroundTexture).getDrawable());
+                // Muestra el cuadro de diálogo
+                dialog.show(stage);
             }
         });
 
