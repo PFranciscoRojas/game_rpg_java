@@ -19,7 +19,7 @@ public class ConfigurationDB {
     public static Connection getInstance() throws SQLException, IOException {
         if(myConnection == null){
             Properties properties = new Properties();
-            FileInputStream fileInputStream = new FileInputStream("D:/UNIVERSIDAD/SEXTO SEMESTRE/POO/game_rpg_java/assets/.properties");
+            FileInputStream fileInputStream = new FileInputStream("C:/Users/user/IdeaProjects/noviembreDoce/game_rpg_java/core/src/classGame/database/.properties");
             properties.load(fileInputStream);
             myConnection = DriverManager.getConnection( properties.getProperty("url"), properties.getProperty("user"), properties.getProperty("password"));
         }
