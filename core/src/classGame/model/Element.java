@@ -6,8 +6,17 @@ public class Element {
     private String description;
     private int score;
     private int gold;
+    private String graphicsElement;
     private int category;
     private String type;
+
+    public String getGraphicsElement() {
+        return graphicsElement;
+    }
+
+    public void setGraphicsElement(String graphicsElement) {
+        this.graphicsElement = graphicsElement;
+    }
 
     public String getName() {
         return name;

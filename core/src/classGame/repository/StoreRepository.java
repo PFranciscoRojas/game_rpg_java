@@ -41,6 +41,7 @@ public class StoreRepository implements  Repository <Element>{
         object.setDescription(resultSet.getString("description_item"));
         object.setScore(resultSet.getInt("score"));
         object.setGold(resultSet.getInt("gold"));
+        object.setGraphicsElement(resultSet.getString("graphics"));
         object.setCategory(resultSet.getInt("category_id"));
         return object;
     }

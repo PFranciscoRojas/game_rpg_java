@@ -59,7 +59,7 @@ public class CharacterRepository implements Repository<Character> {
     }
 
     @Override
-    public Character instanceElement(ResultSet resultSet) throws SQLException {
+    public Character instanceElement(ResultSet resultSet) throws Exception {
         Character character = new Character();
         character.setId(resultSet.getInt("id"));
         character.setName(resultSet.getString("name_personage"));
@@ -116,6 +116,30 @@ public class CharacterRepository implements Repository<Character> {
 
     }
 
+    public void payElement(int gold, int idCharacter) {
+        int val = 0;
+        try(PreparedStatement myStat= getConnection().prepareStatement("SELECT gold FROM personage WHERE id = ?")) {
+            myStat.setInt(1, idCharacter);
+
+            try (ResultSet myResult = myStat.executeQuery()) {
+                if( myResult.next()){
+                     val =  myResult.getInt("gold");
+                }
+            }
+
+        try (PreparedStatement statement =  getConnection().prepareStatement("UPDATE personage SET gold=? WHERE id=?")) {
+            statement.setInt(1,val-gold);
+            statement.setInt(2, idCharacter);
+            statement.executeUpdate();
+            getConnection().commit();
+        } catch (Exception ex) {
+            throw new RuntimeException("Error al descontar el oro del personage");
+        }
+        } catch (Exception ex) {
+            throw new RuntimeException("Error al Optener el oro del personage");
+        }
+
+    }
     public void usePotionCharacter(int idPotion) {
         try (PreparedStatement statement = getConnection().prepareStatement( "DELETE FROM equipment  WHERE id=?")) {
             statement.setInt(1, idPotion);

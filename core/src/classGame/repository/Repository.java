@@ -9,7 +9,7 @@ import java.util.List;
         <T> boolean saveModel(T[] arreglo) throws Exception;
 
         void deleteModel(Integer id) throws Exception;
-         T instanceElement(ResultSet resultSet) throws SQLException;
+         T instanceElement(ResultSet resultSet) throws Exception;
          boolean doesItemExist(char Type) throws Exception;
     }
 
