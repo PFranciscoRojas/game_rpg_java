@@ -50,7 +50,7 @@ public class MainFirstScreen implements Screen {
 
 
         final TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        final TextButton button1 = new TextButton("Iniciar Mision", skin, "default");
+        final TextButton button1 = new TextButton("Misiones", skin, "default");
         buttonStyle.font = customFont;
         button1.setStyle(buttonStyle); // Aplica el estilo al botón
         button1.setPosition(centerX - button1.getWidth() / 2, centerY + 50);
@@ -69,7 +69,12 @@ public class MainFirstScreen implements Screen {
 
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    game.setScreen(new GameScreen(game));
+                    //game.setScreen(new GameScreen(game));
+                    try {
+                        game.setScreen(new MenuMission(game));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             });
 
