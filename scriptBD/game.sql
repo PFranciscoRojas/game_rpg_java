@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-10-2023 a las 05:21:55
--- Versión del servidor: 10.4.11-MariaDB
--- Versión de PHP: 7.4.3
+-- Tiempo de generación: 14-11-2023 a las 13:32:27
+-- Versión del servidor: 10.1.10-MariaDB
+-- Versión de PHP: 5.6.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -53,13 +51,6 @@ CREATE TABLE `equipment` (
   `inventory_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `equipment`
---
-
-INSERT INTO `equipment` (`id`, `inventory_id`) VALUES
-(2, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -77,7 +68,8 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`id`, `store_id`, `personage_id`) VALUES
-(1, 2, 1);
+(77, 5, 1),
+(78, 21, 1);
 
 -- --------------------------------------------------------
 
@@ -163,7 +155,7 @@ CREATE TABLE `personage` (
 --
 
 INSERT INTO `personage` (`id`, `name_personage`, `breed`, `level_personage`, `experience`, `force_personage`, `gold`, `life`) VALUES
-(1, 'daniel', 'Guerrero', 1, 0, 10, 100, 100);
+(1, 'daniel', 'Guerrero', 1, 0, 10, 78, 100);
 
 -- --------------------------------------------------------
 
@@ -178,6 +170,7 @@ CREATE TABLE `store` (
   `score` int(11) DEFAULT NULL,
   `category` char(1) DEFAULT NULL,
   `gold` int(11) DEFAULT NULL,
+  `graphics` varchar(50) NOT NULL,
   `category_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -185,14 +178,25 @@ CREATE TABLE `store` (
 -- Volcado de datos para la tabla `store`
 --
 
-INSERT INTO `store` (`id`, `name_item`, `description_item`, `score`, `category`, `gold`, `category_id`) VALUES
-(1, 'CASCO', 'CASCO BRONCE', 4, 'H', 8, 2),
-(2, 'PECHO', 'PECHO BRONCE', 5, 'C', 10, 2),
-(3, 'PANTALON', 'PANTALON BRONCE', 5, 'P', 10, 2),
-(4, 'BOTA', 'BOTA BRONCE', 1, 'B', 3, 2),
-(5, 'BRAZOLETA', 'BRAZOLETA BRONCE', 3, 'H', 10, 2),
-(6, 'ESPADA', 'ESPADA', 5, NULL, 20, 1),
-(7, 'POCIMA', 'REGENERA 100% TU VIDA', NULL, NULL, 20, 3);
+INSERT INTO `store` (`id`, `name_item`, `description_item`, `score`, `category`, `gold`, `graphics`, `category_id`) VALUES
+(1, 'CASCO', 'CASCO BRONCE', 4, 'H', 10, 'img/cascoI.png', 2),
+(2, 'PECHO', 'PECHO BRONCE', 5, 'C', 10, 'img/chalecoI.png', 2),
+(3, 'PANTALON', 'PANTALON BRONCE', 5, 'P', 10, 'img/pantalonI.png', 2),
+(4, 'CASCO', 'CASCO PLATA', 5, 'H', 3, 'img/cascoII.png', 2),
+(5, 'PECHO', 'PECHO PLATA', 8, 'C', 10, 'img/chalecoII.png', 2),
+(6, 'ESPADA', 'ESPADA', 5, 'A', 20, 'img/espada.png', 1),
+(7, 'POCIMA', 'REGENERA 100% TU VIDA', 8, 'A', 20, 'img/posion.png', 3),
+(8, 'ARCO', 'ARCO DOMIANTE', 10, 'A', 20, 'img/Arco.png', 1),
+(9, 'GRANADA', 'GRANADQA METRALLA', 15, 'A', 13, 'img/granada.png', 1),
+(13, 'MARTILLO', 'MARTILLO INFINITO', 17, 'A', 19, 'img/thor.png', 1),
+(14, 'RESORTERA', 'RESORTERA EXPLOSIVA', 8, 'A', 8, 'img/catapulta.png', 1),
+(16, 'PISTOLA', 'PISTOLA DE LLAMAS', 22, 'A', 18, 'img/pistola.png', 1),
+(18, 'FATALITY', 'DERRIVA CON UN K.O.', 8, 'P', 45, 'img/box.png', 3),
+(19, 'ADRENALINE', 'AUMENTA TU FUERZA', 15, 'P', 20, 'img/adrenaline.png', 3),
+(20, 'PANTALON', 'PANTALON PLATA', 8, 'P', 10, 'img/pantalonII.png', 2),
+(21, 'CASCO', 'CASCO ORO', 8, 'H', 18, 'img/cascoIII.png', 2),
+(22, 'PECHO', 'PECHO ORO', 15, 'C', 18, 'img/chalecoIII.png', 2),
+(23, 'PANTALON ', 'PANTALON ORO', 15, 'P', 18, 'img/pantalonIII.png', 2);
 
 --
 -- Índices para tablas volcadas
@@ -262,49 +266,41 @@ ALTER TABLE `store`
 --
 ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT de la tabla `equipment`
 --
 ALTER TABLE `equipment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT de la tabla `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 --
 -- AUTO_INCREMENT de la tabla `mission`
 --
 ALTER TABLE `mission`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT de la tabla `monster`
 --
 ALTER TABLE `monster`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT de la tabla `monster_mission`
 --
 ALTER TABLE `monster_mission`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT de la tabla `personage`
 --
 ALTER TABLE `personage`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT de la tabla `store`
 --
 ALTER TABLE `store`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- Restricciones para tablas volcadas
 --
@@ -340,7 +336,6 @@ ALTER TABLE `monster_mission`
 --
 ALTER TABLE `store`
   ADD CONSTRAINT `fk_stores_categorys` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
