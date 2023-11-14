@@ -1,5 +1,10 @@
 package com.mygdx.game;
 
+import classGame.inventory.Inventory;
+import classGame.model.Character;
+import classGame.model.Mission;
+import classGame.repository.CharacterRepository;
+import classGame.repository.MissionRepository;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -12,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuMission implements Screen {
@@ -20,8 +24,14 @@ public class MenuMission implements Screen {
     OrthographicCamera camera;
     Stage stage;
     Skin skin;
+    Character character = new Character();
+    CharacterRepository repository = new CharacterRepository();
+    MissionRepository repositoryMission=new MissionRepository();
+    Integer [] opciones;
 
     public <y> MenuMission(final MyGdxGame game) throws Exception{
+        opciones = new Integer[2];
+        character = repository.getModel(1);
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1080, 720);
@@ -71,6 +81,9 @@ public class MenuMission implements Screen {
                         if (object != null && object.equals("si")) {
                             // Acción si se selecciona "si"
                             try {
+                                opciones[0]=character.getId();
+                                opciones[1]=1;
+                                repositoryMission.saveModel(opciones);
                                 game.setScreen(new MissionOneScreen(game));
                             } catch (Exception e) {
                                 throw new RuntimeException(e);

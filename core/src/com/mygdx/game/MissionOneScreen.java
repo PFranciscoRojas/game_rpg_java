@@ -1,17 +1,23 @@
 package com.mygdx.game;
 
+import classGame.model.Character;
+import classGame.model.Mission;
+import classGame.repository.CharacterRepository;
+import classGame.repository.MissionRepository;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MissionOneScreen implements Screen {
@@ -19,12 +25,26 @@ public class MissionOneScreen implements Screen {
     OrthographicCamera camera;
     Stage stage;
     Skin skin;
+    Skin skinTwo;
     Texture warriorImage;
     Texture eskeletonImage;
     Rectangle warrior;
     Rectangle eskeleton;
 
+    Character character = new Character();
+
+    Mission mission= new Mission();
+    CharacterRepository repository = new CharacterRepository();
+    MissionRepository repositoryMission=new MissionRepository();
+
     public MissionOneScreen(final MyGdxGame game){
+
+        try {
+            character = repository.getModel(1);
+            mission=repositoryMission.getModel(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.game = game;
         warriorImage = new Texture(Gdx.files.internal("img/warrior.png"));
         eskeletonImage = new Texture(Gdx.files.internal("img/eskeleton.png"));
@@ -50,17 +70,37 @@ public class MissionOneScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         skin = new Skin();
-        skin.add("default", new TextButton.TextButtonStyle(null, null, null, game.font));
-
+        BitmapFont customFont = new BitmapFont(Gdx.files.internal("fonts/menuText.fnt"));
+        customFont.getData().setScale(0.9f); // Ajusta el tamaño de la fuente
+        skin.add("default", new Label.LabelStyle(customFont, Color.BLACK));
 
         // Centro de la pantalla
         float centerX = Gdx.graphics.getWidth() / 2;
         float centerY = Gdx.graphics.getHeight() / 4;
 
-        // Configura el tamaño de fuente
-        BitmapFont customFont = new BitmapFont(Gdx.files.internal("fonts/menuText.fnt"));
-        customFont.getData().setScale(1.0f); // Ajusta el valor (2.0f) según el tamaño de fuente deseado
+        Label.LabelStyle labelStyle = new Label.LabelStyle(customFont, Color.BLACK);
+
+        Label tituloMision = new Label("Titulo " + mission.getName(), skin);
+        tituloMision.setPosition(centerX - tituloMision.getWidth() / 2, Gdx.graphics.getHeight() - 50); // Ajusta la posición vertical según sea necesario
+
+        Label descripcionMision = new Label("Descripcion " + mission.getDescription(), labelStyle);
+        descripcionMision.setWrap(true); // Habilita el ajuste de texto para múltiples líneas
+
+        // Establece el ancho máximo que deseas mostrar
+        float maxWidth = 800f;
+        descripcionMision.setWidth(maxWidth);
+
+        // Ajusta la posición vertical para que la descripción aparezca debajo del título
+        descripcionMision.setPosition(centerX - descripcionMision.getWidth() / 2, tituloMision.getY() - 55);
+        // Agregar el Label al Stage
+        stage.addActor(tituloMision);
+        stage.addActor(descripcionMision);
+
+
+
     }
+
+
     @Override
     public void show() {
 
