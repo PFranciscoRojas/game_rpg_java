@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.game.inventory.inventoryScreen;
 import com.mygdx.game.store.MenuStore;
 
 
@@ -121,7 +122,11 @@ public class MainFirstScreen implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Acciones al hacer clic en el botón
-                    game.setScreen(new LoginScreen(game));
+                    try {
+                        game.setScreen(new inventoryScreen(game));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
         });
 

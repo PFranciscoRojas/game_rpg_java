@@ -2,7 +2,6 @@ package classGame.repository;
 
 import classGame.database.ConfigurationDB;
 import classGame.model.Element;
-import classGame.model.Monster;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -39,12 +38,15 @@ public class EquipmentRepository implements Repository<Element> {
     @Override
     public <T> boolean saveModel(T[] id) throws Exception {
         try (PreparedStatement myStat = getConnection().prepareStatement(
-                "INSERT INTO equipment (inventory_id) SELECT id FROM inventory WHERE store_id = ?" +
+                "INSERT INTO equipment (inventory_id) " +
+                        "SELECT id FROM inventory " +
+                        "WHERE store_id = ? " +
                         "AND NOT EXISTS (SELECT 1 FROM equipment WHERE inventory_id = id)")) {
             myStat.setInt(1, (Integer) id[0]);
             int rowsInserted = myStat.executeUpdate();
             return rowsInserted > 0;
         }
+
     }
 
     @Override
@@ -72,17 +74,19 @@ public class EquipmentRepository implements Repository<Element> {
     }
 
     @Override
-    public boolean doesItemExist(char Type) throws Exception {
+    public boolean doesItemExist(char type) throws Exception {
         try (PreparedStatement myStat = getConnection().prepareStatement(
-                "SELECT EXISTS (SELECT 1 FROM equipment e " +
-                        "INNER JOIN inventory i ON e.inventory_id = i.id" +
+                "SELECT 1 FROM equipment e " +
+                        "INNER JOIN inventory i ON e.inventory_id = i.id " +
                         "INNER JOIN store s ON i.store_id = s.id " +
-                        " WHERE s.category = ? )")) {
+                        "WHERE s.category = ? LIMIT 1")) {
+            myStat.setString(1, String.valueOf(type));
             try (ResultSet resultSet = myStat.executeQuery()) {
                 return resultSet.next();
             }
         }
-
-
     }
+
+
+
 }

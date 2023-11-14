@@ -1,11 +1,12 @@
 package classGame.inventory;
 
-import  classGame.enums.Potions;
+import  classGame.Static.Potions;
+import classGame.Static.StaticValues;
 import classGame.model.Character;
 import classGame.model.Element;
 import classGame.repository.EquipmentRepository;
 import classGame.repository.Repository;
-import classGame.enums.Armor;
+import classGame.Static.Armor;
 import java.util.Iterator;
 import java.util.List;
 public class Equipment {
@@ -62,19 +63,20 @@ public class Equipment {
 
     }
 
-    public String AddItemToEquipment(Element item) throws Exception {
+    public char AddItemToEquipment(Element item ,Character character) throws Exception {
         repository = new EquipmentRepository();
         if ((long) MyEquipament.size() < 7) {
-            if (!repository.doesItemExist(item.getType().charAt(0))) {
+           if (!repository.doesItemExist(item.getType().charAt(0))) {
+                StaticValues.setTemporaryLife(StaticValues.getTemporaryLife() + item.getScore());
                 Integer[] id = new Integer[1];
                 id[0] = item.getId();
                 repository.saveModel(id);
                 MyEquipament.add(item);
-                return "Equipaste " + item.getName();
+                return 'q' ;//equipado
             }
-            return "Ya tienes este tipo de equipacion";
+            return 'e';//existe
         }
-        return "Upss! El equipamento esta lleno";
+        return 'l';//lleno
 
     }
 

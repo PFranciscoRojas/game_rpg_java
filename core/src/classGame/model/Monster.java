@@ -1,6 +1,6 @@
 package classGame.model;
 
-import classGame.enums.MonstersFeatures;
+import classGame.Static.MonstersFeatures;
 
 import java.util.Random;
 

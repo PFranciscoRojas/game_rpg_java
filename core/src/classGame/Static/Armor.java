@@ -1,4 +1,4 @@
-package classGame.enums;
+package classGame.Static;
 
 public enum Armor {
     Armor(2);

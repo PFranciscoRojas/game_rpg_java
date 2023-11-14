@@ -1,4 +1,4 @@
-package classGame.enums;
+package classGame.Static;
 
 
 import classGame.model.Character;

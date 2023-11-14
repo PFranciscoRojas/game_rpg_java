@@ -104,16 +104,29 @@ public class CharacterRepository implements Repository<Character> {
         }
     }
 
-    public void increaseGoldCharacter(int gold, int idCharacter) {
-        try (PreparedStatement statement =  getConnection().prepareStatement("UPDATE personage SET gold=? WHERE id=?")) {
-            statement.setInt(1, gold);
-            statement.setInt(2, idCharacter);
-            statement.executeUpdate();
-            getConnection().commit();
-        } catch (Exception ex) {
-            throw new RuntimeException("Error al aumentar el oro del personage");
-        }
+    public void sale (int gold, int i) {
+        try (PreparedStatement selectStatement = getConnection().prepareStatement("SELECT gold FROM personage WHERE id = ?")) {
+            selectStatement.setInt(1, i);
 
+            try (ResultSet resultSet = selectStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int currentGold = resultSet.getInt("gold");
+
+                    try (PreparedStatement updateStatement = getConnection().prepareStatement("UPDATE personage SET gold=? WHERE id=?")) {
+                        updateStatement.setInt(1, Math.max(0, currentGold + gold)); // Evita valores negativos
+                        updateStatement.setInt(2, i);
+                        updateStatement.executeUpdate();
+
+                        // Si estás utilizando autocommit, no es necesario el commit explícito.
+                        // getConnection().commit();
+                    } catch (SQLException ex) {
+                        throw new RuntimeException("Error al actualizar el oro del personaje", ex);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException("Error al obtener el oro del personaje", ex);
+        }
     }
 
     public void payElement(int gold, int i) {

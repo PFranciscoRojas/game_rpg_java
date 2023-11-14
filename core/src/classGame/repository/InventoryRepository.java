@@ -51,11 +51,19 @@ public class InventoryRepository implements Repository <Element> {
 
     @Override
     public void deleteModel(Integer id) throws Exception {
-        try (PreparedStatement myStat = getConnection().prepareStatement("DELETE FROM inventory WHERE store_id = ?")) {
-            myStat.setInt(1, id);
-            myStat.executeUpdate();
+        // 1. Eliminar las filas relacionadas en equipment
+        try (PreparedStatement deleteEquipmentStat = getConnection().prepareStatement("DELETE FROM equipment WHERE inventory_id IN (SELECT id FROM inventory WHERE store_id = ?)")) {
+            deleteEquipmentStat.setInt(1, id);
+            deleteEquipmentStat.executeUpdate();
+        }
+
+        // 2. Eliminar la fila en inventory
+        try (PreparedStatement deleteInventoryStat = getConnection().prepareStatement("DELETE FROM inventory WHERE store_id = ?")) {
+            deleteInventoryStat.setInt(1, id);
+            deleteInventoryStat.executeUpdate();
         }
     }
+
 
     @Override
     public Element instanceElement(ResultSet resultSet) throws SQLException {
@@ -66,6 +74,7 @@ public class InventoryRepository implements Repository <Element> {
         object.setDescription(resultSet.getString("str.description_item"));
         object.setScore(resultSet.getInt("str.score"));
         object.setGold(resultSet.getInt("str.gold"));
+        object.setGraphicsElement(resultSet.getString("str.graphics"));
         object.setCategory(resultSet.getInt("str.category_id"));
         return object;
     }

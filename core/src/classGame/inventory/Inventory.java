@@ -8,16 +8,16 @@ import classGame.repository.Repository;
 import java.util.List;
 
 public class Inventory {
-    Repository<Element> repository;
+     Repository<Element> repository;
     Element item;
     String alert = null;
     private static Inventory instance;
 
-    List<Element> inventory;
+    public List<Element> ListInventory;
 
     private Inventory() throws Exception {
         repository = new InventoryRepository();
-        inventory = repository.findAllModel(0);
+        ListInventory = repository.findAllModel(0);
     }
 
     public static Inventory getInstance() throws Exception {
@@ -31,7 +31,7 @@ public class Inventory {
         StringBuilder table = new StringBuilder();
         int posicion = 1;
         table.append("               INVENTARIO\n---------------------------------------------\n|    | Nombre                     | Atributo    |\n|----|----------------------------|-------------|\n");
-        for (Element object : inventory) {
+        for (Element object : ListInventory) {
             String attribute = "";
             switch (object.getCategory()) {
                 case 1:
@@ -51,13 +51,23 @@ public class Inventory {
         return table.toString();
     }
 
-    public String selectEquipment(int position, Equipment equipment, Character character) throws Exception {
+    public String showElementIncentory(int index) {
+       Element object = ListInventory.get(index);
+        return switch (object.getCategory()) {
+            case 1 -> "DAO: ";
+            case 2 -> "PTC: ";
+            case 3 -> "PWR : ";
+            default -> "No exsite";
+        };
+    }
+
+    public char selectEquipment(int position, Equipment equipment, Character character) throws Exception {
         int posicionAjustada = position - 1;
-        if (posicionAjustada >= 0 && posicionAjustada < inventory.size()) {
-            item = inventory.get(posicionAjustada);
-            return equipment.AddItemToEquipment(item);
+        if (posicionAjustada >= 0 && posicionAjustada < ListInventory.size()) {
+            item = ListInventory.get(posicionAjustada);
+            return equipment.AddItemToEquipment(item,character);
         } else {
-            return "numero no valido";
+            return'n';
         }
 
         //--->Agregar metodo que hace aumentar al personaje
@@ -68,9 +78,9 @@ public class Inventory {
         Integer[] dateId = new Integer[2];
         dateId[0] = item.getId();
         dateId[1] = idCharacter;
-        if ((long) inventory.size() < 9) {
+        if ((long) ListInventory.size() < 9) {
             if (repository.saveModel(dateId)) {
-                inventory.add(item);
+                ListInventory.add(item);
                 return 'c';//comprado
             }
             return'e';//ya existe
@@ -79,14 +89,14 @@ public class Inventory {
     }
 
     public String removeItemInventory(int select, Character character) throws Exception {
-        repository = new InventoryRepository();
-        item = inventory.get(select - 1);
-        inventory.remove(item);
-        repository.deleteModel(select);
+        item = ListInventory.get(select - 1);
+        ListInventory.remove(item);
+        character.removeInventory(item.getGold());
+        repository.deleteModel(item.getId());
         return item.getName() + " Fue devuelto a la tienda recibiste " + character.removeInventory(item.getGold()) + " de oro por su devolucion";    }
 
     public boolean hasItemsInInventory() {
-        return !inventory.isEmpty();
+        return !ListInventory.isEmpty();
     }
 
 

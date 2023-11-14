@@ -109,7 +109,7 @@ public class Main {
                                     if (characterAlive) {
                                         goldNew = character.aumentarOro();
                                         System.out.println("ORO NUEVO: " + goldNew);
-                                        repository.increaseGoldCharacter(goldNew, character.getId());
+                                        //repository.increaseGoldCharacter(goldNew, character.getId());
                                         if (i == 0) {
                                             if (equipment.existePocima()) {
                                                 System.out.println(equipment.devolverNombre());
@@ -134,11 +134,11 @@ public class Main {
                                                 break;
                                             } else {
                                                 System.out.println("NUEVO ORO FINALIZAR: " + goldNew);
-                                                repository.increaseGoldCharacter(goldNew, character.getId());
+                                                //repository.increaseGoldCharacter(goldNew, character.getId());
                                                 System.out.println("COMPLETASTE 100% LA MISION");
                                                 System.out.println("Obtuvistes oro: " + mission.getGoldReward() + " y Obtuvistes experiencia: " + mission.getExperienceReward());
                                                 int recompensaOro = character.getGold() + mission.getGoldReward();
-                                                repository.increaseGoldCharacter(recompensaOro, character.getId());
+                                              //  repository.increaseGoldCharacter(recompensaOro, character.getId());
                                                 experienciaNueva = character.aumentarExperience(mission.getExperienceReward());
                                                 repository.addExperienceCharacter(experienciaNueva, character.getId());
                                                 character.setGold(recompensaOro);

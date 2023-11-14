@@ -1,4 +1,4 @@
-package classGame.enums;
+package classGame.Static;
 
 public enum MonstersFeatures {
     DRAGON(3,"Dragon",500,3),

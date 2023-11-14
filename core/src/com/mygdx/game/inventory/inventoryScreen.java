@@ -1,5 +1,6 @@
-package com.mygdx.game.store;
+package com.mygdx.game.inventory;
 
+import classGame.inventory.Equipment;
 import classGame.inventory.Inventory;
 import classGame.inventory.Store;
 import classGame.model.Character;
@@ -8,16 +9,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -29,8 +25,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MainFirstScreen;
 import com.mygdx.game.MyGdxGame;
 
-public class StorePotionsScreen implements Screen {
-
+public class inventoryScreen implements Screen {
     final MyGdxGame game;
     Skin skin;
     Skin skinTwo;
@@ -53,13 +48,15 @@ public class StorePotionsScreen implements Screen {
     Label selectGold = null;
     Label payGold = null;
     Label selectScore = null;
+    Label selectSale = null;
     Store store = Store.getInstance();
-    Character character;
     Inventory inventory = Inventory.getInstance();
+    Equipment equipment = Equipment.getInstance();
     CharacterRepository repository = new CharacterRepository();
+    Character character = repository.getModel(1);
 
-    public StorePotionsScreen(MyGdxGame game) throws Exception {
-        character = repository.getModel(1);
+
+    public inventoryScreen(MyGdxGame game) throws Exception {
 
         this.game = game;
         stage = new Stage(new ScreenViewport());
@@ -88,11 +85,11 @@ public class StorePotionsScreen implements Screen {
 
         //         Crea un fondo de imagen
         Image backgroundImage = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("img/RectangleF.png")))));
-        backgroundImage.setBounds(200, Gdx.graphics.getHeight() - 550, 300, 400); // Ajusta el tamaño y la posición del fondo de imagen
+        backgroundImage.setBounds(600, Gdx.graphics.getHeight() - 580, 300, 450); // Ajusta el tamaño y la posición del fondo de imagen
 
 
         // Crea un cuadro de texto
-        Label label = new Label("Lista De Posciones", skin);
+        Label label = new Label("Inventario", skin);
         label.setPosition(120, Gdx.graphics.getHeight() - label.getHeight() - 85); // Ajusta la posición de la etiqueta de texto
 
         Label gold = new Label(String.valueOf("TU DINERO $" + character.getGold()), skin);
@@ -115,6 +112,11 @@ public class StorePotionsScreen implements Screen {
         optionExit();
     }
 
+    @Override
+    public void show() {
+
+    }
+
     private void CharacterGold(){
         if (payGold != null) {
             // Oculta el Label de oro anterior
@@ -131,7 +133,6 @@ public class StorePotionsScreen implements Screen {
 
 
     }
-
     private void optionExit(){
         Texture buttonTextureExit = new Texture(Gdx.files.internal("img/exit.png"));
         Skin skinFull = new Skin();
@@ -140,7 +141,7 @@ public class StorePotionsScreen implements Screen {
         nuevoEstilof.imageUp = skinFull.getDrawable("buttonImage"); // Cambia "nuevaImagen" al nombre de tu nueva imagen
         ImageButton button = new ImageButton(nuevoEstilof);
         button.setSize(50, 50);
-        button.setPosition(900, Gdx.graphics.getHeight() - 590);
+        button.setPosition(900, Gdx.graphics.getHeight() - 640);
         stage.addActor(button);
 
         button.addListener(new ClickListener() {
@@ -154,57 +155,60 @@ public class StorePotionsScreen implements Screen {
             }
         });
     }
+
     private void createImageGrid(String imagePathss) {
         float imageWidth = 100f; // Ajusta según sea necesario
         float imageHeight = 100f; // Ajusta según sea necesario
         float padding = 15f; // Espacio entre imágenes
 
         // Calcula la cantidad de filas necesarias
-        int numRows = (int) Math.ceil(store.potions.size() / 3.0);
+        int numRows = (int) Math.ceil(inventory.ListInventory.size() / 3.0);
 
         // Posición inicial del mosaico
-        float startX = 550f;
-        float startY = Gdx.graphics.getHeight() - 350f; // Ajusta según sea necesario
+        float startX = 200;
+        float startY = Gdx.graphics.getHeight() - 280; // Ajusta según sea necesario
 
 // Crear las imágenes y agregarlas al Stage con funcionalidad de clic
-        for (int i = 0; i < store.potions.size(); i++) {
+        for (int i = 0; i < inventory.ListInventory.size(); i++) {
             float x = startX + (i % 3) * (imageWidth + padding);
             float y = startY - (i / 3) * (imageHeight + padding);
 
             final int imageIndex = i; // Necesario para acceder al índice en el ClickListener
 
             Image images = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(imagePathss)))));
-            Image image = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(store.potions.get(imageIndex).getGraphicsElement())))));
+            Image image = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(inventory.ListInventory.get(imageIndex).getGraphicsElement())))));
 
             images.setBounds(x, y, imageWidth, imageHeight);
             image.setBounds(x, y, imageWidth, imageHeight);
             image.setTouchable(Touchable.enabled); // Hace que la imagen sea táctil
 
-            Image select = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(store.potions.get(imageIndex).getGraphicsElement())))));
+            Image select = new Image(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(inventory.ListInventory.get(imageIndex).getGraphicsElement())))));
             select.setSize(200, 200);
             select.setVisible(false);
-            select.setPosition(250, Gdx.graphics.getHeight() / 2);
+            select.setPosition(650, Gdx.graphics.getHeight() / 2);
             stage.addActor(select);
 
-            Label titleElements = new Label(store.potions.get(imageIndex).getName(), skinTwo);
+            Label titleElements = new Label(inventory.ListInventory.get(imageIndex).getName(), skinTwo);
             titleElements.setVisible(false);
-            titleElements.setPosition(210, Gdx.graphics.getHeight() - 400);
+            titleElements.setPosition(620, Gdx.graphics.getHeight() - 400);
             stage.addActor(titleElements);
 
-            Label parrafElements = new Label(store.potions.get(imageIndex).getDescription(), skinThree);
+            Label parrafElements = new Label(inventory.ListInventory.get(imageIndex).getDescription(), skinThree);
             parrafElements.setVisible(false);
-            parrafElements.setPosition(210, Gdx.graphics.getHeight() - 420);
+            parrafElements.setPosition(620, Gdx.graphics.getHeight() - 420);
             stage.addActor(parrafElements);
 
-            Label parrafScore = new Label( store.showScoreElementCatalog(store.potions,imageIndex) + String.valueOf(store.potions.get(imageIndex).getScore()), skinTwo);
+            Label parrafScore = new Label( inventory.showElementIncentory(imageIndex) + String.valueOf(inventory.ListInventory.get(imageIndex).getScore()), skinTwo);
             parrafScore.setVisible(false);
-            parrafScore.setPosition(390, Gdx.graphics.getHeight() - 430);
+            parrafScore.setPosition(800, Gdx.graphics.getHeight() - 430);
             stage.addActor(parrafScore);
 
 
-            Texture buttonTexture = new Texture(Gdx.files.internal("img/payAproved.png"));
+
+            Texture buttonTexture = new Texture(Gdx.files.internal("img/selected.png"));
             Texture buttonTextureExist = new Texture(Gdx.files.internal("img/payExist.png"));
             Texture buttonTextureFull = new Texture(Gdx.files.internal("img/payFull.png"));
+            Texture buttonTextureSale = new Texture(Gdx.files.internal("img/sale.png"));
             // Crear el estilo del botón
 
             Skin skinOrign = new Skin();
@@ -218,20 +222,23 @@ public class StorePotionsScreen implements Screen {
             nuevoEstilo.imageUp = skinExist.getDrawable("buttonImage"); // Cambia "nuevaImagen" al nombre de tu nueva imagen
 
 
+
             Skin skinFull = new Skin();
             skinFull.add("buttonImage", buttonTextureFull);
             ImageButton.ImageButtonStyle nuevoEstilof = new ImageButton.ImageButtonStyle();
             nuevoEstilof.imageUp = skinFull.getDrawable("buttonImage"); // Cambia "nuevaImagen" al nombre de tu nueva imagen
 
+            Skin skinSale = new Skin();
+            skinSale.add("buttonImage", buttonTextureSale);
+            ImageButton.ImageButtonStyle nuevoEstiloS = new ImageButton.ImageButtonStyle();
+            nuevoEstiloS.imageUp = skinSale.getDrawable("buttonImage"); // Cambia "nuevaImagen" al nombre de tu nueva imagen
 
 
+            InputListener buttonListenerInit = new InputListener() {
 
-            // Crear el botón
-            image.addListener(new ClickListener() {
                 @Override
-                public void clicked(InputEvent event, float x, float y) {
-
-
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int image) {
+                    // Acciones cuando se presiona el botón
                     // Si ya hay una imagen seleccionada, la oculta
                     if (selectedImage != null) {
                         selectedImage.setVisible(false);
@@ -241,6 +248,7 @@ public class StorePotionsScreen implements Screen {
                         selectScore.setVisible(false);
 
                     }
+
 
                     // Muestra la imagen actual y actualiza la referencia
                     select.setVisible(true);
@@ -252,33 +260,40 @@ public class StorePotionsScreen implements Screen {
                     parrafScore.setVisible(true);
                     selectScore = parrafScore;
 
+
                     // Crea y muestra el botón
                     ImageButton button = new ImageButton(originalStyle);
-                    button.setSize(250, 200);
-                    button.setPosition(222, Gdx.graphics.getHeight() - 570);
-                    stage.addActor(button);
+                    button.setSize(250, 64);
+                    button.setPosition(625, Gdx.graphics.getHeight() - 500);
 
 
+                    ImageButton buttonTwo = new ImageButton(nuevoEstiloS);
+                    buttonTwo.setSize(250, 64);
+                    buttonTwo.setPosition(625, Gdx.graphics.getHeight() - 570);
 
-                    button.addListener(new ClickListener() {
+
+                    InputListener buttonListener = new InputListener() {
+                        ImageButton bt = button;
+
                         @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            // Verifica si payGold no es null antes de intentar operar con él
+                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                            // Acciones cuando se presiona el botón
                             try {
-                                char response = store.buyProduct(imageIndex+1,inventory,character,store.potions);
+                                char response = inventory.selectEquipment(imageIndex + 1, equipment, character);
+                                //  System.out.println(response);
+                                //store.buyProduct(imageIndex+1,inventory,character,store.armors);
                                 switch (response) {
                                     case 'e':
-                                        button.setStyle(nuevoEstilo);
+                                        bt.setStyle(nuevoEstilo);
                                         break;
-                                    case 'c':
-                                        repository.payElement(store.potions.get(imageIndex).getGold(),1);
-                                        CharacterGold();
+                                    case 'q':
+                                        System.out.println("Correcto");
                                         break;
                                     case 'l':
-                                        button.setStyle(nuevoEstilof);
+                                        bt.setStyle(nuevoEstilof);
                                         break;
                                     case 'f':
-                                        button.setStyle(nuevoEstilof);
+                                        // secuencia de sentencias.
                                         break;
                                     case 'r':
                                         // secuencia de sentencias.
@@ -286,39 +301,106 @@ public class StorePotionsScreen implements Screen {
                                     default:
                                         System.out.println("null");
                                 }
+                                return true;
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
-
-
-
                         }
-                    });
+                        @Override
+                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                            // Acciones cuando se suelta el botón
+                        }
 
+                        @Override
+                        public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                            // Cambiar el cursor al entrar en el área del botón
+                            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+                        }
 
+                        @Override
+                        public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                            // Cambiar el cursor al salir del área del botón
+                            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+                        }
+                    };
 
+                    InputListener buttonListenerTwo = new InputListener() {
+                        @Override
+                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                            // Acciones cuando se presiona el botón
+                            try {
+                                repository.sale(inventory.ListInventory.get(imageIndex).getGold()-4,1);
+                                System.out.println(inventory.removeItemInventory(imageIndex+1, character));
+                                CharacterGold();
+
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                            return true;
+                        }
+
+                        @Override
+                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                            // Acciones cuando se suelta el botón
+                        }
+
+                        @Override
+                        public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                            // Cambiar el cursor al entrar en el área del botón
+                            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+                        }
+
+                        @Override
+                        public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                            // Cambiar el cursor al salir del área del botón
+                            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+                        }
+                    };
+
+                    stage.addActor(buttonTwo);
+                    stage.addActor(button);
+
+                    button.addListener(buttonListener);
+                    buttonTwo.addListener(buttonListenerTwo);
 
                     // Crea y muestra la etiqueta del oro
-                    Label goldElements = new Label(String.valueOf("$" + store.potions.get(imageIndex).getGold()), skinFour);
+                    Label goldElements = new Label("Equipar", skinFour);
                     goldElements.setVisible(true);
-                    goldElements.setPosition(325, Gdx.graphics.getHeight() - 485);
+                    goldElements.setPosition(680, Gdx.graphics.getHeight() - 485);
                     selectGold = goldElements;
-                    stage.addActor(goldElements);
-                }
-            });
 
+                    Label SaleElements = new Label("Canjear", skinFour);
+                    SaleElements.setVisible(true);
+                    SaleElements.setPosition(680, Gdx.graphics.getHeight() -555);
+                    selectSale = SaleElements;
+
+                    stage.addActor(SaleElements);
+                    stage.addActor(goldElements);
+                    return true;
+                }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    // Acciones cuando se suelta el botón
+                }
+
+                @Override
+                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    // Cambiar el cursor al entrar en el área del botón
+                    Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+                }
+
+                @Override
+                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                    // Cambiar el cursor al salir del área del botón
+                    Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+                }
+            };
+            image.addListener(buttonListenerInit);
             stage.addActor(images);
             stage.addActor(image);
 
-
         }
-    }
-
-
-
-    @Override
-    public void show() {
-
     }
 
     @Override
@@ -336,29 +418,24 @@ public class StorePotionsScreen implements Screen {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
-
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
-
     @Override
     public void pause() {
 
     }
-
     @Override
     public void resume() {
 
     }
-
     @Override
     public void hide() {
 
     }
-
     @Override
     public void dispose() {
-
+        Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
     }
 }

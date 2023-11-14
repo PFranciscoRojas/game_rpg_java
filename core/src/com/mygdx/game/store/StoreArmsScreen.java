@@ -52,6 +52,7 @@ public class StoreArmsScreen implements Screen {
     Label selectedParraf = null;
     Label selectGold = null;
     Label payGold = null;
+    Label selectScore = null;
     Store store = Store.getInstance();
     Character character = new Character();
     Inventory inventory = Inventory.getInstance();
@@ -195,6 +196,11 @@ public class StoreArmsScreen implements Screen {
             parrafElements.setPosition(210, Gdx.graphics.getHeight() - 420);
             stage.addActor(parrafElements);
 
+            Label parrafScore = new Label( store.showScoreElementCatalog(store.arms,imageIndex) + String.valueOf(store.arms.get(imageIndex).getScore()), skinTwo);
+            parrafScore.setVisible(false);
+            parrafScore.setPosition(400, Gdx.graphics.getHeight() - 430);
+            stage.addActor(parrafScore);
+
             Texture buttonTexture = new Texture(Gdx.files.internal("img/payAproved.png"));
             Texture buttonTextureExist = new Texture(Gdx.files.internal("img/payExist.png"));
             Texture buttonTextureFull = new Texture(Gdx.files.internal("img/payFull.png"));
@@ -231,7 +237,7 @@ public class StoreArmsScreen implements Screen {
                         selectedTittle.setVisible(false);
                         selectedParraf.setVisible(false);
                         selectGold.setVisible(false);
-
+                        selectScore.setVisible(false);
                     }
 
                     // Muestra la imagen actual y actualiza la referencia
@@ -241,6 +247,8 @@ public class StoreArmsScreen implements Screen {
                     selectedTittle = titleElements;
                     parrafElements.setVisible(true);
                     selectedParraf = parrafElements;
+                    parrafScore.setVisible(true);
+                    selectScore = parrafScore;
 
                     // Crea y muestra el botón
                     ImageButton button = new ImageButton(originalStyle);

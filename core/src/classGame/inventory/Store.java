@@ -66,6 +66,15 @@ public class Store {
         return "                CATALOGO DE " + attributeTwo + "\n----------------------------------------------------\n|   | Precio | Nombre                     |" + attribute + " |\n|---|--------|----------------------------|---------|\n" + listado.toString();
     }
 
+    public String showScoreElementCatalog(List<Element> list,int index) {
+        Element object = list.get(index);
+        return switch (object.getCategory()) {
+            case 1 -> "DAO: ";
+            case 2 -> "PTC: ";
+            case 3 -> "PWR : ";
+            default -> "No exsite";
+        };
+    }
     public char buyProduct(int position, Inventory inventory, Character character, List<Element> list) throws Exception {
         characterRepository =new CharacterRepository();
         int posicionAjustada = position - 1;

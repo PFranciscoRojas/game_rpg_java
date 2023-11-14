@@ -51,6 +51,7 @@ public class StoreArmorScreen implements Screen {
     Label selectedParraf = null;
     Label selectGold = null;
     Label payGold = null;
+    Label selectScore = null;
     Store store = Store.getInstance();
     Character character;
     Inventory inventory = Inventory.getInstance();
@@ -192,6 +193,12 @@ public class StoreArmorScreen implements Screen {
             parrafElements.setPosition(210, Gdx.graphics.getHeight() - 420);
             stage.addActor(parrafElements);
 
+            Label parrafScore = new Label( store.showScoreElementCatalog(store.armors,imageIndex) + String.valueOf(store.armors.get(imageIndex).getScore()), skinTwo);
+            parrafScore.setVisible(false);
+            parrafScore.setPosition(400, Gdx.graphics.getHeight() - 430);
+            stage.addActor(parrafScore);
+
+
             Texture buttonTexture = new Texture(Gdx.files.internal("img/payAproved.png"));
             Texture buttonTextureExist = new Texture(Gdx.files.internal("img/payExist.png"));
             Texture buttonTextureFull = new Texture(Gdx.files.internal("img/payFull.png"));
@@ -214,8 +221,6 @@ public class StoreArmorScreen implements Screen {
             nuevoEstilof.imageUp = skinFull.getDrawable("buttonImage"); // Cambia "nuevaImagen" al nombre de tu nueva imagen
 
 
-
-
             // Crear el botón
             image.addListener(new ClickListener() {
                 @Override
@@ -228,6 +233,7 @@ public class StoreArmorScreen implements Screen {
                         selectedTittle.setVisible(false);
                         selectedParraf.setVisible(false);
                         selectGold.setVisible(false);
+                        selectScore.setVisible(false);
 
                     }
 
@@ -238,6 +244,8 @@ public class StoreArmorScreen implements Screen {
                     selectedTittle = titleElements;
                     parrafElements.setVisible(true);
                     selectedParraf = parrafElements;
+                    parrafScore.setVisible(true);
+                    selectScore = parrafScore;
 
                     // Crea y muestra el botón
                     ImageButton button = new ImageButton(originalStyle);
@@ -265,7 +273,7 @@ public class StoreArmorScreen implements Screen {
                                         button.setStyle(nuevoEstilof);
                                         break;
                                     case 'f':
-                                        // secuencia de sentencias.
+                                        button.setStyle(nuevoEstilof);
                                         break;
                                     case 'r':
                                         // secuencia de sentencias.

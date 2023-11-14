@@ -1,20 +1,14 @@
 package classGame.model;
 
 
-import classGame.enums.Armor;
-import classGame.model.MainSkills;
-import classGame.model.Monster;
+import classGame.Static.StaticValues;
 import classGame.repository.CharacterRepository;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Character implements MainSkills {
     //ConnectionCharacterDB connectionCharacterDB = new ConnectionCharacterDB();
+
     int id;
     private String name;
     private String breed;
@@ -67,7 +61,7 @@ public class Character implements MainSkills {
         return this.experience;
     }
 
-    public int getLife() {
+    public int getLife(){
         return this.life;
     }
 
@@ -112,10 +106,12 @@ public class Character implements MainSkills {
     }
 
     public void setLife(int life) {
+        StaticValues.setTemporaryLife(life);
         this.life = life;
     }
 
     public void setForce(int force) {
+        StaticValues.setTemporaryForce(force);
         this.force = force;
     }
 
