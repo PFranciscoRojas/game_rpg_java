@@ -106,12 +106,12 @@ public class Character implements MainSkills {
     }
 
     public void setLife(int life) {
-        StaticValues.setTemporaryLife(life);
+        StaticValues.setTemporaryLifeAdd(life);
         this.life = life;
     }
 
     public void setForce(int force) {
-        StaticValues.setTemporaryForce(force);
+        StaticValues.setTemporaryForceAdd(force);
         this.force = force;
     }
 
@@ -153,8 +153,7 @@ public class Character implements MainSkills {
     }
 
     public int removeInventory(int gold) {
-        this.gold += gold / 2;
-        return gold / 2;
+        return  this.gold += gold ;
     }
 
     public boolean battle(Monster monster, int vidaItem) {

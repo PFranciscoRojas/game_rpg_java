@@ -24,8 +24,9 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MainFirstScreen;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.store.StorePotionsScreen;
 
-public class inventoryScreen implements Screen {
+public class InventoryScreen implements Screen {
     final MyGdxGame game;
     Skin skin;
     Skin skinTwo;
@@ -56,7 +57,7 @@ public class inventoryScreen implements Screen {
     Character character = repository.getModel(1);
 
 
-    public inventoryScreen(MyGdxGame game) throws Exception {
+    public InventoryScreen(MyGdxGame game) throws Exception {
 
         this.game = game;
         stage = new Stage(new ScreenViewport());
@@ -92,9 +93,6 @@ public class inventoryScreen implements Screen {
         Label label = new Label("Inventario", skin);
         label.setPosition(120, Gdx.graphics.getHeight() - label.getHeight() - 85); // Ajusta la posición de la etiqueta de texto
 
-        Label gold = new Label(String.valueOf("TU DINERO $" + character.getGold()), skin);
-        gold.setPosition(650, Gdx.graphics.getHeight() - gold.getHeight() - 85); // Ajusta la posición de la etiqueta de texto
-        gold.setVisible(true);
 
         String imagePathss = "img/Rectangle.png";
 
@@ -143,17 +141,36 @@ public class inventoryScreen implements Screen {
         button.setSize(50, 50);
         button.setPosition(900, Gdx.graphics.getHeight() - 640);
         stage.addActor(button);
-
-        button.addListener(new ClickListener() {
+        InputListener buttonListener = new InputListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                // Acciones cuando se presiona el botón
                 try {
+                    Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
                     game.setScreen(new MainFirstScreen(game));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
+             return true;
             }
-        });
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                // Acciones cuando se suelta el botón
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                // Cambiar el cursor al entrar en el área del botón
+                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                // Cambiar el cursor al salir del área del botón
+                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+            }
+        };
+        button.addListener(buttonListener);
     }
 
     private void createImageGrid(String imagePathss) {
@@ -250,6 +267,9 @@ public class inventoryScreen implements Screen {
                     }
 
 
+
+
+
                     // Muestra la imagen actual y actualiza la referencia
                     select.setVisible(true);
                     selectedImage = select;
@@ -332,7 +352,7 @@ public class inventoryScreen implements Screen {
                                 repository.sale(inventory.ListInventory.get(imageIndex).getGold()-4,1);
                                 System.out.println(inventory.removeItemInventory(imageIndex+1, character));
                                 CharacterGold();
-
+                                game.setScreen(new InventoryScreen(game));
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }

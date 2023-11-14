@@ -64,6 +64,7 @@ public class CharacterRepository implements Repository<Character> {
         character.setId(resultSet.getInt("id"));
         character.setName(resultSet.getString("name_personage"));
         character.setBreed(resultSet.getString("breed"));
+        character.setLife(resultSet.getInt("life"));
         character.setLevel(resultSet.getInt("level_personage"));
         character.setExperience(resultSet.getDouble("experience"));
         character.setForce(resultSet.getInt("force_personage"));

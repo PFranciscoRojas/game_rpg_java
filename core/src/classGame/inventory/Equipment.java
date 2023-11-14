@@ -14,7 +14,7 @@ public class Equipment {
     private static Equipment instance;
     Element item;
     Repository<Element> repository;
-    List<Element> MyEquipament;
+    public List<Element> MyEquipament;
 
     private Equipment() throws Exception {
         repository = new EquipmentRepository();
@@ -55,9 +55,11 @@ public class Equipment {
     public String returnItemToInventory(int select, Inventory inventory, Character character) throws Exception {
         repository = new EquipmentRepository();
         item = MyEquipament.get(select - 1);
+        StaticValues.setTemporaryLifeAdd(StaticValues.getTemporaryLife() - item.getScore());
+        System.out.println(StaticValues.getTemporaryLife());
         character.removeArm(item.getScore());
         MyEquipament.remove(item);
-        repository.deleteModel(select);
+        repository.deleteModel(item.getId());
         inventory.AddItemInventory(item, 1);
         return item.getName() + " Fue devuelto al inventario";
 
@@ -67,7 +69,7 @@ public class Equipment {
         repository = new EquipmentRepository();
         if ((long) MyEquipament.size() < 7) {
            if (!repository.doesItemExist(item.getType().charAt(0))) {
-                StaticValues.setTemporaryLife(StaticValues.getTemporaryLife() + item.getScore());
+                StaticValues.setTemporaryLifeAdd(StaticValues.getTemporaryLife() + item.getScore());
                 Integer[] id = new Integer[1];
                 id[0] = item.getId();
                 repository.saveModel(id);

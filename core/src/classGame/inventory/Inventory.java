@@ -91,9 +91,9 @@ public class Inventory {
     public String removeItemInventory(int select, Character character) throws Exception {
         item = ListInventory.get(select - 1);
         ListInventory.remove(item);
-        character.removeInventory(item.getGold());
         repository.deleteModel(item.getId());
-        return item.getName() + " Fue devuelto a la tienda recibiste " + character.removeInventory(item.getGold()) + " de oro por su devolucion";    }
+        character.removeInventory(item.getGold()-4);
+        return item.getName() + " Fue devuelto a la tienda recibiste " + character.getGold() + " de oro por su devolucion";    }
 
     public boolean hasItemsInInventory() {
         return !ListInventory.isEmpty();
