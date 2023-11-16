@@ -1,23 +1,24 @@
-# Usa la imagen oficial de OpenJDK 17 como base
-FROM openjdk:11-jre-slim
+# Fase de construcción: utiliza una imagen de OpenJDK con herramientas de compilación
+FROM openjdk:8-jdk-alpine as builder
 
-# Establece el directorio de trabajo
-WORKDIR /app
+WORKDIR /usr/app
 
-# Copia los archivos de tu proyecto al contenedor
-COPY . /app
+# Copia el código fuente
+COPY src/ ./src/
 
-# Copia el conector MySQL al directorio de la aplicación
-COPY mysql-connector-java.jar /app
-
-# Compila los archivos fuente
+# Compila la aplicación (ajusta según la estructura de tu proyecto)
 RUN javac -d out src/*.java
 
-# Empaqueta los archivos compilados en un archivo JAR
-RUN jar cfe myapp.jar Main -C out .
+# Fase de ejecución: utiliza una imagen ligera de OpenJDK
+FROM openjdk:8-jre-alpine
 
-# Exponer el puerto si tu aplicación lo requiere
-EXPOSE 8080
+WORKDIR /usr/app
 
-# Command to run the LibGDX application
-CMD ["java", "-cp", "myapp.jar:mysql-connector-java.jar", "Main"]
+# Copia solo los archivos necesarios desde la fase de construcción
+COPY --from=builder /usr/app/out /usr/app
+
+# Copia la biblioteca MySQL Connector
+COPY lib/mysql-connector-java-8.1.0.jar /usr/app/lib/
+
+# Comando para ejecutar la aplicación
+CMD ["java", "-cp", ".", "-Djava.library.path=/usr/app/lib", "Main"]
