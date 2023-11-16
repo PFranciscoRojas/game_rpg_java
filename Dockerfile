@@ -9,9 +9,14 @@ WORKDIR /app
 # Copia los archivos de tu proyecto al contenedor
 COPY . /app
 
+# Compila los archivos fuente
+RUN javac -d out src/*.java
+
+# Empaqueta los archivos compilados en un archivo JAR
+RUN jar cfe myapp.jar Main -C out .
+
 # Exponer el puerto si tu aplicación lo requiere
 EXPOSE 8080
 
 # Comando para ejecutar la aplicación
-CMD ["java", "-jar", "your-application.jar"]
-
+CMD ["java", "-jar", "myapp.jar"]
