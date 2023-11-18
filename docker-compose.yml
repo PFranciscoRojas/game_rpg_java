@@ -1,20 +1,22 @@
-version: '3'
+version: '3.1'
+
 services:
-  libgdx-app:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8085"
-    depends_on:
-      - mysql
-
-  mysql:
-    image: mysql:latest
+      - "8080:8080"
+  db:
+    image: mariadb:10.6
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: game
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user
+      MYSQL_ROOT_PASSWORD: notSecureChangeMe
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
     ports:
-      - "3306:3309"
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1

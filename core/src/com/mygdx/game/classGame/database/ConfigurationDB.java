@@ -21,7 +21,7 @@ public class ConfigurationDB {
            // Properties properties = new Properties();
             //FileInputStream fileInputStream = new FileInputStream("./core/src/classGame/database/.properties");
            // properties.load(fileInputStream);
-            myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/game","root", "");
+            myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/game","root", "notSecureChangeMe");
         }
         return myConnection;
     }
