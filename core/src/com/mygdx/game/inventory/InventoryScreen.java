@@ -1,10 +1,10 @@
 package com.mygdx.game.inventory;
 
-import classGame.inventory.Equipment;
-import classGame.inventory.Inventory;
-import classGame.inventory.Store;
-import classGame.model.Character;
-import classGame.repository.CharacterRepository;
+import com.mygdx.game.classGame.inventory.Equipment;
+import com.mygdx.game.classGame.inventory.Inventory;
+import com.mygdx.game.classGame.inventory.Store;
+import com.mygdx.game.classGame.model.Character;
+import com.mygdx.game.classGame.repository.CharacterRepository;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -18,13 +18,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MainFirstScreen;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.store.StorePotionsScreen;
 
 public class InventoryScreen implements Screen {
     final MyGdxGame game;

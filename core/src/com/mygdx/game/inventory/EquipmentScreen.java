@@ -1,11 +1,11 @@
 package com.mygdx.game.inventory;
 
-import classGame.Static.StaticValues;
-import classGame.inventory.Equipment;
-import classGame.inventory.Inventory;
-import classGame.inventory.Store;
-import classGame.model.Character;
-import classGame.repository.CharacterRepository;
+import com.mygdx.game.classGame.Static.StaticValues;
+import com.mygdx.game.classGame.inventory.Equipment;
+import com.mygdx.game.classGame.inventory.Inventory;
+import com.mygdx.game.classGame.inventory.Store;
+import com.mygdx.game.classGame.model.Character;
+import com.mygdx.game.classGame.repository.CharacterRepository;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;

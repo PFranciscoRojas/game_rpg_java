@@ -163,7 +163,7 @@ public class MainFirstScreen implements Screen {
                 }
             }
         });
-        //dropSound.play();
+        dropSound.play();
         stage.addActor(button1);
         stage.addActor(button2);
         stage.addActor(button3);

@@ -60,5 +60,14 @@ project(":core") {
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.1.0'
+
     }
+}
+
+dependencies {
+    implementation group: 'com.badlogicgames.gdx', name: 'gdx', version: '1.9.14'
+    implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.1.0'
+
+    // Otras dependencias necesarias para tu proyecto
 }

@@ -1,10 +1,8 @@
 package com.mygdx.game;
 
-import classGame.inventory.Inventory;
-import classGame.model.Character;
-import classGame.model.Mission;
-import classGame.repository.CharacterRepository;
-import classGame.repository.MissionRepository;
+import com.mygdx.game.classGame.model.Character;
+import com.mygdx.game.classGame.repository.CharacterRepository;
+import com.mygdx.game.classGame.repository.MissionRepository;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
